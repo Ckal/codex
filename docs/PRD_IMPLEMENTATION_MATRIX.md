@@ -36,7 +36,7 @@ Current state:
 | Training pipeline | Partial | `training/` package supports dry-run planning, export planning, and local evaluation; LoRA trainer missing |
 | Export and quantization | Partial | `training/export.py` and Export tab plan downloads/conversion/quantization; execution/download links missing |
 | Agent mode | Partial | Local deterministic agent trace loop exists; autonomous execution and remote uploads missing |
-| UI tabs | Partial | Tabs exist; Chat/Vision/Dataset/Field Notes/Status have behavior; tab actions have Gradio progress indicators; Chat/Vision/Dataset have tab-level status/error messages; several tabs are still placeholders |
+| UI tabs | Partial | Tabs exist; Chat/Vision/Dataset/Field Notes/Status have behavior; tab actions have Gradio progress indicators; Chat/Vision/Dataset have tab-level status/error messages; compact responsive CSS exists; several tabs are still placeholders |
 | Field notes | Partial | CSV save, SQLite store, corrected/tag/training filters, media paths, JSONL export, and local HF Dataset export exist; remote HF upload missing |
 | Directory structure | Partial | Foundation exists; many PRD packages missing |
 | Configuration schema | Partial | Model/training config plus ignored local backend config exists; validation is lightweight |
@@ -66,8 +66,8 @@ Current state:
 Current verified gates:
 
 - Structure check passes.
-- 84 unit/user-story tests pass.
-- Coverage report passes at 66%, above the current 60% configured threshold.
+- 85 unit/user-story tests pass.
+- Coverage report passes at 65%, above the current 60% configured threshold.
 - 2 lightweight performance tests pass.
 - Ruff passes.
 - Mypy passes.

@@ -18,8 +18,39 @@ from ui.vision_tab import build_vision_tab
 
 APP_THEME = gr.themes.Soft(primary_hue="teal", neutral_hue="slate")
 APP_CSS = """
-.app-title { margin-bottom: 0.25rem; }
-.app-subtitle { color: var(--body-text-color-subdued); margin-top: 0; }
+.app-title {
+  margin-bottom: 0.25rem;
+}
+
+.gradio-container {
+  max-width: 1180px !important;
+}
+
+.tabs {
+  overflow-x: auto;
+}
+
+button {
+  min-height: 2.5rem;
+}
+
+textarea,
+input,
+.wrap {
+  max-width: 100%;
+}
+
+@media (max-width: 720px) {
+  .gradio-container {
+    padding-left: 0.75rem !important;
+    padding-right: 0.75rem !important;
+  }
+
+  .app-title h1 {
+    font-size: 1.55rem;
+    line-height: 1.2;
+  }
+}
 """
 
 

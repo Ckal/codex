@@ -226,7 +226,7 @@ the extension PRD. A task is complete only when the matching acceptance criteria
 - [x] Add settings panel.
 - [x] Add tab-level error messages.
 - [x] Add loading/progress states.
-- [ ] Add compact responsive layout review.
+- [x] Add compact responsive layout review.
 
 ## Phase 8 - Dataset Layer
 

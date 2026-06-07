@@ -52,6 +52,8 @@ Builds and launches the Gradio app.
 - `build_app()` creates the Gradio `Blocks` app.
 - Loads the model catalog from `config/models.yaml`.
 - Registers the current UI tabs.
+- `APP_CSS` defines compact responsive layout rules for app width, mobile padding, scrollable tabs,
+  and button touch targets.
 
 ### `models/model_catalog.py`
 

@@ -76,7 +76,8 @@ http://127.0.0.1:7860
 The current app uses placeholder model responses. That is intentional. It lets you verify the UI,
 docs, and workflow before downloading large model files.
 
-Available tabs. User-triggered tab actions show Gradio progress while callbacks run:
+Available tabs. User-triggered tab actions show Gradio progress while callbacks run, and the app
+uses compact responsive styling for narrow screens:
 
 - Chat - placeholder, llama.cpp, llama-cpp-python, or Ollama text inference with tab status/errors.
 - Vision - placeholder, llama.cpp, llama-cpp-python, or Ollama image + prompt inference with tab status/errors.

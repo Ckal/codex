@@ -48,10 +48,11 @@ An item is done only when:
 | Status tab | Implemented | `ui/status_tab.py` lists model config, backend status, local llama.cpp setup, and Ollama list/pull planning |
 | Tab-level error messages | Implemented | Chat, Vision, and Dataset tabs show status/error messages and emit `ui_error` trace events |
 | Loading/progress states | Implemented | `ui/progress.py` applies full Gradio progress indicators to tab actions |
+| Compact responsive layout | Implemented | `APP_CSS` constrains app width, keeps tabs scrollable, sizes touch targets, and adds mobile padding/type rules |
 | Structure verification | Done | `scripts/verify_structure.ps1` passed |
-| Unit tests | Passing | 84 unit/user-story tests pass |
-| User-story tests | Passing | Included in the 84-test suite |
-| Coverage | Passing | 66% line/branch coverage at current configured threshold |
+| Unit tests | Passing | 85 unit/user-story tests pass |
+| User-story tests | Passing | Included in the 85-test suite |
+| Coverage | Passing | 65% line/branch coverage at current configured threshold |
 | Performance tests | Passing | 2 lightweight performance tests pass |
 | CI pipeline | Added, not run remotely | `.github/workflows/ci.yml` |
 | Quality tooling | Passing | Tests, coverage, performance, ruff, mypy, pylint, bandit, and pip-audit pass; all-in-one script can time out while waiting on network-backed checks |
