@@ -6,6 +6,7 @@ from models.llama_cpp_python_service import LlamaCppPythonService
 from models.llama_cpp_service import LlamaCppService
 from models.model_catalog import load_model_catalog
 from models.ollama_service import OllamaService
+from models.openai_compatible_service import OpenAICompatibleService
 from models.placeholder_service import PlaceholderModelService
 from models.service_factory import (
     TEXT_SERVICE_REGISTRY,
@@ -49,9 +50,17 @@ class ServiceFactoryTest(unittest.TestCase):
         self.assertIn("llama-cpp-python", [status.name for status in statuses])
         self.assertIn("ollama", [status.name for status in statuses])
         self.assertIn("transformers", [status.name for status in statuses])
+        self.assertIn("openai-compatible", [status.name for status in statuses])
 
     def test_model_service_registries_include_all_backends(self) -> None:
-        expected = ["placeholder", "llama.cpp", "llama-cpp-python", "ollama", "transformers"]
+        expected = [
+            "placeholder",
+            "llama.cpp",
+            "llama-cpp-python",
+            "ollama",
+            "transformers",
+            "openai-compatible",
+        ]
 
         self.assertEqual(TEXT_SERVICE_REGISTRY.list(), expected)
         self.assertEqual(
@@ -64,6 +73,12 @@ class ServiceFactoryTest(unittest.TestCase):
         service = create_text_service(catalog["minicpm5_1b"], "transformers")
 
         self.assertIsInstance(service, TransformersTextService)
+
+    def test_creates_openai_compatible_service_when_selected(self) -> None:
+        catalog = load_model_catalog("config/models.yaml")
+        service = create_text_service(catalog["minicpm5_1b"], "openai-compatible")
+
+        self.assertIsInstance(service, OpenAICompatibleService)
 
 
 if __name__ == "__main__":

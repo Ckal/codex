@@ -79,7 +79,7 @@ docs, and workflow before downloading large model files.
 Available tabs. User-triggered tab actions show Gradio progress while callbacks run, and the app
 uses compact responsive styling for narrow screens:
 
-- Chat - placeholder, llama.cpp, llama-cpp-python, Ollama, or Transformers text inference with tab status/errors.
+- Chat - placeholder, llama.cpp, llama-cpp-python, Ollama, OpenAI-compatible/LM Studio, or Transformers text inference with tab status/errors.
 - Vision - placeholder, llama.cpp, llama-cpp-python, or Ollama image + prompt inference with tab status/errors.
 - Dataset - local CSV/JSONL/NDJSON preview, optional Hugging Face dataset preview, stats, and tab status/errors.
 - Train - LoRA dry-run training plan plus local base-vs-tuned exact-match evaluation.
@@ -87,7 +87,7 @@ uses compact responsive styling for narrow screens:
 - Field Notes - saves human corrections to CSV, captures media paths/training flags, exports corrected JSONL, and exports local HF Dataset files.
 - Traces - local event preview, JSONL trace rows, tracking status, and trace export.
 - Agent - local non-autonomous research-plan-implement-verify trace mode.
-- Status - shows configured models, backend metadata, local llama.cpp setup, and Ollama list/pull planning.
+- Status - shows configured models, backend metadata, local llama.cpp setup, LM Studio/OpenAI-compatible setup, and Ollama list/pull planning.
 
 Ollama is optional and is not installed automatically. Install and start Ollama yourself, then
 pull a compatible model explicitly before selecting the Ollama backend in the app. The Status tab
@@ -101,6 +101,13 @@ tab, pick or type an explicit GGUF path, optionally pick an mmproj GGUF for visi
 Start `llama-server` yourself with that command, then select the `llama.cpp` backend in the app.
 `llama-cpp-python` is also available as an optional backend when the package is installed and a
 local GGUF path is configured.
+
+LM Studio or another local OpenAI-compatible server is optional and is not a cloud API path. Start
+the local server yourself, open the Status tab, set the server URL such as
+`http://127.0.0.1:1234`, optionally enter the exact served model name shown by LM Studio, and
+click `Save OpenAI-compatible config`. `Check server` calls `/v1/models`; selecting
+`openai-compatible` in the Chat tab posts to `/v1/chat/completions` only after you submit a prompt.
+No model weights are downloaded or loaded on app startup.
 
 The Transformers text backend is optional. It requires installing `transformers` and a compatible
 PyTorch build for your CPU/GPU, and it may download model weights when you explicitly select it and

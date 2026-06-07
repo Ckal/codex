@@ -18,7 +18,8 @@ The project turns the PRD in `HF_PRD_v1.md` into a staged implementation:
 
 1. A working Gradio app shell.
 2. Config-driven OpenBMB model registry.
-3. Local-first inference path, starting with deterministic placeholder mode and optional Ollama/llama.cpp later.
+3. Local-first inference path, starting with deterministic placeholder mode and optional Ollama,
+   llama.cpp, LM Studio/OpenAI-compatible, and Transformers backends.
 4. Field notes for collecting corrections.
 5. Extension points for training, GGUF export, Trackio traces, MCP tools, and agent workflows.
 
@@ -118,8 +119,9 @@ Initial candidates from the PRD:
 | `minicpm_o45` | `openbmb/MiniCPM-o-4.5` | omnimodal stretch goal |
 
 The app starts in placeholder mode so it does not download large model files automatically.
-llama.cpp, llama-cpp-python, and Ollama can be selected as backends, but the backend tool/package
-must be installed and populated with the selected model explicitly by the user.
+llama.cpp, llama-cpp-python, Ollama, LM Studio/OpenAI-compatible, and Transformers text can be
+selected as backends, but the backend tool/package/server must be installed and populated with the
+selected model explicitly by the user.
 
 ## Deployment Target
 
@@ -145,7 +147,7 @@ git push space main
 ## Next Implementation Steps
 
 1. Decide the exact hackathon story and user.
-2. Choose model path: placeholder -> Ollama -> llama.cpp GGUF -> Transformers.
-3. Add the first real inference service.
+2. Add screenshot/demo media and Space submission URLs.
+3. Continue the llama.cpp GGUF champion path or Hugging Face Space deployment.
 4. Add field-note export to JSONL/HF Dataset.
 5. Polish README with screenshots, demo video script, and submission links.

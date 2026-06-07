@@ -9,6 +9,7 @@ from models.llama_cpp_service import LlamaCppConfig, LlamaCppService
 from models.local_backend_config import load_local_backend_config
 from models.model_catalog import ModelInfo
 from models.ollama_service import OllamaService
+from models.openai_compatible_service import OpenAICompatibleConfig, OpenAICompatibleService
 from models.placeholder_service import PlaceholderModelService
 from models.transformers_text import TransformersTextService
 
@@ -21,6 +22,7 @@ TEXT_SERVICE_REGISTRY.register("llama.cpp", LlamaCppService)
 TEXT_SERVICE_REGISTRY.register("llama-cpp-python", LlamaCppPythonService)
 TEXT_SERVICE_REGISTRY.register("ollama", OllamaService)
 TEXT_SERVICE_REGISTRY.register("transformers", TransformersTextService)
+TEXT_SERVICE_REGISTRY.register("openai-compatible", OpenAICompatibleService)
 
 VISION_SERVICE_REGISTRY: Registry[VisionFactory] = Registry()
 VISION_SERVICE_REGISTRY.register("placeholder", PlaceholderModelService)
@@ -50,6 +52,15 @@ def create_text_service(model: ModelInfo, backend: str) -> TextModelService:
                 model_path=config.gguf_path,
                 n_ctx=config.n_ctx,
                 n_gpu_layers=config.n_gpu_layers,
+            ),
+        )
+    if backend == "openai-compatible":
+        config = load_local_backend_config()
+        return OpenAICompatibleService(
+            model,
+            OpenAICompatibleConfig(
+                base_url=config.openai_compatible_base_url,
+                model_name=config.openai_compatible_model_name,
             ),
         )
     return TEXT_SERVICE_REGISTRY.get(backend)(model)
@@ -86,4 +97,5 @@ def backend_statuses() -> list[BackendStatus]:
         LlamaCppPythonService.status(),
         OllamaService.status(),
         TransformersTextService.status(),
+        OpenAICompatibleService.status(load_local_backend_config().openai_compatible_base_url),
     ]

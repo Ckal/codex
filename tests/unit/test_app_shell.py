@@ -18,6 +18,11 @@ class AppShellTest(unittest.TestCase):
 
         self.assertIn("mcp_server=True", source)
 
+    def test_app_disables_gradio_analytics_for_local_first_launch(self) -> None:
+        source = Path("app.py").read_text(encoding="utf-8")
+
+        self.assertIn("analytics_enabled=False", source)
+
 
 if __name__ == "__main__":
     unittest.main()

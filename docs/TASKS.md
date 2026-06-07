@@ -145,6 +145,7 @@ the extension PRD. A task is complete only when the matching acceptance criteria
 - [x] Add tests for Ollama unavailable path.
 - [x] Add tests for llama.cpp unavailable path and command building.
 - [x] Add tests for llama-cpp-python unavailable path.
+- [x] Add tests for OpenAI-compatible/LM Studio unavailable and request paths.
 
 ## Phase 6 - Local Inference Backends
 
@@ -194,6 +195,16 @@ the extension PRD. A task is complete only when the matching acceptance criteria
 - [x] Add device/dtype settings.
 - [x] Add streaming generation.
 - [x] Document hardware expectations.
+
+### OpenAI-Compatible / LM Studio Backend
+
+- [x] Add `models/openai_compatible_service.py`.
+- [x] Add backend selector support.
+- [x] Add local base URL and served-model-name config.
+- [x] Add Status tab setup and reachability check.
+- [x] Add text chat through OpenAI-compatible `/v1/chat/completions`.
+- [x] Document LM Studio setup.
+- [x] Verify real text generation through LM Studio.
 
 ### MiniCPM Vision Backend
 
@@ -373,7 +384,7 @@ the extension PRD. A task is complete only when the matching acceptance criteria
 
 - [ ] Add vLLM runner.
 - [ ] Add vLLM start/stop UI.
-- [ ] Add OpenAI-compatible client.
+- [x] Add OpenAI-compatible client.
 - [ ] Add metrics parsing.
 - [ ] Add Trackio benchmark logging.
 

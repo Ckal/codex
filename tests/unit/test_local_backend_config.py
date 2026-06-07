@@ -18,6 +18,8 @@ class LocalBackendConfigTest(unittest.TestCase):
         config = load_local_backend_config("missing-local-backends.yaml")
 
         self.assertEqual(config.llama_cpp_server_url, "http://127.0.0.1:8080")
+        self.assertEqual(config.openai_compatible_base_url, "http://127.0.0.1:1234")
+        self.assertEqual(config.openai_compatible_model_name, "")
         self.assertEqual(config.gguf_path, "")
 
     def test_saves_and_loads_local_backend_config(self) -> None:
@@ -25,6 +27,8 @@ class LocalBackendConfigTest(unittest.TestCase):
             path = Path(tmp) / "local_backends.yaml"
             expected = LocalBackendConfig(
                 llama_cpp_server_url="http://127.0.0.1:9090",
+                openai_compatible_base_url="http://local.test:1234",
+                openai_compatible_model_name="loaded-model",
                 gguf_path="model.gguf",
                 mmproj_path="mmproj.gguf",
                 n_ctx=8192,
@@ -54,6 +58,7 @@ class LocalBackendConfigTest(unittest.TestCase):
         self.assertFalse(summary["startup_downloads"])
         self.assertFalse(summary["auto_model_load"])
         self.assertIn("llama-server -m model.gguf", summary["llama_server_command"])
+        self.assertEqual(summary["openai_compatible_base_url"], "http://127.0.0.1:1234")
 
 
 if __name__ == "__main__":

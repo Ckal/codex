@@ -11,6 +11,7 @@ from models.local_backend_config import (
 )
 from models.model_catalog import ModelInfo, model_summary, validate_catalog
 from models.ollama_service import OllamaService
+from models.openai_compatible_service import OpenAICompatibleService
 from models.service_factory import backend_statuses
 from ui.progress import CLICK_PROGRESS
 
@@ -71,7 +72,59 @@ def build_status_tab(catalog: dict[str, ModelInfo]) -> None:
     selected.change(inspect, selected, details)
 
     build_llama_cpp_setup_panel()
+    build_openai_compatible_setup_panel()
     build_ollama_setup_panel(catalog)
+
+
+def build_openai_compatible_setup_panel() -> None:
+    gr.Markdown("### LM Studio / OpenAI-compatible local setup")
+    local_config = load_local_backend_config()
+    base_url = gr.Textbox(
+        label="Server URL",
+        value=local_config.openai_compatible_base_url,
+        placeholder="http://127.0.0.1:1234",
+    )
+    model_name = gr.Textbox(
+        label="Served model name",
+        value=local_config.openai_compatible_model_name,
+        placeholder="Optional; leave blank to use the selected HF model ID",
+    )
+    prepare = gr.Button("Save OpenAI-compatible config", variant="primary")
+    check = gr.Button("Check server")
+    summary = gr.JSON(local_backend_summary(local_config), label="OpenAI-compatible config")
+    status = gr.JSON(label="OpenAI-compatible status")
+
+    def save_openai_config(url: str, served_model_name: str) -> dict:
+        current = load_local_backend_config()
+        config = LocalBackendConfig(
+            llama_cpp_server_url=current.llama_cpp_server_url,
+            openai_compatible_base_url=url.strip() or LocalBackendConfig.openai_compatible_base_url,
+            openai_compatible_model_name=served_model_name.strip(),
+            gguf_path=current.gguf_path,
+            mmproj_path=current.mmproj_path,
+            n_ctx=current.n_ctx,
+            n_gpu_layers=current.n_gpu_layers,
+        )
+        save_local_backend_config(config)
+        return local_backend_summary(config)
+
+    def check_openai_server(url: str) -> dict:
+        server_status = OpenAICompatibleService.status(
+            url.strip() or LocalBackendConfig.openai_compatible_base_url
+        )
+        return {
+            "backend": server_status.name,
+            "available": server_status.available,
+            "detail": server_status.detail,
+        }
+
+    prepare.click(
+        save_openai_config,
+        [base_url, model_name],
+        summary,
+        show_progress=CLICK_PROGRESS,
+    )
+    check.click(check_openai_server, base_url, status, show_progress=CLICK_PROGRESS)
 
 
 def build_ollama_setup_panel(catalog: dict[str, ModelInfo]) -> None:
@@ -145,8 +198,11 @@ def build_llama_cpp_setup_panel() -> None:
         context_length: int | float,
         gpu_layers: int | float,
     ) -> tuple[str, dict]:
+        current = load_local_backend_config()
         config = LocalBackendConfig(
             llama_cpp_server_url=url or "http://127.0.0.1:8080",
+            openai_compatible_base_url=current.openai_compatible_base_url,
+            openai_compatible_model_name=current.openai_compatible_model_name,
             gguf_path=model_file or model_path,
             mmproj_path=projector_file or projector_path,
             n_ctx=int(context_length),

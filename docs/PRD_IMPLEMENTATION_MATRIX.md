@@ -17,8 +17,10 @@ Current state:
 - Dataset statistics and local MCP tool functions exist.
 - Local non-autonomous agent mode exists with trace export.
 - Real local model inference is partially implemented through llama.cpp, llama-cpp-python, Ollama,
-  and Transformers text services. The Status tab includes llama.cpp setup plus Ollama local model
-  listing and explicit pull-command planning, but none has been locally verified with a real model.
+  OpenAI-compatible/LM Studio, and Transformers text services. The Status tab includes llama.cpp
+  setup, LM Studio/OpenAI-compatible setup, and Ollama local model listing plus explicit
+  pull-command planning. LM Studio text generation is live-verified with
+  `llama-3.2-1b-instruct`; the other real backends still need local verification.
 - LoRA training execution, served MCP endpoint, deployment, and most extensions are not implemented.
 - Placeholder services remain intentionally visible so the app never pretends to be real inference.
 
@@ -30,7 +32,7 @@ Current state:
 | Template architecture | Partial | Config-driven model catalog exists |
 | System architecture | Partial | `app.py`, `core/`, `models/`, `ui/`, `datasets/`, local app state/events |
 | Model registry | Partial | `config/models.yaml`, `models/model_catalog.py`; includes GGUF and backend capability metadata |
-| Five inference modes | Partial | llama.cpp, llama-cpp-python, Ollama, and Transformers text services exist; SGLang and vLLM missing |
+| Five inference modes | Partial | llama.cpp, llama-cpp-python, Ollama, OpenAI-compatible/LM Studio, and Transformers text services exist; SGLang and vLLM runner/start-stop UI missing |
 | Trackio | Partial | Local traces, optional Trackio wrapper, and HF Space sync docs exist; credentials/package setup still missing |
 | MCP layer | Partial | Local tool functions, Gradio-native MCP path metadata, `mcp_server=True` launch flag, and local invocation tests exist; full external client verification still missing |
 | Training pipeline | Partial | `training/` package supports dry-run planning, export planning, exact-match/perplexity evaluation, and local logging; LoRA trainer missing |
@@ -49,7 +51,7 @@ Current state:
 
 | Extension | Status | Evidence / Next Step |
 | --- | --- | --- |
-| vLLM serving tab | Not implemented | Needs `models/vllm_runner.py` |
+| vLLM serving tab | Partial | OpenAI-compatible client exists and can target vLLM-style servers; needs `models/vllm_runner.py`, start/stop UI, metrics parsing, and benchmark logging |
 | Ollama quick-start | Partial | Service, UI backend selector, local model listing, explicit pull-command planning, and setup docs exist; local Ollama install/real model verification missing |
 | Reward model eval | Implemented locally | `training/reward_eval.py` provides deterministic reward scoring, best-of-N, DPO pairs, and LoRA-vs-base reward reports |
 | Synthetic data generation | Implemented locally | `datasets/synthetic.py` provides deterministic generation, validation, filtering, augmentation, and JSONL export |
@@ -66,7 +68,7 @@ Current state:
 Current verified gates:
 
 - Structure check passes.
-- 123 unit/user-story tests pass.
+- 130 unit/user-story tests pass.
 - Coverage report passes at 66%, above the current 60% configured threshold.
 - 2 lightweight performance tests pass.
 - Ruff passes.
@@ -74,6 +76,8 @@ Current verified gates:
 - Pylint passes at 10/10.
 - Bandit reports no issues.
 - Pip-audit reports no known vulnerabilities in `.venv`.
+- LM Studio `/v1/models` and `/v1/chat/completions` are verified locally for
+  `llama-3.2-1b-instruct`.
 - CI workflow exists but has not run remotely.
 - App launch has been verified locally, but the server is not currently left running.
 

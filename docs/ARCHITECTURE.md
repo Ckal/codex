@@ -79,6 +79,7 @@ This file should be replaced or complemented by real services such as:
 
 - `ollama_service.py`
 - `llama_cpp_service.py`
+- `openai_compatible_service.py`
 - `transformers_text.py`
 - `sglang_service.py`
 
@@ -114,10 +115,21 @@ llama.cpp HTTP client for local GGUF inference.
 
 User-local backend settings stored under ignored `data/local_backends.yaml`.
 
-- `LocalBackendConfig` stores llama.cpp server URL, GGUF path, mmproj path, context length, and GPU layers.
+- `LocalBackendConfig` stores llama.cpp server URL, OpenAI-compatible base URL, optional served
+  model name, GGUF path, mmproj path, context length, and GPU layers.
 - `save_local_backend_config()` writes local-only settings without touching tracked model config.
 - `build_llama_server_command()` returns the explicit command the user can run.
 - `local_backend_summary()` reports file status and confirms no startup downloads or automatic model loads.
+
+### `models/openai_compatible_service.py`
+
+Local OpenAI-compatible chat client for LM Studio, vLLM-style servers, or similar local endpoints.
+
+- Checks `/v1/models` for reachability.
+- Sends text chat requests to `/v1/chat/completions`.
+- Supports an optional served-model-name override for tools such as LM Studio.
+- Returns visible unavailable/request-failed messages instead of crashing the Gradio callback.
+- Does not call cloud APIs or download model weights.
 
 ### `models/llama_cpp_python_service.py`
 
@@ -145,10 +157,12 @@ Creates the selected backend service for the UI.
 
 - `TEXT_SERVICE_REGISTRY` registers available text backend factories.
 - `VISION_SERVICE_REGISTRY` registers available vision backend factories.
-- `create_text_service()` chooses placeholder, llama.cpp, llama-cpp-python, or Ollama text service.
+- `create_text_service()` chooses placeholder, llama.cpp, llama-cpp-python, Ollama,
+  OpenAI-compatible, or Transformers text service.
 - `create_vision_service()` chooses placeholder, llama.cpp, llama-cpp-python, or Ollama vision service.
 - `backend_statuses()` reports current backend availability.
-- llama.cpp and llama-cpp-python services read the ignored local GGUF settings when selected.
+- llama.cpp, llama-cpp-python, and OpenAI-compatible services read ignored local backend settings
+  when selected.
 
 ### `ui/chat_tab.py`
 
@@ -253,6 +267,7 @@ Shows configured models and backend metadata.
 
 - Helps verify model-size compliance and backend status.
 - Provides local llama.cpp settings, GGUF/mmproj file pickers, and command generation.
+- Provides LM Studio/OpenAI-compatible base URL, optional model-name storage, and reachability check.
 
 ### `datasets/field_notes.py`
 

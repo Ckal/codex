@@ -58,7 +58,7 @@ def build_app() -> gr.Blocks:
     configure_app_logging()
     catalog = load_model_catalog("config/models.yaml")
 
-    with gr.Blocks(title="OpenBMB Local AI Workbench") as demo:
+    with gr.Blocks(title="OpenBMB Local AI Workbench", analytics_enabled=False) as demo:
         gr.Markdown(
             """
             # OpenBMB Local AI Workbench
