@@ -21,6 +21,7 @@ class ModelInfo:
     notes: str
     thinking_mode: bool
     gguf: dict[str, Any]
+    backend_capabilities: dict[str, list[str]]
 
 
 def load_model_catalog(path: str) -> dict[str, ModelInfo]:
@@ -38,6 +39,10 @@ def load_model_catalog(path: str) -> dict[str, ModelInfo]:
             notes=cfg.get("notes", ""),
             thinking_mode=bool(cfg.get("thinking_mode", False)),
             gguf=cfg.get("gguf", {}),
+            backend_capabilities={
+                backend: list(capabilities)
+                for backend, capabilities in cfg.get("backend_capabilities", {}).items()
+            },
         )
     return catalog
 
@@ -62,6 +67,7 @@ def model_summary(model: ModelInfo) -> dict[str, Any]:
         "context_length": model.context_length,
         "thinking_mode": model.thinking_mode,
         "gguf": model.gguf,
+        "backend_capabilities": model.backend_capabilities,
         "notes": model.notes,
     }
 
@@ -77,6 +83,10 @@ def validate_catalog(catalog: dict[str, ModelInfo], max_parameters_b: float = 32
         if model.backend == "placeholder":
             warnings.append(
                 f"{model.config_id} uses placeholder backend; real inference is not wired yet."
+            )
+        if model.backend not in model.backend_capabilities:
+            warnings.append(
+                f"{model.config_id} has no capability metadata for backend {model.backend}."
             )
         if not model.hf_id:
             warnings.append(f"{model.config_id} is missing hf_id.")

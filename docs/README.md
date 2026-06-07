@@ -12,6 +12,7 @@ This folder is the project memory. Use it before asking Codex to make larger cha
 - [USAGE.md](USAGE.md) - how to install, run, and use the app.
 - [ARCHITECTURE.md](ARCHITECTURE.md) - how the code is organized and how pieces connect.
 - [EXTENDING.md](EXTENDING.md) - how to add models, tabs, services, and features later.
+- [HACKATHON_SUBMISSION.md](HACKATHON_SUBMISSION.md) - story, demo flow, video script, and submission checklist.
 
 ## Source PRDs
 

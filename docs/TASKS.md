@@ -45,19 +45,19 @@ the extension PRD. A task is complete only when the matching acceptance criteria
 
 ## Phase 1 - Hackathon Definition
 
-- [ ] Choose track: Backyard AI or Thousand Token Wood.
-- [ ] Write one-sentence project story.
-- [ ] Define target user.
-- [ ] Define measurable user benefit.
-- [ ] Decide final model family and model IDs.
-- [ ] Confirm every model is <= 32B parameters.
-- [ ] Decide local-first badge target.
-- [ ] Decide llama.cpp badge target.
-- [ ] Decide open trace badge target.
-- [ ] Decide field notes/report badge target.
-- [ ] Write final demo flow.
-- [ ] Write demo video script.
-- [ ] Write social post draft.
+- [x] Choose track: Backyard AI or Thousand Token Wood.
+- [x] Write one-sentence project story.
+- [x] Define target user.
+- [x] Define measurable user benefit.
+- [x] Decide final model family and model IDs.
+- [x] Confirm every model is <= 32B parameters.
+- [x] Decide local-first badge target.
+- [x] Decide llama.cpp badge target.
+- [x] Decide open trace badge target.
+- [x] Decide field notes/report badge target.
+- [x] Write final demo flow.
+- [x] Write demo video script.
+- [x] Write social post draft.
 - [ ] Add final submission checklist with exact URLs.
 
 ## Phase 2 - MVP Gradio App
@@ -98,7 +98,7 @@ the extension PRD. A task is complete only when the matching acceptance criteria
 - [x] Add MiniCPM4.1-8B config.
 - [x] Add MiniCPM-V-4.6-Thinking config.
 - [x] Add GGUF metadata in config.
-- [ ] Add backend capability metadata.
+- [x] Add backend capability metadata.
 - [x] Add lightweight catalog validation helper.
 - [x] Show warnings for models over 32B parameters.
 
@@ -356,10 +356,10 @@ the extension PRD. A task is complete only when the matching acceptance criteria
 
 ## Phase 17 - Hackathon Submission Package
 
-- [ ] Finalize app name.
-- [ ] Finalize track.
+- [x] Finalize app name.
+- [x] Finalize track.
 - [ ] Verify Gradio app polish.
-- [ ] Verify model-size compliance.
+- [x] Verify model-size compliance.
 - [ ] Verify Space URL.
 - [x] Verify GitHub URL.
 - [ ] Record demo video.
@@ -467,5 +467,5 @@ the extension PRD. A task is complete only when the matching acceptance criteria
 - [x] Update docs after every implemented feature.
 - [x] Keep `IMPLEMENTATION_STATUS.md` current.
 - [x] Keep unchecked tasks visible.
-- [ ] Keep secrets and model weights out of git.
+- [x] Keep secrets and model weights out of git.
 - [x] Re-run local app after code changes.

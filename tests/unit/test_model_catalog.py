@@ -31,6 +31,15 @@ class ModelCatalogTest(unittest.TestCase):
         self.assertEqual(summary["hf_id"], "openbmb/MiniCPM5-1B")
         self.assertLessEqual(summary["parameters_b"], 32)
         self.assertIn("gguf", summary)
+        self.assertIn("backend_capabilities", summary)
+        self.assertIn("llama.cpp", summary["backend_capabilities"])
+
+    def test_all_models_have_backend_capability_metadata(self) -> None:
+        catalog = load_model_catalog("config/models.yaml")
+
+        for model in catalog.values():
+            self.assertIn(model.backend, model.backend_capabilities)
+            self.assertTrue(model.backend_capabilities[model.backend])
 
     def test_catalog_warns_that_placeholder_backends_are_not_real_inference(self) -> None:
         catalog = load_model_catalog("config/models.yaml")

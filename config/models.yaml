@@ -5,6 +5,14 @@ models:
     type: text
     parameters_b: 1
     backend: placeholder
+    backend_capabilities:
+      placeholder: [text]
+      ollama: [text, streaming]
+      llama.cpp: [text, gguf]
+      llama-cpp-python: [text, gguf]
+      transformers: [text, lora]
+      sglang: [text, tools]
+      vllm: [text, openai-compatible]
     context_length: 131072
     local_first: true
     thinking_mode: false
@@ -20,6 +28,14 @@ models:
     type: text
     parameters_b: 1
     backend: placeholder
+    backend_capabilities:
+      placeholder: [text]
+      ollama: [text, thinking, streaming]
+      llama.cpp: [text, gguf]
+      llama-cpp-python: [text, gguf]
+      transformers: [text, thinking, lora]
+      sglang: [text, thinking, tools]
+      vllm: [text, openai-compatible]
     context_length: 131072
     local_first: true
     thinking_mode: true
@@ -35,6 +51,14 @@ models:
     type: text
     parameters_b: 8
     backend: placeholder
+    backend_capabilities:
+      placeholder: [text]
+      ollama: [text, streaming]
+      llama.cpp: [text, gguf]
+      llama-cpp-python: [text, gguf]
+      transformers: [text, long-context]
+      sglang: [text, long-context, tools]
+      vllm: [text, long-context, openai-compatible]
     context_length: 131072
     local_first: true
     thinking_mode: false
@@ -51,6 +75,11 @@ models:
     type: vision
     parameters_b: 1.3
     backend: placeholder
+    backend_capabilities:
+      placeholder: [vision]
+      ollama: [vision]
+      llama.cpp: [vision, gguf, mmproj]
+      transformers: [vision, image-text-to-text]
     context_length: 262144
     local_first: true
     thinking_mode: false
@@ -68,6 +97,11 @@ models:
     type: vision
     parameters_b: 1.3
     backend: placeholder
+    backend_capabilities:
+      placeholder: [vision, thinking]
+      ollama: [vision, thinking]
+      llama.cpp: [vision, gguf, mmproj]
+      transformers: [vision, thinking, image-text-to-text]
     context_length: 262144
     local_first: true
     thinking_mode: true
@@ -83,6 +117,9 @@ models:
     type: omnimodal
     parameters_b: 8
     backend: placeholder
+    backend_capabilities:
+      placeholder: [text, vision, audio]
+      transformers: [text, vision, audio]
     context_length: 131072
     local_first: true
     thinking_mode: false

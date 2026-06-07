@@ -17,9 +17,10 @@ An item is done only when:
 | Codex guidance | Done | `AGENTS.md` exists |
 | Docs folder | Done | `docs/` exists with task, usage, architecture, extension docs |
 | README | Done | `README.md` exists |
+| Hackathon submission package | Drafted | `docs/HACKATHON_SUBMISSION.md` contains track, story, user, benefit, model compliance, demo flow, video script, social post draft, and submission checklist |
 | Gradio app shell | Implemented and launch-verified | `app.py` builds and foreground launch holds the server open; not currently running |
 | Model config | Implemented | `config/models.yaml` exists |
-| Expanded model config | Implemented | MiniCPM text, thinking, 4.1, V 4.6, V thinking, and omnimodal entries |
+| Expanded model config | Implemented | MiniCPM text, thinking, 4.1, V 4.6, V thinking, omnimodal entries, GGUF metadata, and backend capability metadata |
 | Catalog validation | Implemented | `validate_catalog()` and Status tab warnings |
 | Training config | Implemented | `config/training.yaml` exists |
 | Placeholder chat | Implemented | `ui/chat_tab.py`, `models/placeholder_service.py` |
@@ -50,12 +51,13 @@ An item is done only when:
 | Loading/progress states | Implemented | `ui/progress.py` applies full Gradio progress indicators to tab actions |
 | Compact responsive layout | Implemented | `APP_CSS` constrains app width, keeps tabs scrollable, sizes touch targets, and adds mobile padding/type rules |
 | Structure verification | Done | `scripts/verify_structure.ps1` passed |
-| Unit tests | Passing | 85 unit/user-story tests pass |
-| User-story tests | Passing | Included in the 85-test suite |
+| Unit tests | Passing | 87 unit/user-story tests pass |
+| User-story tests | Passing | Included in the 87-test suite |
 | Coverage | Passing | 65% line/branch coverage at current configured threshold |
 | Performance tests | Passing | 2 lightweight performance tests pass |
 | CI pipeline | Added, not run remotely | `.github/workflows/ci.yml` |
 | Quality tooling | Passing | Tests, coverage, performance, ruff, mypy, pylint, bandit, and pip-audit pass; all-in-one script can time out while waiting on network-backed checks |
+| Secrets and model-weight git policy | Implemented | `.gitignore` excludes env files, keys, caches, generated data/exports, and common model weight formats; policy has a unit test |
 | Real model inference | Partial | llama.cpp, llama-cpp-python, and Ollama services exist, but no installed/running backend was found locally |
 | Hugging Face Space deploy | Not started | Needs HF login/repo |
 | GitHub push | Done | GitHub remote `https://github.com/Ckal/codex.git`; commits pushed to `origin/main` |

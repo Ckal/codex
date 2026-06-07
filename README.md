@@ -88,6 +88,7 @@ The working docs live in [docs/README.md](docs/README.md).
 - [Usage guide](docs/USAGE.md)
 - [Architecture guide](docs/ARCHITECTURE.md)
 - [Extension guide](docs/EXTENDING.md)
+- [Hackathon submission package](docs/HACKATHON_SUBMISSION.md)
 - [Test and quality policy](docs/ACCEPTANCE_CRITERIA.md)
 
 ## Current Truth

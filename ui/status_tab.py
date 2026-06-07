@@ -26,6 +26,7 @@ def build_status_tab(catalog: dict[str, ModelInfo]) -> None:
             "parameters_b",
             "context_length",
             "thinking",
+            "capabilities",
         ],
         value=[
             [
@@ -36,6 +37,15 @@ def build_status_tab(catalog: dict[str, ModelInfo]) -> None:
                 model.parameters_b,
                 model.context_length,
                 model.thinking_mode,
+                ", ".join(
+                    sorted(
+                        {
+                            capability
+                            for capabilities in model.backend_capabilities.values()
+                            for capability in capabilities
+                        }
+                    )
+                ),
             ]
             for model in catalog.values()
         ],

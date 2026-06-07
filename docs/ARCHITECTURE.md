@@ -63,6 +63,7 @@ Reads model configuration and turns it into typed Python objects.
 - `load_model_catalog(path)` reads YAML and returns all configured models.
 - `model_choices(catalog, model_type)` filters models for a UI dropdown.
 - `model_summary(model)` returns display metadata for the Gradio JSON panel.
+- `backend_capabilities` maps each model to supported local backend capabilities.
 
 ### `models/placeholder_service.py`
 

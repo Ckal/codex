@@ -29,7 +29,7 @@ Current state:
 | Purpose and design philosophy | Documented | `README.md`, `docs/ROADMAP.md` |
 | Template architecture | Partial | Config-driven model catalog exists |
 | System architecture | Partial | `app.py`, `core/`, `models/`, `ui/`, `datasets/`, local app state/events |
-| Model registry | Partial | `config/models.yaml`, `models/model_catalog.py` |
+| Model registry | Partial | `config/models.yaml`, `models/model_catalog.py`; includes GGUF and backend capability metadata |
 | Five inference modes | Partial | llama.cpp, llama-cpp-python, and Ollama services exist; Transformers, SGLang, vLLM missing |
 | Trackio | Partial | Local traces and optional Trackio wrapper exist; HF Space sync missing |
 | MCP layer | Partial | Local tool functions exist; served MCP endpoint still missing |
@@ -41,7 +41,7 @@ Current state:
 | Directory structure | Partial | Foundation exists; many PRD packages missing |
 | Configuration schema | Partial | Model/training config plus ignored local backend config exists; validation is lightweight |
 | Dependencies | Partial | Runtime/dev deps exist for scaffold; full model/training deps not added |
-| Hackathon demo flow | Not implemented | Needs real backend and final user story |
+| Hackathon demo flow | Partial | `docs/HACKATHON_SUBMISSION.md` drafts story, user, demo flow, script, social post, and URLs; real backend and Space URL still missing |
 | Corrections from PRD v1 | Documented in PRD | Not all implemented |
 | Roadmap and extension points | Documented | `docs/ROADMAP.md`, `docs/TASKS.md` |
 
@@ -66,7 +66,7 @@ Current state:
 Current verified gates:
 
 - Structure check passes.
-- 85 unit/user-story tests pass.
+- 87 unit/user-story tests pass.
 - Coverage report passes at 65%, above the current 60% configured threshold.
 - 2 lightweight performance tests pass.
 - Ruff passes.
