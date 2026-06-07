@@ -158,11 +158,11 @@ the extension PRD. A task is complete only when the matching acceptance criteria
 
 - [ ] Confirm Ollama is installed.
 - [x] Add `models/ollama_service.py`.
-- [ ] Add local model list.
-- [ ] Add pull model command with explicit user action.
+- [x] Add local model list.
+- [x] Add pull model command with explicit user action.
 - [x] Add text chat through Ollama.
 - [x] Add vision chat through Ollama when supported.
-- [ ] Document Ollama setup.
+- [x] Document Ollama setup.
 
 ### llama.cpp Backend
 
@@ -347,11 +347,11 @@ the extension PRD. A task is complete only when the matching acceptance criteria
 
 ## Phase 16 - GitHub
 
-- [ ] Create GitHub repo.
-- [ ] Add GitHub remote.
-- [ ] Commit initial project.
-- [ ] Push to GitHub.
-- [ ] Add GitHub URL to README.
+- [x] Create GitHub repo.
+- [x] Add GitHub remote.
+- [x] Commit initial project.
+- [x] Push to GitHub.
+- [x] Add GitHub URL to README.
 - [ ] Add issue checklist or project board if desired.
 
 ## Phase 17 - Hackathon Submission Package
@@ -361,7 +361,7 @@ the extension PRD. A task is complete only when the matching acceptance criteria
 - [ ] Verify Gradio app polish.
 - [ ] Verify model-size compliance.
 - [ ] Verify Space URL.
-- [ ] Verify GitHub URL.
+- [x] Verify GitHub URL.
 - [ ] Record demo video.
 - [ ] Publish social post.
 - [ ] Add field notes/report link.
@@ -379,10 +379,10 @@ the extension PRD. A task is complete only when the matching acceptance criteria
 
 ### Ollama Quick-Start
 
-- [ ] Add Ollama pull/list UI.
+- [x] Add Ollama pull/list UI.
 - [x] Add Ollama chat service.
 - [x] Add Ollama vision service.
-- [ ] Add setup docs.
+- [x] Add setup docs.
 
 ### Llama.cpp Champion Path
 

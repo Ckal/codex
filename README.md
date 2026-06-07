@@ -93,8 +93,9 @@ The working docs live in [docs/README.md](docs/README.md).
 ## Current Truth
 
 The full PRD is not implemented yet. The current app is a tested, quality-gated scaffold with
-visible placeholder inference. Real local inference, training, export, Trackio, MCP, agent mode,
-GitHub push, Hugging Face Space deployment, and most extension PRD items are still backlog work.
+visible placeholder inference plus local backend planning surfaces. GitHub push is complete at
+`https://github.com/Ckal/codex`. Real verified local inference, training execution, served MCP,
+Hugging Face Space deployment, and most extension PRD items are still backlog work.
 
 ## Model Plan
 

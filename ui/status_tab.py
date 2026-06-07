@@ -10,6 +10,7 @@ from models.local_backend_config import (
     save_local_backend_config,
 )
 from models.model_catalog import ModelInfo, model_summary, validate_catalog
+from models.ollama_service import OllamaService
 from models.service_factory import backend_statuses
 
 
@@ -59,6 +60,34 @@ def build_status_tab(catalog: dict[str, ModelInfo]) -> None:
     selected.change(inspect, selected, details)
 
     build_llama_cpp_setup_panel()
+    build_ollama_setup_panel(catalog)
+
+
+def build_ollama_setup_panel(catalog: dict[str, ModelInfo]) -> None:
+    gr.Markdown("### Ollama local setup")
+    selected = gr.Dropdown(list(catalog), value=next(iter(catalog)), label="Model config")
+    ollama_name = gr.Textbox(
+        label="Ollama model name",
+        placeholder="Example: minicpm-v or a local Ollama model tag",
+    )
+    refresh = gr.Button("List local Ollama models")
+    prepare = gr.Button("Prepare pull command", variant="primary")
+    local_models = gr.JSON(label="Local Ollama models")
+    pull_command = gr.Textbox(label="Ollama pull command", interactive=False)
+
+    def list_models() -> dict:
+        models = OllamaService.list_local_models()
+        return {
+            "models": models,
+            "note": "Empty means Ollama is not running, not installed, or has no local models.",
+        }
+
+    def prepare_pull(model_id: str, model_name: str) -> str:
+        name = model_name.strip() or catalog[model_id].hf_id
+        return " ".join(OllamaService.pull_command(name))
+
+    refresh.click(list_models, outputs=local_models)
+    prepare.click(prepare_pull, [selected, ollama_name], pull_command)
 
 
 def build_llama_cpp_setup_panel() -> None:

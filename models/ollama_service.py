@@ -67,6 +67,26 @@ class OllamaService:
         data = self._post_chat(payload)
         return str(data.get("message", {}).get("content", ""))
 
+    @classmethod
+    def list_local_models(
+        cls,
+        get_func: Callable[..., requests.Response] = requests.get,
+    ) -> list[str]:
+        try:
+            response = get_func(f"{cls.base_url}/api/tags", timeout=2)
+            response.raise_for_status()
+        except requests.RequestException:
+            return []
+
+        data = response.json()
+        return [str(model.get("name", "")) for model in data.get("models", []) if model.get("name")]
+
+    @staticmethod
+    def pull_command(model_name: str) -> list[str]:
+        if not model_name.strip():
+            return []
+        return ["ollama", "pull", model_name.strip()]
+
     def _post_chat(self, payload: dict[str, Any]) -> dict[str, Any]:
         status = self.status()
         if not status.available:

@@ -89,6 +89,8 @@ Ollama-backed local inference client.
 
 - Checks whether `ollama` is installed and reachable.
 - Sends text and vision chat requests to `http://127.0.0.1:11434/api/chat`.
+- Lists locally available Ollama models through `/api/tags`.
+- Builds explicit `ollama pull <model>` commands for the Status tab.
 - Does not pull or download models automatically.
 
 ### `models/llama_cpp_service.py`

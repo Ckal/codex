@@ -16,7 +16,8 @@ Current state:
 - Dataset statistics and local MCP tool functions exist.
 - Local non-autonomous agent mode exists with trace export.
 - Real local model inference is partially implemented through llama.cpp, llama-cpp-python, and
-  Ollama services, but none has been locally verified with a real model.
+  Ollama services. The Status tab now includes llama.cpp setup plus Ollama local model listing and
+  explicit pull-command planning, but none has been locally verified with a real model.
 - LoRA training execution, served MCP endpoint, deployment, and most extensions are not implemented.
 - Placeholder services remain intentionally visible so the app never pretends to be real inference.
 
@@ -48,7 +49,7 @@ Current state:
 | Extension | Status | Evidence / Next Step |
 | --- | --- | --- |
 | vLLM serving tab | Not implemented | Needs `models/vllm_runner.py` |
-| Ollama quick-start | Partial | Service and UI backend selector exist; local model list/pull/docs missing |
+| Ollama quick-start | Partial | Service, UI backend selector, local model listing, explicit pull-command planning, and setup docs exist; local Ollama install/real model verification missing |
 | Reward model eval | Not implemented | Needs `training/reward_eval.py` |
 | Synthetic data generation | Not implemented | Needs `datasets/synthetic.py` |
 | Paper-to-code agent | Not implemented | Needs real agent loop and safety gates |
@@ -64,7 +65,7 @@ Current state:
 Current verified gates:
 
 - Structure check passes.
-- 77 unit/user-story tests pass.
+- 80 unit/user-story tests pass.
 - Coverage report passes at 61%, above the current 60% configured threshold.
 - 2 lightweight performance tests pass.
 - Ruff passes.

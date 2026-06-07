@@ -2,6 +2,8 @@ from __future__ import annotations
 
 import unittest
 
+import requests
+
 import models.ollama_service as ollama_module
 from models.model_catalog import load_model_catalog
 from models.ollama_service import OllamaService
@@ -26,6 +28,30 @@ class OllamaServiceTest(unittest.TestCase):
 
         self.assertIn("[Ollama unavailable]", response)
         self.assertIn("Ollama test unavailable.", response)
+
+    def test_lists_local_models(self) -> None:
+        response = requests.Response()
+        response.status_code = 200
+        response._content = (  # pylint: disable=protected-access
+            b'{"models": [{"name": "minicpm:latest"}, {"name": "llama:latest"}]}'
+        )
+
+        models = OllamaService.list_local_models(get_func=lambda *_args, **_kwargs: response)
+
+        self.assertEqual(models, ["minicpm:latest", "llama:latest"])
+
+    def test_list_local_models_returns_empty_when_unreachable(self) -> None:
+        def raise_error(*_args, **_kwargs):
+            raise requests.ConnectionError("offline")
+
+        self.assertEqual(OllamaService.list_local_models(get_func=raise_error), [])
+
+    def test_builds_explicit_pull_command(self) -> None:
+        self.assertEqual(
+            OllamaService.pull_command(" minicpm:latest "),
+            ["ollama", "pull", "minicpm:latest"],
+        )
+        self.assertEqual(OllamaService.pull_command(""), [])
 
 
 if __name__ == "__main__":

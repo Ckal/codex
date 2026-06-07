@@ -28,7 +28,7 @@ An item is done only when:
 | Local backend config | Implemented | `models/local_backend_config.py` saves ignored local settings in `data/local_backends.yaml` |
 | llama.cpp backend | Implemented, not locally verified | `models/llama_cpp_service.py`; Status tab can pick GGUF/mmproj paths and build a `llama-server` command; llama.cpp tools not found on PATH |
 | llama-cpp-python backend | Implemented as fallback, not locally verified | `models/llama_cpp_python_service.py`; uses the configured local GGUF path when package is installed; `llama_cpp` package not installed |
-| Ollama backend | Implemented, not locally verified | `models/ollama_service.py`; Ollama executable not found on PATH |
+| Ollama backend | Implemented, not locally verified | `models/ollama_service.py`; Status tab lists local Ollama models and prepares explicit `ollama pull` commands; Ollama executable not found on PATH |
 | App state | Implemented | `core/app_state.py` records local events and dispatches through `EventBus` |
 | Service registry | Implemented | `models/service_factory.py` registers text and vision backend factories |
 | Dataset tab | Partial | Local CSV/JSONL preview, optional HF dataset preview, schema, split selector, row count, samples, stats, and dataset event emission |
@@ -45,17 +45,17 @@ An item is done only when:
 | Traces tab | Partial | `ui/traces_tab.py` previews app events, reads local trace rows, shows tracking status, and exports traces |
 | Agent mode | Implemented locally, non-autonomous | `agent/runner.py` provides system prompt, deterministic research-plan-implement-verify trace, tool registry integration, JSONL trace save/export, and local HF Dataset-style export |
 | Agent tab | Implemented locally | `ui/agent_tab.py` drafts agent traces and exports trace files/datasets |
-| Status tab | Implemented | `ui/status_tab.py` lists model config, backend status, and local llama.cpp setup |
+| Status tab | Implemented | `ui/status_tab.py` lists model config, backend status, local llama.cpp setup, and Ollama list/pull planning |
 | Structure verification | Done | `scripts/verify_structure.ps1` passed |
-| Unit tests | Passing | 77 unit/user-story tests pass |
-| User-story tests | Passing | Included in the 77-test suite |
+| Unit tests | Passing | 80 unit/user-story tests pass |
+| User-story tests | Passing | Included in the 80-test suite |
 | Coverage | Passing | 61% line/branch coverage at current configured threshold |
 | Performance tests | Passing | 2 lightweight performance tests pass |
 | CI pipeline | Added, not run remotely | `.github/workflows/ci.yml` |
 | Quality tooling | Passing | Tests, coverage, performance, ruff, mypy, pylint, bandit, and pip-audit pass; all-in-one script can time out while waiting on network-backed checks |
 | Real model inference | Partial | llama.cpp, llama-cpp-python, and Ollama services exist, but no installed/running backend was found locally |
 | Hugging Face Space deploy | Not started | Needs HF login/repo |
-| GitHub push | Not started | Needs GitHub repo/remote |
+| GitHub push | Done | GitHub remote `https://github.com/Ckal/codex.git`; commits pushed to `origin/main` |
 
 ## Known Blockers
 
@@ -70,6 +70,8 @@ An item is done only when:
   and verified in this workspace.
 - `llama_cpp` Python package is not installed in `.venv`.
 - Ollama is not on PATH.
+- Ollama setup/list/pull command planning is implemented in the Status tab, but real list/pull and
+  generation still require installing and starting Ollama locally.
 - Trackio is optional; local JSONL tracing works without the `trackio` package, but remote Trackio/HF
   sync still needs package availability and credentials.
 - LoRA dry-run planning works locally, but real training remains blocked until a final backend,

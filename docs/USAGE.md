@@ -86,10 +86,12 @@ Available tabs:
 - Field Notes - saves human corrections to CSV, captures media paths/training flags, exports corrected JSONL, and exports local HF Dataset files.
 - Traces - local event preview, JSONL trace rows, tracking status, and trace export.
 - Agent - local non-autonomous research-plan-implement-verify trace mode.
-- Status - shows configured models, backend metadata, and local llama.cpp setup.
+- Status - shows configured models, backend metadata, local llama.cpp setup, and Ollama list/pull planning.
 
 Ollama is optional and is not installed automatically. Install and start Ollama yourself, then
-pull a compatible model explicitly before selecting the Ollama backend in the app.
+pull a compatible model explicitly before selecting the Ollama backend in the app. The Status tab
+can list models from a running local Ollama server and prepare an explicit
+`ollama pull <model>` command. It shows the command only; it does not run downloads for you.
 
 llama.cpp is the preferred hackathon backend path. Install llama.cpp separately, open the Status
 tab, pick or type an explicit GGUF path, optionally pick an mmproj GGUF for vision, then click
