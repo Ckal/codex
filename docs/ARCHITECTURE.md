@@ -16,6 +16,7 @@ ui/*
   defines each Gradio tab
   calls service classes
   emits local app events for inference, datasets, and field notes
+  uses shared progress settings for callback loading indicators
 
 agent/*
   holds deterministic local agent planning and trace export helpers
@@ -344,6 +345,10 @@ Shared local app state.
 ### `core/tab_feedback.py`
 
 Formats tab status text and emits `ui_error` events for visible tab-level failures.
+
+### `ui/progress.py`
+
+Defines the shared Gradio progress mode used by tab button callbacks.
 
 ### `core/app_logging.py`
 

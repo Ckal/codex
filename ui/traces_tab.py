@@ -4,6 +4,7 @@ import gradio as gr
 
 from core.app_state import APP_STATE
 from tracking.trackio_client import export_traces, read_trace_rows, tracking_status_dict
+from ui.progress import CLICK_PROGRESS
 
 
 def recent_events() -> list[dict]:
@@ -31,13 +32,18 @@ def build_traces_tab() -> None:
             "tracking": tracking_status_dict(),
         }
 
-    preview.click(preview_trace, [run_name, event], output)
-    refresh.click(recent_events, outputs=output)
-    refresh.click(read_trace_rows, outputs=trace_rows)
-    refresh.click(tracking_status_dict, outputs=status)
+    preview.click(
+        preview_trace,
+        [run_name, event],
+        output,
+        show_progress=CLICK_PROGRESS,
+    )
+    refresh.click(recent_events, outputs=output, show_progress=CLICK_PROGRESS)
+    refresh.click(read_trace_rows, outputs=trace_rows, show_progress=CLICK_PROGRESS)
+    refresh.click(tracking_status_dict, outputs=status, show_progress=CLICK_PROGRESS)
 
     def export_local_traces() -> dict:
         path = export_traces()
         return {"exported_to": str(path)}
 
-    export.click(export_local_traces, outputs=output)
+    export.click(export_local_traces, outputs=output, show_progress=CLICK_PROGRESS)

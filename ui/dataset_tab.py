@@ -10,6 +10,7 @@ from datasets.loader import (
     preview_huggingface_dataset,
     preview_local_dataset,
 )
+from ui.progress import CLICK_PROGRESS
 
 
 def build_dataset_tab() -> None:
@@ -50,7 +51,12 @@ def build_dataset_tab() -> None:
                 {"source": ds_id, "split": split_name},
             )
 
-    load.click(preview_dataset, [dataset_id, split], [preview, status])
+    load.click(
+        preview_dataset,
+        [dataset_id, split],
+        [preview, status],
+        show_progress=CLICK_PROGRESS,
+    )
 
     def preview_hf_dataset(ds_id: str, split_name: str) -> tuple[list[list[str]], str]:
         if not ds_id:
@@ -79,5 +85,15 @@ def build_dataset_tab() -> None:
                 {"source": ds_id},
             )
 
-    load_hf.click(preview_hf_dataset, [dataset_id, split], [preview, status])
-    inspect.click(calculate_stats, dataset_id, [stats, status])
+    load_hf.click(
+        preview_hf_dataset,
+        [dataset_id, split],
+        [preview, status],
+        show_progress=CLICK_PROGRESS,
+    )
+    inspect.click(
+        calculate_stats,
+        dataset_id,
+        [stats, status],
+        show_progress=CLICK_PROGRESS,
+    )

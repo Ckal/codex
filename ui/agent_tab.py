@@ -8,6 +8,7 @@ from agent.runner import (
     run_agent_loop,
     save_agent_trace,
 )
+from ui.progress import CLICK_PROGRESS
 
 
 def build_agent_tab() -> None:
@@ -32,6 +33,10 @@ def build_agent_tab() -> None:
         path = export_agent_traces_hf_dataset()
         return {"exported_to": str(path)}
 
-    plan.click(draft_plan, task, [output, trace])
-    export.click(export_trace_file, outputs=trace)
-    export_dataset.click(export_trace_dataset, outputs=trace)
+    plan.click(draft_plan, task, [output, trace], show_progress=CLICK_PROGRESS)
+    export.click(export_trace_file, outputs=trace, show_progress=CLICK_PROGRESS)
+    export_dataset.click(
+        export_trace_dataset,
+        outputs=trace,
+        show_progress=CLICK_PROGRESS,
+    )

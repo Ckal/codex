@@ -8,6 +8,7 @@ from training.export import (
     build_export_plan,
     list_exported_files,
 )
+from ui.progress import CLICK_PROGRESS
 
 
 def build_export_tab(catalog: dict[str, ModelInfo]) -> None:
@@ -28,5 +29,15 @@ def build_export_tab(catalog: dict[str, ModelInfo]) -> None:
         plan = build_export_plan(model, selected_quant, directory)
         return plan.as_dict(), list_exported_files(directory)
 
-    run.click(plan_export, [model_id, quant, output_dir], [output, files])
-    refresh.click(list_exported_files, output_dir, files)
+    run.click(
+        plan_export,
+        [model_id, quant, output_dir],
+        [output, files],
+        show_progress=CLICK_PROGRESS,
+    )
+    refresh.click(
+        list_exported_files,
+        output_dir,
+        files,
+        show_progress=CLICK_PROGRESS,
+    )

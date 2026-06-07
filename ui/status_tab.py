@@ -12,6 +12,7 @@ from models.local_backend_config import (
 from models.model_catalog import ModelInfo, model_summary, validate_catalog
 from models.ollama_service import OllamaService
 from models.service_factory import backend_statuses
+from ui.progress import CLICK_PROGRESS
 
 
 def build_status_tab(catalog: dict[str, ModelInfo]) -> None:
@@ -86,8 +87,13 @@ def build_ollama_setup_panel(catalog: dict[str, ModelInfo]) -> None:
         name = model_name.strip() or catalog[model_id].hf_id
         return " ".join(OllamaService.pull_command(name))
 
-    refresh.click(list_models, outputs=local_models)
-    prepare.click(prepare_pull, [selected, ollama_name], pull_command)
+    refresh.click(list_models, outputs=local_models, show_progress=CLICK_PROGRESS)
+    prepare.click(
+        prepare_pull,
+        [selected, ollama_name],
+        pull_command,
+        show_progress=CLICK_PROGRESS,
+    )
 
 
 def build_llama_cpp_setup_panel() -> None:
@@ -144,4 +150,5 @@ def build_llama_cpp_setup_panel() -> None:
         prepare_local_config,
         [server_url, gguf_path, gguf_file, mmproj_path, mmproj_file, n_ctx, n_gpu_layers],
         [command, local_summary],
+        show_progress=CLICK_PROGRESS,
     )

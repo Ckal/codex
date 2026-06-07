@@ -225,7 +225,7 @@ the extension PRD. A task is complete only when the matching acceptance criteria
 - [x] Add model/backend status tab or panel.
 - [x] Add settings panel.
 - [x] Add tab-level error messages.
-- [ ] Add loading/progress states.
+- [x] Add loading/progress states.
 - [ ] Add compact responsive layout review.
 
 ## Phase 8 - Dataset Layer
@@ -468,4 +468,4 @@ the extension PRD. A task is complete only when the matching acceptance criteria
 - [x] Keep `IMPLEMENTATION_STATUS.md` current.
 - [x] Keep unchecked tasks visible.
 - [ ] Keep secrets and model weights out of git.
-- [ ] Re-run local app after code changes.
+- [x] Re-run local app after code changes.

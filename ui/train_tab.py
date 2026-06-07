@@ -9,6 +9,7 @@ from training.evaluation import (
     log_eval_report,
 )
 from training.planner import build_training_plan
+from ui.progress import CLICK_PROGRESS
 
 
 def build_train_tab() -> None:
@@ -28,7 +29,12 @@ def build_train_tab() -> None:
         )
         return plan.as_text()
 
-    start.click(plan_training, [rank, epochs, dataset], output)
+    start.click(
+        plan_training,
+        [rank, epochs, dataset],
+        output,
+        show_progress=CLICK_PROGRESS,
+    )
 
     gr.Markdown("### Local evaluation")
     base_responses = gr.Textbox(
@@ -57,4 +63,9 @@ def build_train_tab() -> None:
         log_eval_report(tuned_report)
         return comparison.as_dict(), tuned_report.as_table()
 
-    run_eval.click(evaluate_local, [base_responses, tuned_responses], [eval_summary, eval_table])
+    run_eval.click(
+        evaluate_local,
+        [base_responses, tuned_responses],
+        [eval_summary, eval_table],
+        show_progress=CLICK_PROGRESS,
+    )

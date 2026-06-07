@@ -8,6 +8,7 @@ from core.app_state import APP_STATE
 from core.events import Event, EventType
 from datasets.field_notes import FieldNote, FieldNoteStore
 from models.model_catalog import ModelInfo
+from ui.progress import CLICK_PROGRESS
 
 
 def _export_notes(store: FieldNoteStore) -> str:
@@ -74,7 +75,16 @@ def build_notes_tab(catalog: dict[str, ModelInfo]) -> None:
         save_note,
         [model_id, prompt, response, correction, tags, image_path, video_path, use_for_training],
         status,
+        show_progress=CLICK_PROGRESS,
     )
 
-    export.click(partial(_export_notes, store), outputs=status)
-    export_hf.click(partial(_export_dataset, store), outputs=status)
+    export.click(
+        partial(_export_notes, store),
+        outputs=status,
+        show_progress=CLICK_PROGRESS,
+    )
+    export_hf.click(
+        partial(_export_dataset, store),
+        outputs=status,
+        show_progress=CLICK_PROGRESS,
+    )

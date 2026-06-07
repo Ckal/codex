@@ -7,6 +7,7 @@ from core.events import Event, EventType
 from core.tab_feedback import emit_tab_error, status_ok
 from models.model_catalog import ModelInfo, model_choices, model_summary
 from models.service_factory import BACKENDS, create_vision_service
+from ui.progress import CLICK_PROGRESS
 
 
 def build_vision_tab(catalog: dict[str, ModelInfo]) -> None:
@@ -82,4 +83,9 @@ def build_vision_tab(catalog: dict[str, ModelInfo]) -> None:
         return response, status_ok("Vision response generated.")
 
     model_id.change(select_model, model_id, model_meta)
-    run.click(respond, [model_id, backend, thinking, image, prompt], [output, status])
+    run.click(
+        respond,
+        [model_id, backend, thinking, image, prompt],
+        [output, status],
+        show_progress=CLICK_PROGRESS,
+    )
