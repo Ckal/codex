@@ -52,8 +52,8 @@ An item is done only when:
 | Loading/progress states | Implemented | `ui/progress.py` applies full Gradio progress indicators to tab actions |
 | Compact responsive layout | Implemented | `APP_CSS` constrains app width, keeps tabs scrollable, sizes touch targets, and adds mobile padding/type rules |
 | Structure verification | Done | `scripts/verify_structure.ps1` passed |
-| Unit tests | Passing | 92 unit/user-story tests pass |
-| User-story tests | Passing | Included in the 92-test suite |
+| Unit tests | Passing | 96 unit/user-story tests pass |
+| User-story tests | Passing | Included in the 96-test suite |
 | Coverage | Passing | 65% line/branch coverage at current configured threshold |
 | Performance tests | Passing | 2 lightweight performance tests pass |
 | CI pipeline | Added, not run remotely | `.github/workflows/ci.yml` |
@@ -61,6 +61,7 @@ An item is done only when:
 | Secrets and model-weight git policy | Implemented | `.gitignore` excludes env files, keys, caches, generated data/exports, and common model weight formats; policy has a unit test |
 | Real model inference | Partial | llama.cpp, llama-cpp-python, Ollama, and Transformers text services exist, but no installed/running backend was found locally |
 | Hugging Face Space deploy | Not started | Needs HF login/repo |
+| HF Space deployment helper | Implemented locally | `deployment/hf_space.py` and `scripts/plan_hf_space.py` validate required files, README Space metadata, remote status, and manual deployment commands |
 | GitHub push | Done | GitHub remote `https://github.com/Ckal/codex.git`; commits pushed to `origin/main` |
 
 ## Known Blockers

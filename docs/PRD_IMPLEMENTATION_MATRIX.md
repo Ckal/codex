@@ -31,7 +31,7 @@ Current state:
 | System architecture | Partial | `app.py`, `core/`, `models/`, `ui/`, `datasets/`, local app state/events |
 | Model registry | Partial | `config/models.yaml`, `models/model_catalog.py`; includes GGUF and backend capability metadata |
 | Five inference modes | Partial | llama.cpp, llama-cpp-python, Ollama, and Transformers text services exist; SGLang and vLLM missing |
-| Trackio | Partial | Local traces and optional Trackio wrapper exist; HF Space sync missing |
+| Trackio | Partial | Local traces, optional Trackio wrapper, and HF Space sync docs exist; credentials/package setup still missing |
 | MCP layer | Partial | Local tool functions exist; served MCP endpoint still missing |
 | Training pipeline | Partial | `training/` package supports dry-run planning, export planning, and local evaluation; LoRA trainer missing |
 | Export and quantization | Partial | `training/export.py` and Export tab plan downloads/conversion/quantization; execution/download links missing |
@@ -54,7 +54,7 @@ Current state:
 | Reward model eval | Not implemented | Needs `training/reward_eval.py` |
 | Synthetic data generation | Not implemented | Needs `datasets/synthetic.py` |
 | Paper-to-code agent | Not implemented | Needs real agent loop and safety gates |
-| HF Spaces deploy | Not implemented | Needs HF auth and Space remote |
+| HF Spaces deploy | Partial | README metadata, deployment helper, command plan, required-file validation, and remote/build status checks exist; HF auth/remote/push still missing |
 | VINDEX integration | Not implemented | Needs integration boundary and dependency |
 | OCR pipeline hook | Not implemented | Needs OCR loader and correction UI |
 | MiniCPM Desk-Pet | Not implemented | Needs persona schema/export |
@@ -66,7 +66,7 @@ Current state:
 Current verified gates:
 
 - Structure check passes.
-- 92 unit/user-story tests pass.
+- 96 unit/user-story tests pass.
 - Coverage report passes at 65%, above the current 60% configured threshold.
 - 2 lightweight performance tests pass.
 - Ruff passes.

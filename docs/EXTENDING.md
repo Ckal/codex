@@ -83,6 +83,7 @@ Recommended order:
 After the local app runs:
 
 ```powershell
+.venv\Scripts\python.exe scripts\plan_hf_space.py --user <hf-user-or-org>
 huggingface-cli login
 huggingface-cli repo create openbmb-local-ai-workbench --type space --space-sdk gradio
 git remote add space https://huggingface.co/spaces/<user>/openbmb-local-ai-workbench

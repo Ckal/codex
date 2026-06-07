@@ -306,7 +306,7 @@ the extension PRD. A task is complete only when the matching acceptance criteria
 - [x] Log dataset events locally.
 - [x] Log training metrics.
 - [x] Add Traces tab.
-- [ ] Add HF Space sync docs.
+- [x] Add HF Space sync docs.
 
 ## Phase 13 - MCP Layer
 
@@ -337,13 +337,13 @@ the extension PRD. A task is complete only when the matching acceptance criteria
 - [ ] Install/verify `huggingface_hub`.
 - [ ] Login with `huggingface-cli`.
 - [ ] Create Space.
-- [ ] Add Space README metadata if needed.
+- [x] Add Space README metadata if needed.
 - [ ] Add Space remote.
 - [ ] Push to Space.
 - [ ] Verify Space builds.
 - [ ] Add Space URL to README.
-- [ ] Document hardware choice.
-- [ ] Document model download behavior.
+- [x] Document hardware choice.
+- [x] Document model download behavior.
 
 ## Phase 16 - GitHub
 
@@ -420,10 +420,10 @@ the extension PRD. A task is complete only when the matching acceptance criteria
 
 ### HF Spaces Deploy Tool
 
-- [ ] Add deployment helper script.
-- [ ] Add Space creation docs.
-- [ ] Add remote validation.
-- [ ] Add build status checks.
+- [x] Add deployment helper script.
+- [x] Add Space creation docs.
+- [x] Add remote validation.
+- [x] Add build status checks.
 
 ### VINDEX Integration
 
@@ -460,7 +460,7 @@ the extension PRD. A task is complete only when the matching acceptance criteria
 - [ ] Document OCR -> Field Notes -> Training.
 - [ ] Document Synthetic Gen -> Reward Eval -> DPO.
 - [ ] Document Agent -> Desk-Pet Persona.
-- [ ] Document HF Spaces -> Trackio.
+- [x] Document HF Spaces -> Trackio.
 
 ## Ongoing Maintenance
 

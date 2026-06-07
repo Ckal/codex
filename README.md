@@ -1,3 +1,12 @@
+---
+title: OpenBMB Local AI Workbench
+colorFrom: teal
+colorTo: slate
+sdk: gradio
+app_file: app.py
+pinned: false
+---
+
 # OpenBMB Local AI Workbench
 
 A Gradio workbench for the Build Small Hackathon: small local models, practical experimentation,

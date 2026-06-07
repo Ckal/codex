@@ -133,7 +133,35 @@ Tracing writes local events to `data/traces.jsonl` by default. The Traces tab ca
 events, show JSONL trace rows, report whether optional Trackio is available, and export local
 traces to `exports/traces.jsonl`. Remote Trackio/HF sync still requires credentials and setup.
 
-## 8. How To Work With Codex
+## 8. Hugging Face Space Deployment
+
+The repo includes Hugging Face Space metadata in `README.md` and a local planning helper:
+
+```powershell
+.venv\Scripts\python.exe scripts\plan_hf_space.py --user <hf-user-or-org>
+```
+
+The helper validates required files and prints the manual commands for login, Space creation,
+remote setup, and push. It does not login, create a repo, push, or store tokens.
+
+Required Space files:
+
+- `app.py`
+- `requirements.txt`
+- `README.md`
+- `config/models.yaml`
+- `config/training.yaml`
+
+Hardware choice for the first Space should be CPU/basic while the app remains placeholder and
+planning-first. Upgrade the Space hardware only after a real backend is selected and verified.
+The app does not download model weights on startup; model downloads happen only through explicit
+backend actions such as `ollama pull`, `huggingface-cli download`, or selecting a real Transformers
+backend and running a prompt.
+
+Trackio/HF sync path: local traces are written to JSONL first, then optional Trackio can be enabled
+in `config/training.yaml` after package availability and credentials are ready.
+
+## 9. How To Work With Codex
 
 Useful prompts:
 
@@ -157,7 +185,7 @@ Update the docs after the change and mark the matching checklist item.
 If this failed, add or update a test that catches it, then fix the code.
 ```
 
-## 9. What To Avoid
+## 10. What To Avoid
 
 - Do not start with the whole PRD at once.
 - Do not download huge models automatically.

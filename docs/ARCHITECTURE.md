@@ -39,6 +39,9 @@ training/*
 tracking/*
   holds local JSONL tracing and optional Trackio integration
 
+deployment/*
+  holds Hugging Face Space deployment planning and validation helpers
+
 core/*
   shared app state, event, logging, and registry helpers
 ```
