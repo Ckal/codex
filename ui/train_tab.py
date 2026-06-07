@@ -8,6 +8,7 @@ from training.evaluation import (
     evaluate_responses,
     log_eval_report,
 )
+from training.planner import build_training_plan
 
 
 def build_train_tab() -> None:
@@ -20,13 +21,12 @@ def build_train_tab() -> None:
     output = gr.Textbox(label="Plan", lines=8)
 
     def plan_training(rank_value: int, epoch_value: int, dataset_path: str) -> str:
-        return (
-            "Training is not started automatically in the MVP.\n\n"
-            f"Dataset: {dataset_path or '(none selected)'}\n"
-            f"LoRA rank: {rank_value}\n"
-            f"Epochs: {epoch_value}\n\n"
-            "Next step: wire this to PEFT/TRL or SWIFT after the local model path is chosen."
+        plan = build_training_plan(
+            dataset_path=dataset_path,
+            rank=rank_value,
+            epochs=epoch_value,
         )
+        return plan.as_text()
 
     start.click(plan_training, [rank, epochs, dataset], output)
 

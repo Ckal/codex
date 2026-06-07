@@ -262,15 +262,15 @@ the extension PRD. A task is complete only when the matching acceptance criteria
 - [x] Add training UI placeholder.
 - [x] Add `training/` package.
 - [ ] Add LoRA text trainer.
-- [ ] Add LoRA config parser.
+- [x] Add LoRA config parser.
 - [ ] Add PEFT/TRL dependencies when ready.
-- [ ] Add training dry-run validation.
-- [ ] Add local checkpoint output.
+- [x] Add training dry-run validation.
+- [x] Add local checkpoint output.
 - [x] Add Trackio integration.
 - [x] Add evaluation after training.
 - [x] Add LoRA vs base comparison.
 - [ ] Add vision fine-tuning plan using SWIFT or LLaMA-Factory.
-- [ ] Document training hardware requirements.
+- [x] Document training hardware requirements.
 
 ## Phase 11 - Evaluation
 
@@ -297,7 +297,6 @@ the extension PRD. A task is complete only when the matching acceptance criteria
 
 ## Phase 13 - Trackio Tracing
 
-- [ ] Add `tracking/` package.
 - [x] Add `tracking/` package.
 - [x] Add Trackio config.
 - [x] Add `trackio.init()`.

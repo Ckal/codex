@@ -34,7 +34,8 @@ An item is done only when:
 | Dataset tab | Partial | Local CSV/JSONL preview, optional HF dataset preview, schema, split selector, row count, samples, stats, and dataset event emission |
 | Local dataset preview | Implemented | CSV, JSONL, NDJSON preview and statistics via `datasets/loader.py` |
 | MCP tools | Implemented locally, not served | `mcp_tools/tools.py` provides dataset stats, HF dataset preview/search-style helper, safe calculator, and model inference tool functions |
-| Training tab | Partial | `ui/train_tab.py` plans training and runs local deterministic evaluation |
+| Training tab | Partial | `ui/train_tab.py` builds a LoRA dry-run plan, checkpoint output path, hardware notes, and local deterministic evaluation |
+| Training planner | Implemented, non-executing | `training/planner.py` parses LoRA/training config, validates dry runs, and never starts training |
 | Evaluation | Implemented, local-only | `training/evaluation.py` provides prompt cases, exact-match scoring, qualitative table, base-vs-tuned comparison, and JSONL logging |
 | Export tab | Partial | `ui/export_tab.py` builds GGUF download/conversion/quantization plans and lists exported files |
 | Export planner | Implemented, non-executing | `training/export.py` detects llama.cpp tools, builds explicit commands, and does not run downloads/conversions |
@@ -46,8 +47,8 @@ An item is done only when:
 | Agent tab | Implemented locally | `ui/agent_tab.py` drafts agent traces and exports trace files/datasets |
 | Status tab | Implemented | `ui/status_tab.py` lists model config, backend status, and local llama.cpp setup |
 | Structure verification | Done | `scripts/verify_structure.ps1` passed |
-| Unit tests | Passing | 73 unit/user-story tests pass |
-| User-story tests | Passing | Included in the 73-test suite |
+| Unit tests | Passing | 77 unit/user-story tests pass |
+| User-story tests | Passing | Included in the 77-test suite |
 | Coverage | Passing | 61% line/branch coverage at current configured threshold |
 | Performance tests | Passing | 2 lightweight performance tests pass |
 | CI pipeline | Added, not run remotely | `.github/workflows/ci.yml` |
@@ -71,6 +72,8 @@ An item is done only when:
 - Ollama is not on PATH.
 - Trackio is optional; local JSONL tracing works without the `trackio` package, but remote Trackio/HF
   sync still needs package availability and credentials.
+- LoRA dry-run planning works locally, but real training remains blocked until a final backend,
+  PEFT/TRL or SWIFT/LLaMA-Factory path, and hardware are chosen.
 - Hugging Face dataset preview is optional and requires the external `datasets` package; the app
   reports a clear status when it is not installed.
 - Full PRD implementation is not complete. There are still unchecked tasks in `docs/TASKS.md`.

@@ -167,7 +167,8 @@ Future behavior:
 
 Training planning and local evaluation surface.
 
-- Builds a LoRA training plan without launching training.
+- Builds a LoRA dry-run training plan without launching training.
+- Shows checkpoint output path, validation status, and hardware notes.
 - Runs local base-vs-tuned evaluation from newline-separated response text.
 - Shows exact-match summary and a qualitative eval table.
 - Logs tuned evaluation reports to `data/eval_results.jsonl`.
@@ -299,6 +300,15 @@ Local deterministic evaluation helpers.
 - `evaluate_responses()` computes exact-match rows and a qualitative table.
 - `compare_base_vs_tuned()` reports exact-match delta.
 - `log_eval_report()` appends JSONL evaluation results.
+
+### `training/planner.py`
+
+Non-executing LoRA training planner.
+
+- `load_training_config()` reads LoRA and training settings from `config/training.yaml`.
+- `build_training_plan()` creates a dry-run plan with checkpoint output path.
+- `validate_training_plan()` checks dataset existence and numeric training settings.
+- `training_hardware_notes()` documents practical local hardware expectations.
 
 ### `tracking/trackio_client.py`
 

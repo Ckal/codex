@@ -81,7 +81,7 @@ Available tabs:
 - Chat - placeholder, llama.cpp, llama-cpp-python, or Ollama text inference.
 - Vision - placeholder, llama.cpp, llama-cpp-python, or Ollama image + prompt inference.
 - Dataset - local CSV/JSONL/NDJSON preview, optional Hugging Face dataset preview, and stats.
-- Train - LoRA training plan plus local base-vs-tuned exact-match evaluation.
+- Train - LoRA dry-run training plan plus local base-vs-tuned exact-match evaluation.
 - Export - GGUF download/conversion/quantization planning and exported-file listing.
 - Field Notes - saves human corrections to CSV, captures media paths/training flags, exports corrected JSONL, and exports local HF Dataset files.
 - Traces - local event preview, JSONL trace rows, tracking status, and trace export.
@@ -116,9 +116,11 @@ The Export tab is a planning surface. It shows explicit `huggingface-cli`,
 `convert_hf_to_gguf.py`, and `llama-quantize` commands for the selected model and quantization,
 plus a list of files already present in the export directory. It does not run those commands yet.
 
-The Train tab does not start LoRA training yet. It can run a local evaluation by comparing
-newline-separated base and tuned responses against the built-in prompt cases. It reports exact
-match, shows a qualitative table, and appends tuned results to `data/eval_results.jsonl`.
+The Train tab does not start LoRA training yet. It builds a dry-run plan from
+`config/training.yaml`, validates the dataset path, shows the planned checkpoint output directory,
+and documents hardware expectations. It can also run a local evaluation by comparing newline-
+separated base and tuned responses against the built-in prompt cases. It reports exact match,
+shows a qualitative table, and appends tuned results to `data/eval_results.jsonl`.
 
 Tracing writes local events to `data/traces.jsonl` by default. The Traces tab can show recent app
 events, show JSONL trace rows, report whether optional Trackio is available, and export local
