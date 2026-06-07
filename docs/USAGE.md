@@ -117,9 +117,11 @@ enabled by `launch(mcp_server=True)`. The documented endpoint path is `/gradio_a
 HF dataset preview, safe arithmetic, and model inference. Full external MCP client verification
 still depends on launching the app and connecting a client.
 
-The Agent tab drafts a local research-plan-implement-verify trace, stores it in
-`data/agent_traces.jsonl`, and can export JSONL or local HF Dataset-style trace files. It does not
-run shell commands, commit, push, deploy, download models, or call external services.
+The Agent tab drafts local research-plan-implement-verify traces and paper-to-code traces, stores
+them in `data/agent_traces.jsonl`, and can export JSONL or local HF Dataset-style trace files. It
+includes safety gates and does not run shell commands, commit, push, deploy, download models, or
+call external services. Agent traces can later become persona/source material for the Desk-Pet
+extension, but no Desk-Pet runtime is implemented yet.
 
 The Export tab is a planning surface. It shows explicit `huggingface-cli`,
 `convert_hf_to_gguf.py`, and `llama-quantize` commands for the selected model and quantization,

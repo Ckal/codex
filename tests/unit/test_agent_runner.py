@@ -6,9 +6,11 @@ from pathlib import Path
 
 from agent.runner import (
     AGENT_SYSTEM_PROMPT,
+    default_safety_gates,
     export_agent_traces,
     export_agent_traces_hf_dataset,
     run_agent_loop,
+    run_paper_to_code_loop,
     save_agent_trace,
 )
 
@@ -23,6 +25,7 @@ class AgentRunnerTest(unittest.TestCase):
         self.assertIn("implement", phases)
         self.assertIn("verify", phases)
         self.assertIn("safe_calculator", session.tools)
+        self.assertTrue(session.safety_gates)
         self.assertEqual(session.as_dict()["system_prompt"], AGENT_SYSTEM_PROMPT)
 
     def test_agent_loop_can_use_safe_calculator_tool(self) -> None:
@@ -55,6 +58,24 @@ class AgentRunnerTest(unittest.TestCase):
             self.assertEqual(exported, target)
             self.assertTrue((target / "data.jsonl").exists())
             self.assertTrue((target / "README.md").exists())
+
+    def test_paper_to_code_trace_has_required_phases_and_safety_gates(self) -> None:
+        session = run_paper_to_code_loop(
+            "Demo paper",
+            "Claims a local reward model can rank completions.",
+            "Implement deterministic reward eval.",
+        )
+
+        phases = [step.phase for step in session.steps]
+        self.assertEqual(phases, ["research", "plan", "implement", "verify"])
+        self.assertIn("Paper-to-code", session.task)
+        self.assertIn("No shell commands", session.as_markdown())
+
+    def test_default_safety_gates_block_external_side_effects(self) -> None:
+        gates = default_safety_gates()
+
+        self.assertTrue(any("downloaded automatically" in gate for gate in gates))
+        self.assertTrue(any("matching test" in gate for gate in gates))
 
 
 if __name__ == "__main__":

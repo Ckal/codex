@@ -412,11 +412,11 @@ the extension PRD. A task is complete only when the matching acceptance criteria
 
 ### Paper-To-Code Agent
 
-- [ ] Add paper input UI.
-- [ ] Add research phase.
-- [ ] Add plan phase.
-- [ ] Add implementation trace.
-- [ ] Add safety gates.
+- [x] Add paper input UI.
+- [x] Add research phase.
+- [x] Add plan phase.
+- [x] Add implementation trace.
+- [x] Add safety gates.
 
 ### HF Spaces Deploy Tool
 
@@ -459,7 +459,7 @@ the extension PRD. A task is complete only when the matching acceptance criteria
 
 - [ ] Document OCR -> Field Notes -> Training.
 - [x] Document Synthetic Gen -> Reward Eval -> DPO.
-- [ ] Document Agent -> Desk-Pet Persona.
+- [x] Document Agent -> Desk-Pet Persona.
 - [x] Document HF Spaces -> Trackio.
 
 ## Ongoing Maintenance

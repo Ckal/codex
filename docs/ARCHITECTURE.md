@@ -308,6 +308,8 @@ Deterministic local agent trace runner.
 
 - `AGENT_SYSTEM_PROMPT` defines the agent behavior contract.
 - `run_agent_loop()` produces research, plan, implement, and verify trace steps.
+- `run_paper_to_code_loop()` produces paper-to-code research, plan, implement, and verify trace steps.
+- `default_safety_gates()` lists the non-autonomous safety requirements.
 - `save_agent_trace()` appends traces to JSONL.
 - `export_agent_traces()` exports trace JSONL.
 - `export_agent_traces_hf_dataset()` writes local HF Dataset-style trace files.

@@ -6,6 +6,7 @@ from agent.runner import (
     export_agent_traces,
     export_agent_traces_hf_dataset,
     run_agent_loop,
+    run_paper_to_code_loop,
     save_agent_trace,
 )
 from ui.progress import CLICK_PROGRESS
@@ -15,6 +16,19 @@ def build_agent_tab() -> None:
     gr.Markdown("Agent mode drafts a local research -> plan -> implement -> verify trace.")
     task = gr.Textbox(label="Agent task", lines=5, placeholder="Example: improve field-note export")
     plan = gr.Button("Draft agent trace", variant="primary")
+    gr.Markdown("### Paper-to-code trace")
+    paper_title = gr.Textbox(label="Paper title", placeholder="Optional paper or technique name")
+    paper_notes = gr.Textbox(
+        label="Paper notes",
+        lines=5,
+        placeholder="Paste key claims or abstract",
+    )
+    paper_goal = gr.Textbox(
+        label="Implementation goal",
+        lines=3,
+        placeholder="Example: reproduce the evaluation loop locally",
+    )
+    paper_plan = gr.Button("Draft paper-to-code trace")
     export = gr.Button("Export traces")
     export_dataset = gr.Button("Export traces dataset")
     output = gr.Textbox(label="Plan", lines=10)
@@ -22,6 +36,11 @@ def build_agent_tab() -> None:
 
     def draft_plan(task_text: str) -> tuple[str, dict]:
         session = run_agent_loop(task_text)
+        save_agent_trace(session)
+        return session.as_markdown(), session.as_dict()
+
+    def draft_paper_plan(title: str, notes: str, goal: str) -> tuple[str, dict]:
+        session = run_paper_to_code_loop(title, notes, goal)
         save_agent_trace(session)
         return session.as_markdown(), session.as_dict()
 
@@ -34,6 +53,12 @@ def build_agent_tab() -> None:
         return {"exported_to": str(path)}
 
     plan.click(draft_plan, task, [output, trace], show_progress=CLICK_PROGRESS)
+    paper_plan.click(
+        draft_paper_plan,
+        [paper_title, paper_notes, paper_goal],
+        [output, trace],
+        show_progress=CLICK_PROGRESS,
+    )
     export.click(export_trace_file, outputs=trace, show_progress=CLICK_PROGRESS)
     export_dataset.click(
         export_trace_dataset,

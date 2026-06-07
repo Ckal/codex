@@ -30,6 +30,7 @@ class AgentSession:
     steps: list[AgentStep]
     tools: list[str]
     limitations: list[str]
+    safety_gates: list[str]
 
     def as_dict(self) -> dict[str, Any]:
         return {
@@ -37,6 +38,7 @@ class AgentSession:
             "steps": [asdict(step) for step in self.steps],
             "tools": self.tools,
             "limitations": self.limitations,
+            "safety_gates": self.safety_gates,
             "system_prompt": AGENT_SYSTEM_PROMPT,
         }
 
@@ -47,6 +49,7 @@ class AgentSession:
         lines.append("")
         lines.append(f"Tools: {', '.join(self.tools)}")
         lines.append(f"Limitations: {'; '.join(self.limitations)}")
+        lines.append(f"Safety gates: {'; '.join(self.safety_gates)}")
         return "\n".join(lines)
 
 
@@ -78,7 +81,42 @@ def run_agent_loop(task: str) -> AgentSession:
             "Does not commit, push, deploy, download models, or call external services.",
             "Requires Codex or a human to apply and verify implementation changes.",
         ],
+        safety_gates=default_safety_gates(),
     )
+
+
+def run_paper_to_code_loop(
+    paper_title: str,
+    paper_notes: str,
+    implementation_goal: str,
+) -> AgentSession:
+    task = f"Paper-to-code: {paper_title.strip() or 'untitled paper'}"
+    steps = [
+        AgentStep("research", _paper_research_summary(paper_title, paper_notes)),
+        AgentStep("plan", _paper_plan_summary(implementation_goal)),
+        AgentStep("implement", _paper_implementation_trace(implementation_goal)),
+        AgentStep("verify", "Map claims to tests, run quality gates, and document gaps."),
+    ]
+    return AgentSession(
+        task=task,
+        steps=steps,
+        tools=sorted(tool_registry()),
+        limitations=[
+            "Does not read remote papers automatically.",
+            "Does not execute code changes autonomously.",
+            "Requires human/Codex review before implementation claims are marked done.",
+        ],
+        safety_gates=default_safety_gates(),
+    )
+
+
+def default_safety_gates() -> list[str]:
+    return [
+        "No shell commands are executed by the agent trace.",
+        "No model weights, datasets, or papers are downloaded automatically.",
+        "Every implementation claim needs a matching test or documented blocker.",
+        "External services require explicit user credentials and approval.",
+    ]
 
 
 def save_agent_trace(
@@ -134,6 +172,27 @@ def _implementation_summary(task: str) -> str:
     if "model" in task.casefold():
         return "Use configured backend services and avoid startup downloads."
     return "Apply changes in the smallest relevant modules and keep unrelated files untouched."
+
+
+def _paper_research_summary(paper_title: str, paper_notes: str) -> str:
+    title = paper_title.strip() or "untitled paper"
+    notes = paper_notes.strip()
+    if not notes:
+        return f"Summarize the claims, assumptions, and reproducibility risks for {title}."
+    return f"Extract implementation claims from {title}: {notes[:240]}"
+
+
+def _paper_plan_summary(implementation_goal: str) -> str:
+    goal = implementation_goal.strip() or "create a minimal local reproduction plan"
+    return f"Break the goal into local modules, tests, data assumptions, and blockers: {goal}."
+
+
+def _paper_implementation_trace(implementation_goal: str) -> str:
+    goal = implementation_goal.strip() or "minimal reproducible scaffold"
+    return (
+        "Draft a non-executing implementation trace for "
+        f"{goal}; keep dependencies explicit and update docs before claiming completion."
+    )
 
 
 def _maybe_calculate(task: str):

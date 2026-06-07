@@ -35,7 +35,7 @@ Current state:
 | MCP layer | Partial | Local tool functions, Gradio-native MCP path metadata, `mcp_server=True` launch flag, and local invocation tests exist; full external client verification still missing |
 | Training pipeline | Partial | `training/` package supports dry-run planning, export planning, exact-match/perplexity evaluation, and local logging; LoRA trainer missing |
 | Export and quantization | Partial | `training/export.py` and Export tab plan downloads/conversion/quantization and expose existing exported files for download; execution still missing |
-| Agent mode | Partial | Local deterministic agent trace loop exists; autonomous execution and remote uploads missing |
+| Agent mode | Partial | Local deterministic task and paper-to-code trace loops exist with safety gates; autonomous execution and remote uploads missing |
 | UI tabs | Partial | Tabs exist; Chat/Vision/Dataset/Field Notes/Status have behavior; tab actions have Gradio progress indicators; Chat/Vision/Dataset have tab-level status/error messages; compact responsive CSS exists; several tabs are still placeholders |
 | Field notes | Partial | CSV save, SQLite store, corrected/tag/training filters, media paths, JSONL export, and local HF Dataset export exist; remote HF upload missing |
 | Directory structure | Partial | Foundation exists; many PRD packages missing |
@@ -53,7 +53,7 @@ Current state:
 | Ollama quick-start | Partial | Service, UI backend selector, local model listing, explicit pull-command planning, and setup docs exist; local Ollama install/real model verification missing |
 | Reward model eval | Implemented locally | `training/reward_eval.py` provides deterministic reward scoring, best-of-N, DPO pairs, and LoRA-vs-base reward reports |
 | Synthetic data generation | Implemented locally | `datasets/synthetic.py` provides deterministic generation, validation, filtering, augmentation, and JSONL export |
-| Paper-to-code agent | Not implemented | Needs real agent loop and safety gates |
+| Paper-to-code agent | Implemented locally | Agent tab and `agent/runner.py` support paper input, research/plan/implementation/verify trace, and safety gates without autonomous execution |
 | HF Spaces deploy | Partial | README metadata, deployment helper, command plan, required-file validation, and remote/build status checks exist; HF auth/remote/push still missing |
 | VINDEX integration | Not implemented | Needs integration boundary and dependency |
 | OCR pipeline hook | Not implemented | Needs OCR loader and correction UI |
@@ -66,7 +66,7 @@ Current state:
 Current verified gates:
 
 - Structure check passes.
-- 121 unit/user-story tests pass.
+- 123 unit/user-story tests pass.
 - Coverage report passes at 66%, above the current 60% configured threshold.
 - 2 lightweight performance tests pass.
 - Ruff passes.

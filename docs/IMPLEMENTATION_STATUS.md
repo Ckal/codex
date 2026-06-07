@@ -47,15 +47,15 @@ An item is done only when:
 | Field note module | Implemented | CSV save, SQLite store, corrected/tag/training filters, JSONL export, local HF Dataset export via `datasets/field_notes.py` |
 | Tracking | Implemented with local fallback | `tracking/trackio_client.py` loads Trackio config, writes local JSONL traces, and calls Trackio when installed/enabled |
 | Traces tab | Partial | `ui/traces_tab.py` previews app events, reads local trace rows, shows tracking status, and exports traces |
-| Agent mode | Implemented locally, non-autonomous | `agent/runner.py` provides system prompt, deterministic research-plan-implement-verify trace, tool registry integration, JSONL trace save/export, and local HF Dataset-style export |
-| Agent tab | Implemented locally | `ui/agent_tab.py` drafts agent traces and exports trace files/datasets |
+| Agent mode | Implemented locally, non-autonomous | `agent/runner.py` provides system prompt, deterministic research-plan-implement-verify trace, paper-to-code trace mode, safety gates, tool registry integration, JSONL trace save/export, and local HF Dataset-style export |
+| Agent tab | Implemented locally | `ui/agent_tab.py` drafts task traces, paper-to-code traces, and exports trace files/datasets |
 | Status tab | Implemented | `ui/status_tab.py` lists model config, backend status, local llama.cpp setup, and Ollama list/pull planning |
 | Tab-level error messages | Implemented | Chat, Vision, and Dataset tabs show status/error messages and emit `ui_error` trace events |
 | Loading/progress states | Implemented | `ui/progress.py` applies full Gradio progress indicators to tab actions |
 | Compact responsive layout | Implemented | `APP_CSS` constrains app width, keeps tabs scrollable, sizes touch targets, and adds mobile padding/type rules |
 | Structure verification | Done | `scripts/verify_structure.ps1` passed |
-| Unit tests | Passing | 121 unit/user-story tests pass |
-| User-story tests | Passing | Included in the 121-test suite |
+| Unit tests | Passing | 123 unit/user-story tests pass |
+| User-story tests | Passing | Included in the 123-test suite |
 | Coverage | Passing | 66% line/branch coverage at current configured threshold |
 | Performance tests | Passing | 2 lightweight performance tests pass |
 | CI pipeline | Added, not run remotely | `.github/workflows/ci.yml` |
