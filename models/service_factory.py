@@ -7,10 +7,12 @@ from models.base import BackendStatus, TextModelService, VisionModelService
 from models.llama_cpp_python_service import LlamaCppPythonConfig, LlamaCppPythonService
 from models.llama_cpp_service import LlamaCppConfig, LlamaCppService
 from models.local_backend_config import load_local_backend_config
+from models.minicpm_vision import MiniCPMVisionService
 from models.model_catalog import ModelInfo
 from models.ollama_service import OllamaService
 from models.openai_compatible_service import OpenAICompatibleConfig, OpenAICompatibleService
 from models.placeholder_service import PlaceholderModelService
+from models.sglang_runner import SGLangConfig, SGLangService
 from models.transformers_text import TransformersTextService
 
 TextFactory = Callable[[ModelInfo], TextModelService]
@@ -23,12 +25,14 @@ TEXT_SERVICE_REGISTRY.register("llama-cpp-python", LlamaCppPythonService)
 TEXT_SERVICE_REGISTRY.register("ollama", OllamaService)
 TEXT_SERVICE_REGISTRY.register("transformers", TransformersTextService)
 TEXT_SERVICE_REGISTRY.register("openai-compatible", OpenAICompatibleService)
+TEXT_SERVICE_REGISTRY.register("sglang", SGLangService)
 
 VISION_SERVICE_REGISTRY: Registry[VisionFactory] = Registry()
 VISION_SERVICE_REGISTRY.register("placeholder", PlaceholderModelService)
 VISION_SERVICE_REGISTRY.register("llama.cpp", LlamaCppService)
 VISION_SERVICE_REGISTRY.register("llama-cpp-python", LlamaCppPythonService)
 VISION_SERVICE_REGISTRY.register("ollama", OllamaService)
+VISION_SERVICE_REGISTRY.register("transformers", MiniCPMVisionService)
 
 BACKENDS = TEXT_SERVICE_REGISTRY.list()
 
@@ -63,6 +67,8 @@ def create_text_service(model: ModelInfo, backend: str) -> TextModelService:
                 model_name=config.openai_compatible_model_name,
             ),
         )
+    if backend == "sglang":
+        return SGLangService(model, SGLangConfig())
     return TEXT_SERVICE_REGISTRY.get(backend)(model)
 
 
@@ -98,4 +104,6 @@ def backend_statuses() -> list[BackendStatus]:
         OllamaService.status(),
         TransformersTextService.status(),
         OpenAICompatibleService.status(load_local_backend_config().openai_compatible_base_url),
+        SGLangService.status(),
+        MiniCPMVisionService.status(),
     ]

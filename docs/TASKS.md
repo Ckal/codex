@@ -208,20 +208,20 @@ the extension PRD. A task is complete only when the matching acceptance criteria
 
 ### MiniCPM Vision Backend
 
-- [ ] Add `models/minicpm_vision.py`.
-- [ ] Use `AutoModelForImageTextToText`.
-- [ ] Use `AutoProcessor`.
-- [ ] Add image prompt formatting.
-- [ ] Add thinking-mode toggle mapping.
-- [ ] Add video support plan.
+- [x] Add `models/minicpm_vision.py`.
+- [x] Use `AutoModelForImageTextToText`.
+- [x] Use `AutoProcessor`.
+- [x] Add image prompt formatting.
+- [x] Add thinking-mode toggle mapping.
+- [x] Add video support plan.
 
 ### SGLang Backend
 
-- [ ] Add `models/sglang_runner.py`.
-- [ ] Add server start/stop.
-- [ ] Add MiniCPM5 tool parser config.
-- [ ] Add health check.
-- [ ] Add chat endpoint client.
+- [x] Add `models/sglang_runner.py`.
+- [x] Add server start/stop.
+- [x] Add MiniCPM5 tool parser config.
+- [x] Add health check.
+- [x] Add chat endpoint client.
 
 ## Phase 7 - UI Tabs From Main PRD
 

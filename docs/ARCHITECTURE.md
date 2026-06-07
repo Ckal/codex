@@ -80,6 +80,8 @@ This file should be replaced or complemented by real services such as:
 - `ollama_service.py`
 - `llama_cpp_service.py`
 - `openai_compatible_service.py`
+- `sglang_runner.py`
+- `minicpm_vision.py`
 - `transformers_text.py`
 - `sglang_service.py`
 
@@ -141,6 +143,25 @@ Optional direct Python binding backend for GGUF inference.
 - Provides text chat through `Llama.create_chat_completion()`.
 - Vision support remains routed through llama-server until mmproj/image serialization is wired.
 
+### `models/minicpm_vision.py`
+
+Optional MiniCPM vision backend.
+
+- Checks whether the `transformers` package is available.
+- Lazy-loads `AutoProcessor` and `AutoModelForImageTextToText` only when selected.
+- Formats image/text messages for image-text-to-text generation.
+- Maps thinking mode into the prompt template.
+- Provides a video support plan for future local frame sampling.
+
+### `models/sglang_runner.py`
+
+SGLang local server planner and OpenAI-compatible chat client.
+
+- Builds an explicit `python -m sglang.launch_server` command.
+- Includes MiniCPM tool parser configuration.
+- Checks `/health`, sends chat requests to `/v1/chat/completions`, and can request `/shutdown`.
+- Does not install SGLang, start a process, download model weights, or load a model on app startup.
+
 ### `models/transformers_text.py`
 
 Optional Transformers text backend.
@@ -158,8 +179,9 @@ Creates the selected backend service for the UI.
 - `TEXT_SERVICE_REGISTRY` registers available text backend factories.
 - `VISION_SERVICE_REGISTRY` registers available vision backend factories.
 - `create_text_service()` chooses placeholder, llama.cpp, llama-cpp-python, Ollama,
-  OpenAI-compatible, or Transformers text service.
-- `create_vision_service()` chooses placeholder, llama.cpp, llama-cpp-python, or Ollama vision service.
+  OpenAI-compatible, SGLang, or Transformers text service.
+- `create_vision_service()` chooses placeholder, llama.cpp, llama-cpp-python, Ollama, or
+  Transformers MiniCPM vision service.
 - `backend_statuses()` reports current backend availability.
 - llama.cpp, llama-cpp-python, and OpenAI-compatible services read ignored local backend settings
   when selected.
@@ -270,6 +292,7 @@ Shows configured models and backend metadata.
 - Helps verify model-size compliance and backend status.
 - Provides local llama.cpp settings, GGUF/mmproj file pickers, and command generation.
 - Provides LM Studio/OpenAI-compatible base URL, optional model-name storage, and reachability check.
+- Provides SGLang command planning, health check, and shutdown request controls.
 
 ### `datasets/field_notes.py`
 

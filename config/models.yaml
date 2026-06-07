@@ -83,6 +83,7 @@ models:
       ollama: [vision]
       llama.cpp: [vision, gguf, mmproj]
       transformers: [vision, image-text-to-text]
+      sglang: [vision, openai-compatible]
     context_length: 262144
     local_first: true
     thinking_mode: false
@@ -105,6 +106,7 @@ models:
       ollama: [vision, thinking]
       llama.cpp: [vision, gguf, mmproj]
       transformers: [vision, thinking, image-text-to-text]
+      sglang: [vision, thinking, openai-compatible]
     context_length: 262144
     local_first: true
     thinking_mode: true

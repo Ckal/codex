@@ -2,10 +2,10 @@ from __future__ import annotations
 
 import importlib.util
 from dataclasses import dataclass
-from importlib import import_module
 from typing import Any, cast
 
 from models.base import BackendStatus
+from models.hf_components import load_tokenizer_and_causal_lm
 from models.model_catalog import ModelInfo
 
 
@@ -76,19 +76,11 @@ class TransformersTextService:
         if self._model is not None and self._tokenizer is not None:
             return self._model, self._tokenizer
 
-        transformers_module = import_module("transformers")
-        tokenizer_class = transformers_module.AutoTokenizer
-        model_class = transformers_module.AutoModelForCausalLM
-
-        self._tokenizer = tokenizer_class.from_pretrained(
-            self.model.hf_id,
-            trust_remote_code=self.config.trust_remote_code,
-        )
-        self._model = model_class.from_pretrained(
-            self.model.hf_id,
-            trust_remote_code=self.config.trust_remote_code,
-            device_map=self.config.device_map,
-            torch_dtype=self.config.torch_dtype,
+        self._model, self._tokenizer = load_tokenizer_and_causal_lm(
+            self.model,
+            self.config.trust_remote_code,
+            self.config.device_map,
+            self.config.torch_dtype,
         )
         return self._model, self._tokenizer
 

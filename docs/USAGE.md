@@ -80,14 +80,14 @@ Available tabs. User-triggered tab actions show Gradio progress while callbacks 
 uses compact responsive styling for narrow screens:
 
 - Chat - placeholder, llama.cpp, llama-cpp-python, Ollama, OpenAI-compatible/LM Studio, or Transformers text inference with tab status/errors.
-- Vision - placeholder, llama.cpp, llama-cpp-python, or Ollama image + prompt inference with tab status/errors.
+- Vision - placeholder, llama.cpp, llama-cpp-python, Ollama, or Transformers MiniCPM image + prompt inference with tab status/errors.
 - Dataset - local CSV/JSONL/NDJSON preview, optional Hugging Face dataset preview, stats, and tab status/errors.
 - Train - LoRA dry-run training plan plus local base-vs-tuned exact-match evaluation.
 - Export - GGUF download/conversion/quantization planning, exported-file listing, and existing-file downloads.
 - Field Notes - saves human corrections to CSV, imports uncertain OCR predictions, captures media paths/training flags, exports corrected JSONL, corrected OCR JSONL, and local HF Dataset files.
 - Traces - local event preview, JSONL trace rows, tracking status, and trace export.
 - Agent - local non-autonomous research-plan-implement-verify trace mode.
-- Status - shows configured models, backend metadata, local llama.cpp setup, LM Studio/OpenAI-compatible setup, and Ollama list/pull planning.
+- Status - shows configured models, backend metadata, local llama.cpp setup, LM Studio/OpenAI-compatible setup, SGLang command/check/stop planning, and Ollama list/pull planning.
 
 Ollama is optional and is not installed automatically. Install and start Ollama yourself, then
 pull a compatible model explicitly before selecting the Ollama backend in the app. The Status tab
@@ -112,6 +112,16 @@ No model weights are downloaded or loaded on app startup.
 The Transformers text backend is optional. It requires installing `transformers` and a compatible
 PyTorch build for your CPU/GPU, and it may download model weights when you explicitly select it and
 run a prompt. It is not installed automatically and is not used on startup.
+
+The Transformers vision backend is optional for MiniCPM-V models. It uses `AutoProcessor` and
+`AutoModelForImageTextToText` only after you select `transformers` in the Vision tab and submit an
+image. The current app maps the thinking toggle into the prompt template and documents video as a
+future frame-sampling path; it does not download or load vision weights on startup.
+
+SGLang is optional. The Status tab can prepare a local `python -m sglang.launch_server` command,
+check `/health`, request `/shutdown`, and the Chat tab can use the `sglang` backend against
+`/v1/chat/completions` after you start the server yourself. The app does not start SGLang on
+startup.
 
 Dataset preview supports local `.csv`, `.jsonl`, and `.ndjson` files, split names for optional
 Hugging Face dataset preview, and basic local statistics. Field Notes can export corrected

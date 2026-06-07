@@ -19,10 +19,10 @@ Current state:
 - VINDEX integration boundary exists locally as non-executing MCP-style planning tools.
 - Local non-autonomous agent mode exists with trace export.
 - Real local model inference is partially implemented through llama.cpp, llama-cpp-python, Ollama,
-  OpenAI-compatible/LM Studio, and Transformers text services. The Status tab includes llama.cpp
-  setup, LM Studio/OpenAI-compatible setup, and Ollama local model listing plus explicit
-  pull-command planning. LM Studio text generation is live-verified with
-  `llama-3.2-1b-instruct`; the other real backends still need local verification.
+  OpenAI-compatible/LM Studio, SGLang, Transformers text, and MiniCPM vision services. The Status
+  tab includes llama.cpp setup, LM Studio/OpenAI-compatible setup, SGLang command/check/stop setup,
+  and Ollama local model listing plus explicit pull-command planning. LM Studio text generation is
+  live-verified with `llama-3.2-1b-instruct`; the other real backends still need local verification.
 - LoRA training execution, served MCP endpoint, deployment, and most extensions are not implemented.
 - Placeholder services remain intentionally visible so the app never pretends to be real inference.
 
@@ -34,13 +34,13 @@ Current state:
 | Template architecture | Partial | Config-driven model catalog exists |
 | System architecture | Partial | `app.py`, `core/`, `models/`, `ui/`, `datasets/`, local app state/events |
 | Model registry | Partial | `config/models.yaml`, `models/model_catalog.py`; includes GGUF and backend capability metadata |
-| Five inference modes | Partial | llama.cpp, llama-cpp-python, Ollama, OpenAI-compatible/LM Studio, and Transformers text services exist; SGLang and vLLM runner/start-stop UI missing |
+| Five inference modes | Partial | llama.cpp, llama-cpp-python, Ollama, OpenAI-compatible/LM Studio, SGLang, Transformers text, and MiniCPM vision services exist; vLLM runner/start-stop UI missing |
 | Trackio | Partial | Local traces, optional Trackio wrapper, and HF Space sync docs exist; credentials/package setup still missing |
 | MCP layer | Partial | Local tool functions, Gradio-native MCP path metadata, `mcp_server=True` launch flag, and local invocation tests exist; full external client verification still missing |
 | Training pipeline | Partial | `training/` package supports dry-run planning, export planning, exact-match/perplexity evaluation, and local logging; LoRA trainer missing |
 | Export and quantization | Partial | `training/export.py` and Export tab plan downloads/conversion/quantization and expose existing exported files for download; execution still missing |
 | Agent mode | Partial | Local deterministic task and paper-to-code trace loops exist with safety gates; autonomous execution and remote uploads missing |
-| UI tabs | Partial | Tabs exist; Chat/Vision/Dataset/Field Notes/Status have behavior; tab actions have Gradio progress indicators; Chat/Vision/Dataset have tab-level status/error messages; compact responsive CSS exists; several tabs are still placeholders |
+| UI tabs | Partial | Tabs exist; Chat/Vision/Dataset/Field Notes/Status have behavior; Status includes SGLang setup; tab actions have Gradio progress indicators; Chat/Vision/Dataset have tab-level status/error messages; compact responsive CSS exists; several tabs are still placeholders |
 | Field notes | Partial | CSV save, SQLite store, corrected/tag/training filters, media paths, OCR uncertain import, JSONL export, and local HF Dataset export exist; remote HF upload missing |
 | Directory structure | Partial | Foundation exists; many PRD packages missing |
 | Configuration schema | Partial | Model/training config plus ignored local backend config exists; validation is lightweight |
@@ -70,8 +70,8 @@ Current state:
 Current verified gates:
 
 - Structure check passes.
-- 145 unit/user-story tests pass.
-- Coverage report passes at 67%, above the current 60% configured threshold.
+- 160 unit/user-story tests pass.
+- Coverage report passes at 68%, above the current 60% configured threshold.
 - 2 lightweight performance tests pass.
 - Ruff passes.
 - Mypy passes.

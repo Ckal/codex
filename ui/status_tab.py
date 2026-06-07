@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from typing import Any
+
 import gradio as gr
 
 from models.local_backend_config import (
@@ -13,6 +15,7 @@ from models.model_catalog import ModelInfo, model_summary, validate_catalog
 from models.ollama_service import OllamaService
 from models.openai_compatible_service import OpenAICompatibleService
 from models.service_factory import backend_statuses
+from models.sglang_runner import SGLangConfig, SGLangService, build_sglang_run_plan
 from ui.progress import CLICK_PROGRESS
 
 
@@ -73,7 +76,96 @@ def build_status_tab(catalog: dict[str, ModelInfo]) -> None:
 
     build_llama_cpp_setup_panel()
     build_openai_compatible_setup_panel()
+    build_sglang_setup_panel(catalog)
     build_ollama_setup_panel(catalog)
+
+
+def build_sglang_setup_panel(catalog: dict[str, ModelInfo]) -> None:
+    gr.Markdown("### SGLang local setup")
+    controls = create_sglang_controls(catalog)
+    command = gr.Textbox(label="SGLang start command", interactive=False)
+    summary = gr.JSON(label="SGLang plan/status")
+
+    def config_from_inputs(
+        url: str,
+        server_host: str,
+        server_port: int | float,
+        tp: int | float,
+        parser: str,
+    ) -> SGLangConfig:
+        return SGLangConfig(
+            base_url=url.strip() or "http://127.0.0.1:30000",
+            host=server_host.strip() or "127.0.0.1",
+            port=int(server_port),
+            tp_size=int(tp),
+            tool_parser=parser.strip() or "minicpm",
+        )
+
+    def prepare_sglang(
+        model_id: str,
+        url: str,
+        server_host: str,
+        server_port: int | float,
+        tp: int | float,
+        parser: str,
+    ) -> tuple[str, dict]:
+        config = config_from_inputs(url, server_host, server_port, tp, parser)
+        plan = build_sglang_run_plan(catalog[model_id], config)
+        return " ".join(plan.start_command), plan.to_dict()
+
+    def check_sglang(url: str) -> dict:
+        status = SGLangService.status(url.strip() or "http://127.0.0.1:30000")
+        return {"backend": status.name, "available": status.available, "detail": status.detail}
+
+    def stop_sglang(model_id: str, url: str) -> str:
+        service = SGLangService(
+            catalog[model_id],
+            SGLangConfig(base_url=url.strip() or "http://127.0.0.1:30000"),
+        )
+        return service.stop_server()
+
+    controls["prepare"].click(
+        prepare_sglang,
+        [
+            controls["selected"],
+            controls["base_url"],
+            controls["host"],
+            controls["port"],
+            controls["tp_size"],
+            controls["tool_parser"],
+        ],
+        [command, summary],
+        show_progress=CLICK_PROGRESS,
+    )
+    controls["check"].click(
+        check_sglang,
+        controls["base_url"],
+        summary,
+        show_progress=CLICK_PROGRESS,
+    )
+    controls["stop"].click(
+        stop_sglang,
+        [controls["selected"], controls["base_url"]],
+        command,
+        show_progress=CLICK_PROGRESS,
+    )
+
+
+def create_sglang_controls(catalog: dict[str, ModelInfo]) -> dict[str, Any]:
+    controls: dict[str, Any] = {
+        "selected": gr.Dropdown(list(catalog), value=next(iter(catalog)), label="Model config"),
+        "base_url": gr.Textbox(label="SGLang base URL", value="http://127.0.0.1:30000"),
+    }
+    with gr.Row():
+        controls["host"] = gr.Textbox(label="Host", value="127.0.0.1")
+        controls["port"] = gr.Number(label="Port", value=30000, precision=0)
+        controls["tp_size"] = gr.Number(label="Tensor parallel size", value=1, precision=0)
+    controls["tool_parser"] = gr.Textbox(label="Tool parser", value="minicpm")
+    with gr.Row():
+        controls["prepare"] = gr.Button("Prepare SGLang command", variant="primary")
+        controls["check"] = gr.Button("Check SGLang")
+        controls["stop"] = gr.Button("Request SGLang stop")
+    return controls
 
 
 def build_openai_compatible_setup_panel() -> None:
