@@ -328,6 +328,7 @@ Tracking client with JSONL fallback.
 Small event bus reserved for future cross-module events.
 
 - `EventType` names app events.
+- `UI_ERROR` records visible tab-level failures.
 - `Event` carries event data.
 - `EventBus` registers handlers and emits events.
 
@@ -339,6 +340,10 @@ Shared local app state.
 - `AppState.emit()` also writes trace events through `TrackingClient`.
 - `AppState.recent_events()` returns local trace previews for the Traces tab.
 - `emit_inference_response()` records shared response metadata.
+
+### `core/tab_feedback.py`
+
+Formats tab status text and emits `ui_error` events for visible tab-level failures.
 
 ### `core/app_logging.py`
 

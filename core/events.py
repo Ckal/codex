@@ -12,6 +12,7 @@ class EventType(StrEnum):
     DATASET_LOADED = "dataset_loaded"
     INFERENCE_REQUEST = "inference_request"
     INFERENCE_RESPONSE = "inference_response"
+    UI_ERROR = "ui_error"
     FIELD_NOTE_SAVED = "field_note_saved"
     TRAINING_STARTED = "training_started"
     EXPORT_STARTED = "export_started"

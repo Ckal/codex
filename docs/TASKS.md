@@ -224,7 +224,7 @@ the extension PRD. A task is complete only when the matching acceptance criteria
 - [x] Add Agent tab placeholder.
 - [x] Add model/backend status tab or panel.
 - [x] Add settings panel.
-- [ ] Add tab-level error messages.
+- [x] Add tab-level error messages.
 - [ ] Add loading/progress states.
 - [ ] Add compact responsive layout review.
 

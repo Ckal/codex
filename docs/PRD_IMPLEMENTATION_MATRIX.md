@@ -9,7 +9,8 @@ The full PRD and extension PRD are not fully implemented yet.
 Current state:
 
 - Foundation, docs, test policy, quality gates, CI, and placeholder Gradio surfaces exist.
-- Shared app state, service registries, local event logging, and local trace preview exist.
+- Shared app state, service registries, local event logging, tab-level error events, and local
+  trace preview exist.
 - Local llama.cpp settings, GGUF/mmproj pickers, and command generation exist without startup downloads.
 - GGUF export planning exists with tool detection and explicit non-executing command plans.
 - Local JSONL tracing and optional Trackio wrapper exist.
@@ -35,7 +36,7 @@ Current state:
 | Training pipeline | Partial | `training/` package supports dry-run planning, export planning, and local evaluation; LoRA trainer missing |
 | Export and quantization | Partial | `training/export.py` and Export tab plan downloads/conversion/quantization; execution/download links missing |
 | Agent mode | Partial | Local deterministic agent trace loop exists; autonomous execution and remote uploads missing |
-| UI tabs | Partial | Tabs exist; Chat/Vision/Dataset/Field Notes/Status have behavior; several tabs are still placeholders |
+| UI tabs | Partial | Tabs exist; Chat/Vision/Dataset/Field Notes/Status have behavior; Chat/Vision/Dataset have tab-level status/error messages; several tabs are still placeholders |
 | Field notes | Partial | CSV save, SQLite store, corrected/tag/training filters, media paths, JSONL export, and local HF Dataset export exist; remote HF upload missing |
 | Directory structure | Partial | Foundation exists; many PRD packages missing |
 | Configuration schema | Partial | Model/training config plus ignored local backend config exists; validation is lightweight |
@@ -65,8 +66,8 @@ Current state:
 Current verified gates:
 
 - Structure check passes.
-- 80 unit/user-story tests pass.
-- Coverage report passes at 61%, above the current 60% configured threshold.
+- 82 unit/user-story tests pass.
+- Coverage report passes at 60%, meeting the current configured threshold.
 - 2 lightweight performance tests pass.
 - Ruff passes.
 - Mypy passes.

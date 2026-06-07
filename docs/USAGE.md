@@ -78,9 +78,9 @@ docs, and workflow before downloading large model files.
 
 Available tabs:
 
-- Chat - placeholder, llama.cpp, llama-cpp-python, or Ollama text inference.
-- Vision - placeholder, llama.cpp, llama-cpp-python, or Ollama image + prompt inference.
-- Dataset - local CSV/JSONL/NDJSON preview, optional Hugging Face dataset preview, and stats.
+- Chat - placeholder, llama.cpp, llama-cpp-python, or Ollama text inference with tab status/errors.
+- Vision - placeholder, llama.cpp, llama-cpp-python, or Ollama image + prompt inference with tab status/errors.
+- Dataset - local CSV/JSONL/NDJSON preview, optional Hugging Face dataset preview, stats, and tab status/errors.
 - Train - LoRA dry-run training plan plus local base-vs-tuned exact-match evaluation.
 - Export - GGUF download/conversion/quantization planning and exported-file listing.
 - Field Notes - saves human corrections to CSV, captures media paths/training flags, exports corrected JSONL, and exports local HF Dataset files.
