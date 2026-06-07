@@ -445,11 +445,11 @@ the extension PRD. A task is complete only when the matching acceptance criteria
 
 ### OCR Pipeline Hook
 
-- [ ] Add OCR loader.
-- [ ] Add confidence threshold.
-- [ ] Add uncertain prediction import.
-- [ ] Add correction UI.
-- [ ] Add corrected export.
+- [x] Add OCR loader.
+- [x] Add confidence threshold.
+- [x] Add uncertain prediction import.
+- [x] Add correction UI.
+- [x] Add corrected export.
 
 ### MiniCPM Desk-Pet
 
@@ -468,7 +468,7 @@ the extension PRD. A task is complete only when the matching acceptance criteria
 
 ### Cross-Extension Wiring
 
-- [ ] Document OCR -> Field Notes -> Training.
+- [x] Document OCR -> Field Notes -> Training.
 - [x] Document Synthetic Gen -> Reward Eval -> DPO.
 - [x] Document Agent -> Desk-Pet Persona.
 - [x] Document HF Spaces -> Trackio.

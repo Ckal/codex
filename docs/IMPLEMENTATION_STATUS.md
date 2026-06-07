@@ -44,8 +44,9 @@ An item is done only when:
 | Export planner | Implemented, non-executing | `training/export.py` detects llama.cpp tools, builds explicit commands, and does not run downloads/conversions |
 | Reward evaluation | Implemented locally | `training/reward_eval.py` provides deterministic reward scoring, best-of-N selection, DPO pair generation, and LoRA-vs-base reward reports |
 | Synthetic data generation | Implemented locally | `datasets/synthetic.py` provides deterministic generation, validation, quality filtering, augmentation, and JSONL export |
-| Field notes | Partial | `ui/notes_tab.py` saves CSV, supports media paths/training flag, emits field-note events, and exports JSONL/local HF Dataset files |
+| Field notes | Partial | `ui/notes_tab.py` saves CSV, supports media paths/training flag, imports uncertain OCR predictions, emits field-note events, and exports JSONL/local HF Dataset files |
 | Field note module | Implemented | CSV save, SQLite store, corrected/tag/training filters, JSONL export, local HF Dataset export via `datasets/field_notes.py` |
+| OCR correction loop | Implemented locally | `datasets/ocr.py` loads local CSV/JSONL OCR predictions, filters by confidence threshold, imports uncertain rows to Field Notes, and exports corrected OCR JSONL |
 | Tracking | Implemented with local fallback | `tracking/trackio_client.py` loads Trackio config, writes local JSONL traces, and calls Trackio when installed/enabled |
 | Traces tab | Partial | `ui/traces_tab.py` previews app events, reads local trace rows, shows tracking status, and exports traces |
 | Agent mode | Implemented locally, non-autonomous | `agent/runner.py` provides system prompt, deterministic research-plan-implement-verify trace, paper-to-code trace mode, safety gates, tool registry integration, JSONL trace save/export, and local HF Dataset-style export |
@@ -55,9 +56,9 @@ An item is done only when:
 | Loading/progress states | Implemented | `ui/progress.py` applies full Gradio progress indicators to tab actions |
 | Compact responsive layout | Implemented | `APP_CSS` constrains app width, keeps tabs scrollable, sizes touch targets, and adds mobile padding/type rules |
 | Structure verification | Done | `scripts/verify_structure.ps1` passed |
-| Unit tests | Passing | 130 unit/user-story tests pass |
-| User-story tests | Passing | Included in the 130-test suite |
-| Coverage | Passing | 66% line/branch coverage at current configured threshold |
+| Unit tests | Passing | 138 unit/user-story tests pass |
+| User-story tests | Passing | Included in the 138-test suite |
+| Coverage | Passing | 67% line/branch coverage at current configured threshold |
 | Performance tests | Passing | 2 lightweight performance tests pass |
 | CI pipeline | Added, not run remotely | `.github/workflows/ci.yml` |
 | Quality tooling | Passing | Tests, coverage, performance, ruff, mypy, pylint, bandit, and pip-audit pass through `scripts/run_quality.ps1` |
@@ -94,20 +95,22 @@ An item is done only when:
 - Hugging Face dataset preview is optional and requires the external `datasets` package; the app
   reports a clear status when it is not installed.
 - Full PRD implementation is not complete. There are still unchecked tasks in `docs/TASKS.md`.
-- Current unchecked task count is 66 because many PRD/ext PRD items still need real local setup,
+- Current unchecked task count is 60 because many PRD/ext PRD items still need real local setup,
   credentials, hardware, product decisions, or hackathon submission artifacts.
 
 ## Latest Local Verification
 
 - `powershell -ExecutionPolicy Bypass -File scripts/run_quality.ps1` passed all gates: tests,
   smoke, coverage, performance, ruff, mypy, pylint, bandit, and pip-audit.
-- `powershell -ExecutionPolicy Bypass -File scripts/run_tests.ps1` passed: 130 tests, 67% coverage.
+- `powershell -ExecutionPolicy Bypass -File scripts/run_tests.ps1` passed: 136 tests, 66% coverage
+  before the callback refactor; final all-in-one quality passed with 138 tests and 67% coverage.
 - Direct `ruff check .` passed; cache-write warnings were caused by OneDrive permissions.
 - Direct `mypy . --no-incremental` passed when `MYPY_CACHE_DIR` was moved to `%TEMP%`.
 - LM Studio `/v1/models` at `http://192.168.188.37:1234` returned
   `text-embedding-nomic-embed-text-v1.5`, `qwen2.5-coder-3b-instruct`, and
   `llama-3.2-1b-instruct`.
 - LM Studio `/v1/chat/completions` returned a text response from `llama-3.2-1b-instruct`.
+- Focused OCR callback and pipeline tests pass: 8 tests.
 
 ## Verification Commands
 

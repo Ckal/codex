@@ -84,7 +84,7 @@ uses compact responsive styling for narrow screens:
 - Dataset - local CSV/JSONL/NDJSON preview, optional Hugging Face dataset preview, stats, and tab status/errors.
 - Train - LoRA dry-run training plan plus local base-vs-tuned exact-match evaluation.
 - Export - GGUF download/conversion/quantization planning, exported-file listing, and existing-file downloads.
-- Field Notes - saves human corrections to CSV, captures media paths/training flags, exports corrected JSONL, and exports local HF Dataset files.
+- Field Notes - saves human corrections to CSV, imports uncertain OCR predictions, captures media paths/training flags, exports corrected JSONL, corrected OCR JSONL, and local HF Dataset files.
 - Traces - local event preview, JSONL trace rows, tracking status, and trace export.
 - Agent - local non-autonomous research-plan-implement-verify trace mode.
 - Status - shows configured models, backend metadata, local llama.cpp setup, LM Studio/OpenAI-compatible setup, and Ollama list/pull planning.
@@ -117,6 +117,13 @@ Dataset preview supports local `.csv`, `.jsonl`, and `.ndjson` files, split name
 Hugging Face dataset preview, and basic local statistics. Field Notes can export corrected
 training rows to `data/field_notes.jsonl` and local HF Dataset-style files to
 `data/hf_field_notes/`.
+
+The OCR correction hook expects a local `.csv`, `.jsonl`, or `.ndjson` prediction file with fields
+such as `source_path`, `text`, and `confidence`. The Field Notes tab can preview rows at or below a
+confidence threshold, import those uncertain rows as correction tasks, and export corrected OCR rows
+to `data/ocr_corrections.jsonl`. This is the local OCR -> Field Notes -> Training path: import
+uncertain predictions, correct them in Field Notes, then export corrected JSONL/HF Dataset files for
+future fine-tuning or evaluation.
 
 Local MCP-style tools live in `mcp_tools/tools.py`. The selected MCP path is Gradio native MCP,
 enabled by `launch(mcp_server=True)`. The documented endpoint path is `/gradio_api/mcp/sse`.

@@ -65,6 +65,22 @@ Suggested JSONL schema:
 {"model_id":"minicpm5_1b","prompt":"...","response":"...","correction":"...","tags":["demo"]}
 ```
 
+## Add OCR Corrections
+
+The local OCR extension starts from prediction files rather than running an OCR engine directly.
+Use `.csv`, `.jsonl`, or `.ndjson` rows with fields like:
+
+```json
+{"source_path":"receipt.png","text":"Tota1 12.30","confidence":0.54}
+```
+
+The Field Notes tab can preview uncertain rows, import them as correction tasks, and export
+corrected OCR rows to `data/ocr_corrections.jsonl`. The intended wiring is:
+
+```text
+OCR predictions -> uncertain Field Notes -> corrected JSONL/HF Dataset -> training/evaluation
+```
+
 ## Add Training
 
 Training should be added only after local inference works.

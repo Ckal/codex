@@ -15,6 +15,7 @@ Current state:
 - GGUF export planning exists with tool detection and explicit non-executing command plans.
 - Local JSONL tracing and optional Trackio wrapper exist.
 - Dataset statistics and local MCP tool functions exist.
+- OCR correction loop exists locally for CSV/JSONL prediction imports into Field Notes.
 - Local non-autonomous agent mode exists with trace export.
 - Real local model inference is partially implemented through llama.cpp, llama-cpp-python, Ollama,
   OpenAI-compatible/LM Studio, and Transformers text services. The Status tab includes llama.cpp
@@ -39,7 +40,7 @@ Current state:
 | Export and quantization | Partial | `training/export.py` and Export tab plan downloads/conversion/quantization and expose existing exported files for download; execution still missing |
 | Agent mode | Partial | Local deterministic task and paper-to-code trace loops exist with safety gates; autonomous execution and remote uploads missing |
 | UI tabs | Partial | Tabs exist; Chat/Vision/Dataset/Field Notes/Status have behavior; tab actions have Gradio progress indicators; Chat/Vision/Dataset have tab-level status/error messages; compact responsive CSS exists; several tabs are still placeholders |
-| Field notes | Partial | CSV save, SQLite store, corrected/tag/training filters, media paths, JSONL export, and local HF Dataset export exist; remote HF upload missing |
+| Field notes | Partial | CSV save, SQLite store, corrected/tag/training filters, media paths, OCR uncertain import, JSONL export, and local HF Dataset export exist; remote HF upload missing |
 | Directory structure | Partial | Foundation exists; many PRD packages missing |
 | Configuration schema | Partial | Model/training config plus ignored local backend config exists; validation is lightweight |
 | Dependencies | Partial | Runtime/dev deps exist for scaffold; full model/training deps not added |
@@ -58,18 +59,18 @@ Current state:
 | Paper-to-code agent | Implemented locally | Agent tab and `agent/runner.py` support paper input, research/plan/implementation/verify trace, and safety gates without autonomous execution |
 | HF Spaces deploy | Partial | README metadata, deployment helper, command plan, required-file validation, and remote/build status checks exist; HF auth/remote/push still missing |
 | VINDEX integration | Not implemented | Needs integration boundary and dependency |
-| OCR pipeline hook | Not implemented | Needs OCR loader and correction UI |
+| OCR pipeline hook | Implemented locally | `datasets/ocr.py` and Field Notes tab support local OCR prediction loading, confidence thresholds, uncertain import, human correction, and corrected JSONL export |
 | MiniCPM Desk-Pet | Not implemented | Needs persona schema/export |
 | MiniCPM-o audio tab | Not implemented | Needs audio tab and omnimodal backend |
-| Cross-extension wiring | Not implemented | Needs implemented modules first |
+| Cross-extension wiring | Partial | OCR -> Field Notes -> Training, Synthetic Gen -> Reward Eval -> DPO, Agent -> Desk-Pet Persona, and HF Spaces -> Trackio are documented; remaining wiring depends on unimplemented runtime modules |
 
 ## Quality Coverage
 
 Current verified gates:
 
 - Structure check passes.
-- 130 unit/user-story tests pass.
-- Coverage report passes at 66%, above the current 60% configured threshold.
+- 138 unit/user-story tests pass.
+- Coverage report passes at 67%, above the current 60% configured threshold.
 - 2 lightweight performance tests pass.
 - Ruff passes.
 - Mypy passes.

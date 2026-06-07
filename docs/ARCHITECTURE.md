@@ -235,6 +235,8 @@ Field notes implementation.
 - Captures optional image path, video path, and a use-for-training flag.
 - Exports corrected notes to JSONL.
 - Exports local Hugging Face Dataset-style files under `data/hf_field_notes`.
+- Imports uncertain OCR predictions for human correction.
+- Exports corrected OCR rows to JSONL.
 - Emits field note saved events.
 
 Future behavior:
@@ -298,6 +300,17 @@ Deterministic local synthetic data helpers.
 - `quality_filter_examples()` removes incomplete or low-value examples.
 - `augment_examples()` creates deterministic variants for workflow testing.
 - `export_synthetic_jsonl()` writes JSONL without external services.
+
+### `datasets/ocr.py`
+
+Local OCR correction helpers.
+
+- `OCRPrediction` stores source path, predicted text, confidence, and optional page.
+- `load_ocr_predictions()` loads local `.csv`, `.jsonl`, and `.ndjson` prediction files.
+- `uncertain_predictions()` filters rows at or below a confidence threshold or with empty text.
+- `import_uncertain_predictions()` creates Field Notes correction tasks for uncertain rows.
+- `export_corrected_ocr_notes()` writes corrected OCR examples to JSONL for evaluation or training.
+- `ocr_import_summary()` previews uncertain rows for the Field Notes tab.
 
 ### `mcp_tools/tools.py`
 
