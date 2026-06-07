@@ -438,10 +438,10 @@ the extension PRD. A task is complete only when the matching acceptance criteria
 
 ### VINDEX Integration
 
-- [ ] Define integration boundary.
-- [ ] Add tool stub.
-- [ ] Add verification report.
-- [ ] Document dependency.
+- [x] Define integration boundary.
+- [x] Add tool stub.
+- [x] Add verification report.
+- [x] Document dependency.
 
 ### OCR Pipeline Hook
 

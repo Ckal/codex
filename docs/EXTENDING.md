@@ -81,6 +81,22 @@ corrected OCR rows to `data/ocr_corrections.jsonl`. The intended wiring is:
 OCR predictions -> uncertain Field Notes -> corrected JSONL/HF Dataset -> training/evaluation
 ```
 
+## Add VINDEX Execution
+
+The current VINDEX integration is a safety boundary, not an edit runner. It validates the eight PRD
+methods, builds non-executing local FastAPI call plans, and reports whether a local VINDEX package
+or `http://127.0.0.1:8765/health` server is available.
+
+Before allowing execution:
+
+1. Verify the local VINDEX package or FastAPI server.
+2. Re-check the PRD bug list: GPU cache cleanup, dead-code paths, star-spread over-editing, and
+   causal-window limits.
+3. Keep `star_spread.n_neighbors <= 5` and `calibrated_edit.causal_window <= 3` until the scaling
+   formula is validated.
+4. Add protected-relation tests for every edit workflow.
+5. Only then add an explicit user-triggered execute button or MCP tool.
+
 ## Add Training
 
 Training should be added only after local inference works.

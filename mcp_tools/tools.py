@@ -7,6 +7,7 @@ from dataclasses import dataclass
 from typing import Any
 
 from datasets.loader import dataset_statistics, preview_huggingface_dataset
+from mcp_tools.vindex_tool import vindex_dependency_report, vindex_verification_report
 from models.model_catalog import load_model_catalog
 from models.service_factory import create_text_service
 
@@ -62,12 +63,25 @@ def model_inference_tool(
     )
 
 
+def vindex_status_tool() -> ToolResult:
+    return ToolResult("vindex_status", vindex_dependency_report())
+
+
+def vindex_plan_tool(method: str, payload: dict[str, Any] | None = None) -> ToolResult:
+    return ToolResult(
+        "vindex_plan",
+        vindex_verification_report(method=method, payload=payload or {}),
+    )
+
+
 def tool_registry() -> dict[str, Any]:
     return {
         "dataset_stats": dataset_stats_tool,
         "hf_dataset_preview": hf_dataset_preview_tool,
         "safe_calculator": safe_calculator_tool,
         "model_inference": model_inference_tool,
+        "vindex_status": vindex_status_tool,
+        "vindex_plan": vindex_plan_tool,
     }
 
 

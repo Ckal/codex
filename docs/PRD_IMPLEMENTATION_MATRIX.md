@@ -16,6 +16,7 @@ Current state:
 - Local JSONL tracing and optional Trackio wrapper exist.
 - Dataset statistics and local MCP tool functions exist.
 - OCR correction loop exists locally for CSV/JSONL prediction imports into Field Notes.
+- VINDEX integration boundary exists locally as non-executing MCP-style planning tools.
 - Local non-autonomous agent mode exists with trace export.
 - Real local model inference is partially implemented through llama.cpp, llama-cpp-python, Ollama,
   OpenAI-compatible/LM Studio, and Transformers text services. The Status tab includes llama.cpp
@@ -58,7 +59,7 @@ Current state:
 | Synthetic data generation | Implemented locally | `datasets/synthetic.py` provides deterministic generation, validation, filtering, augmentation, and JSONL export |
 | Paper-to-code agent | Implemented locally | Agent tab and `agent/runner.py` support paper input, research/plan/implementation/verify trace, and safety gates without autonomous execution |
 | HF Spaces deploy | Partial | README metadata, deployment helper, command plan, required-file validation, and remote/build status checks exist; HF auth/remote/push still missing |
-| VINDEX integration | Not implemented | Needs integration boundary and dependency |
+| VINDEX integration | Implemented locally, execution disabled | `mcp_tools/vindex_tool.py` validates VINDEX methods, builds safe call plans, reports dependency/server status, and documents that actual edits require a verified local VINDEX install |
 | OCR pipeline hook | Implemented locally | `datasets/ocr.py` and Field Notes tab support local OCR prediction loading, confidence thresholds, uncertain import, human correction, and corrected JSONL export |
 | MiniCPM Desk-Pet | Not implemented | Needs persona schema/export |
 | MiniCPM-o audio tab | Not implemented | Needs audio tab and omnimodal backend |
@@ -69,7 +70,7 @@ Current state:
 Current verified gates:
 
 - Structure check passes.
-- 138 unit/user-story tests pass.
+- 145 unit/user-story tests pass.
 - Coverage report passes at 67%, above the current 60% configured threshold.
 - 2 lightweight performance tests pass.
 - Ruff passes.

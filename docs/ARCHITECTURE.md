@@ -28,7 +28,7 @@ datasets/*
   stores dataset, synthetic data, and correction-loop helpers
 
 mcp_tools/*
-  holds local tool functions and Gradio-native MCP bridge metadata
+  holds local tool functions, VINDEX call planning, and Gradio-native MCP bridge metadata
 
 config/*
   holds model and training settings
@@ -321,6 +321,19 @@ Local MCP-style tools.
 - `safe_calculator_tool()` evaluates numeric arithmetic only.
 - `model_inference_tool()` routes text prompts through the selected model service.
 - `tool_registry()` returns the local tool map for a future MCP endpoint.
+
+### `mcp_tools/vindex_tool.py`
+
+Non-executing VINDEX integration boundary.
+
+- Defines the eight VINDEX PRD methods and their local FastAPI paths.
+- `build_vindex_call_plan()` validates method names and builds endpoint/payload plans.
+- Caps `star_spread.n_neighbors` at 5 and `calibrated_edit.causal_window` at 3 based on the PRD
+  safety notes.
+- `vindex_dependency_report()` checks whether the optional `vindex` package or local health
+  endpoint is available.
+- `vindex_verification_report()` combines dependency status with a safe call plan and keeps
+  execution disabled until the local VINDEX install is verified.
 
 ### `mcp_tools/bridge.py`
 

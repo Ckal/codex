@@ -37,6 +37,7 @@ An item is done only when:
 | Dataset tab | Partial | Local CSV/JSONL preview, optional HF dataset preview, schema, split selector, row count, samples, stats, dataset event emission, and tab-level error status |
 | Local dataset preview | Implemented | CSV, JSONL, NDJSON preview and statistics via `datasets/loader.py` |
 | MCP tools | Implemented locally, Gradio MCP path selected | `mcp_tools/tools.py` provides dataset stats, HF dataset preview/search-style helper, safe calculator, and model inference tool functions; `mcp_tools/bridge.py` documents `/gradio_api/mcp/sse` and verifies local invocation |
+| VINDEX boundary | Implemented locally, execution disabled | `mcp_tools/vindex_tool.py` validates the eight PRD methods, builds non-executing call plans, caps risky edit parameters, and reports local package/server availability |
 | Training tab | Partial | `ui/train_tab.py` builds a LoRA dry-run plan, checkpoint output path, hardware notes, local deterministic evaluation, and optional loss-based perplexity summary |
 | Training planner | Implemented, non-executing | `training/planner.py` parses LoRA/training config, validates dry runs, and never starts training |
 | Evaluation | Implemented, local-only | `training/evaluation.py` provides prompt cases, exact-match scoring, optional loss-based perplexity, qualitative table, base-vs-tuned comparison, and JSONL logging |
@@ -56,8 +57,8 @@ An item is done only when:
 | Loading/progress states | Implemented | `ui/progress.py` applies full Gradio progress indicators to tab actions |
 | Compact responsive layout | Implemented | `APP_CSS` constrains app width, keeps tabs scrollable, sizes touch targets, and adds mobile padding/type rules |
 | Structure verification | Done | `scripts/verify_structure.ps1` passed |
-| Unit tests | Passing | 138 unit/user-story tests pass |
-| User-story tests | Passing | Included in the 138-test suite |
+| Unit tests | Passing | 145 unit/user-story tests pass |
+| User-story tests | Passing | Included in the 145-test suite |
 | Coverage | Passing | 67% line/branch coverage at current configured threshold |
 | Performance tests | Passing | 2 lightweight performance tests pass |
 | CI pipeline | Added, not run remotely | `.github/workflows/ci.yml` |
@@ -95,7 +96,7 @@ An item is done only when:
 - Hugging Face dataset preview is optional and requires the external `datasets` package; the app
   reports a clear status when it is not installed.
 - Full PRD implementation is not complete. There are still unchecked tasks in `docs/TASKS.md`.
-- Current unchecked task count is 60 because many PRD/ext PRD items still need real local setup,
+- Current unchecked task count is 56 because many PRD/ext PRD items still need real local setup,
   credentials, hardware, product decisions, or hackathon submission artifacts.
 
 ## Latest Local Verification
@@ -103,7 +104,7 @@ An item is done only when:
 - `powershell -ExecutionPolicy Bypass -File scripts/run_quality.ps1` passed all gates: tests,
   smoke, coverage, performance, ruff, mypy, pylint, bandit, and pip-audit.
 - `powershell -ExecutionPolicy Bypass -File scripts/run_tests.ps1` passed: 136 tests, 66% coverage
-  before the callback refactor; final all-in-one quality passed with 138 tests and 67% coverage.
+  before the callback refactor; final all-in-one quality passed with 145 tests and 67% coverage.
 - Direct `ruff check .` passed; cache-write warnings were caused by OneDrive permissions.
 - Direct `mypy . --no-incremental` passed when `MYPY_CACHE_DIR` was moved to `%TEMP%`.
 - LM Studio `/v1/models` at `http://192.168.188.37:1234` returned
@@ -111,6 +112,7 @@ An item is done only when:
   `llama-3.2-1b-instruct`.
 - LM Studio `/v1/chat/completions` returned a text response from `llama-3.2-1b-instruct`.
 - Focused OCR callback and pipeline tests pass: 8 tests.
+- Focused VINDEX/MCP tests pass: 13 tests.
 
 ## Verification Commands
 

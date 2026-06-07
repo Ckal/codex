@@ -128,8 +128,12 @@ future fine-tuning or evaluation.
 Local MCP-style tools live in `mcp_tools/tools.py`. The selected MCP path is Gradio native MCP,
 enabled by `launch(mcp_server=True)`. The documented endpoint path is `/gradio_api/mcp/sse`.
 `mcp_tools/bridge.py` exposes a local manifest and invocation helper for dataset stats, optional
-HF dataset preview, safe arithmetic, and model inference. Full external MCP client verification
-still depends on launching the app and connecting a client.
+HF dataset preview, safe arithmetic, model inference, and non-executing VINDEX call planning. Full
+external MCP client verification still depends on launching the app and connecting a client.
+
+The VINDEX helper is intentionally planning-only. It validates the PRD method names, reports
+whether the local `vindex` package or `http://127.0.0.1:8765/health` endpoint is available, and
+caps risky edit parameters. It does not edit model weights.
 
 The Agent tab drafts local research-plan-implement-verify traces and paper-to-code traces, stores
 them in `data/agent_traces.jsonl`, and can export JSONL or local HF Dataset-style trace files. It

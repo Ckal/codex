@@ -10,6 +10,7 @@ from mcp_tools.tools import (
     model_inference_tool,
     safe_calculator_tool,
     tool_registry,
+    vindex_plan_tool,
 )
 
 
@@ -51,6 +52,14 @@ class McpToolsTest(unittest.TestCase):
         self.assertIn("dataset_stats", registry)
         self.assertIn("safe_calculator", registry)
         self.assertIn("model_inference", registry)
+        self.assertIn("vindex_plan", registry)
+
+    def test_vindex_plan_tool_returns_non_executing_plan(self) -> None:
+        result = vindex_plan_tool("logit_lens", {"model_id": "demo", "text": "hello"})
+
+        self.assertEqual(result.name, "vindex_plan")
+        self.assertFalse(result.payload["ready_for_execution"])
+        self.assertEqual(result.payload["call_plan"]["method"], "logit_lens")
 
 
 if __name__ == "__main__":
