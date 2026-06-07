@@ -1,0 +1,89 @@
+models:
+  minicpm5_1b:
+    hf_id: openbmb/MiniCPM5-1B
+    display_name: MiniCPM5 1B
+    type: text
+    parameters_b: 1
+    backend: placeholder
+    context_length: 131072
+    local_first: true
+    thinking_mode: false
+    gguf:
+      available: true
+      repo: openbmb/MiniCPM5-1B-GGUF
+      default_quant: Q4_K_M
+    notes: Text baseline for local chat, LoRA experiments, and GGUF export.
+
+  minicpm5_1b_thinking:
+    hf_id: openbmb/MiniCPM5-1B-Thinking
+    display_name: MiniCPM5 1B Thinking
+    type: text
+    parameters_b: 1
+    backend: placeholder
+    context_length: 131072
+    local_first: true
+    thinking_mode: true
+    gguf:
+      available: true
+      repo: openbmb/MiniCPM5-1B-Thinking-GGUF
+      default_quant: Q4_K_M
+    notes: Thinking variant for explicit reasoning experiments.
+
+  minicpm41_8b:
+    hf_id: openbmb/MiniCPM4.1-8B
+    display_name: MiniCPM4.1 8B
+    type: text
+    parameters_b: 8
+    backend: placeholder
+    context_length: 131072
+    local_first: true
+    thinking_mode: false
+    trust_remote_code: true
+    gguf:
+      available: true
+      repo: openbmb/MiniCPM4.1-8B-GGUF
+      default_quant: Q4_K_M
+    notes: Long-context sparse-attention text model; real backend will require trust_remote_code.
+
+  minicpm_v46:
+    hf_id: openbmb/MiniCPM-V-4.6
+    display_name: MiniCPM-V 4.6
+    type: vision
+    parameters_b: 1.3
+    backend: placeholder
+    context_length: 262144
+    local_first: true
+    thinking_mode: false
+    gguf:
+      available: true
+      repo: openbmb/MiniCPM-V-4.6-gguf
+      main_file: MiniCPM-V-4.6-Q4_K_M.gguf
+      mmproj: mmproj-MiniCPM-V-4.6-F16.gguf
+      default_quant: Q4_K_M
+    notes: Vision-language model candidate for image and video understanding.
+
+  minicpm_v46_thinking:
+    hf_id: openbmb/MiniCPM-V-4.6-Thinking
+    display_name: MiniCPM-V 4.6 Thinking
+    type: vision
+    parameters_b: 1.3
+    backend: placeholder
+    context_length: 262144
+    local_first: true
+    thinking_mode: true
+    gguf:
+      available: true
+      repo: openbmb/MiniCPM-V-4.6-Thinking-gguf
+      default_quant: Q4_K_M
+    notes: Vision-language thinking variant for multimodal reasoning demos.
+
+  minicpm_o45:
+    hf_id: openbmb/MiniCPM-o-4.5
+    display_name: MiniCPM-o 4.5
+    type: omnimodal
+    parameters_b: 8
+    backend: placeholder
+    context_length: 131072
+    local_first: true
+    thinking_mode: false
+    notes: Omnimodal stretch goal for audio, image, and text.

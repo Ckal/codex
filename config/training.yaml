@@ -1,0 +1,24 @@
+lora:
+  rank: 16
+  alpha: 32
+  dropout: 0.05
+
+training:
+  epochs: 1
+  batch_size: 2
+  grad_accum: 4
+  lr: 0.0002
+  report_to: none
+
+export:
+  default_quant: Q4_K_M
+  supported_quants:
+    - F16
+    - Q4_K_M
+    - Q5_K_M
+    - Q8_0
+
+trackio:
+  enabled: false
+  project: openbmb-local-ai-workbench
+  local_path: data/traces.jsonl
