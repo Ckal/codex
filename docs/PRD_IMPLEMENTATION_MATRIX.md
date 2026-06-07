@@ -34,7 +34,7 @@ Current state:
 | Trackio | Partial | Local traces, optional Trackio wrapper, and HF Space sync docs exist; credentials/package setup still missing |
 | MCP layer | Partial | Local tool functions exist; served MCP endpoint still missing |
 | Training pipeline | Partial | `training/` package supports dry-run planning, export planning, exact-match/perplexity evaluation, and local logging; LoRA trainer missing |
-| Export and quantization | Partial | `training/export.py` and Export tab plan downloads/conversion/quantization; execution/download links missing |
+| Export and quantization | Partial | `training/export.py` and Export tab plan downloads/conversion/quantization and expose existing exported files for download; execution still missing |
 | Agent mode | Partial | Local deterministic agent trace loop exists; autonomous execution and remote uploads missing |
 | UI tabs | Partial | Tabs exist; Chat/Vision/Dataset/Field Notes/Status have behavior; tab actions have Gradio progress indicators; Chat/Vision/Dataset have tab-level status/error messages; compact responsive CSS exists; several tabs are still placeholders |
 | Field notes | Partial | CSV save, SQLite store, corrected/tag/training filters, media paths, JSONL export, and local HF Dataset export exist; remote HF upload missing |
@@ -51,8 +51,8 @@ Current state:
 | --- | --- | --- |
 | vLLM serving tab | Not implemented | Needs `models/vllm_runner.py` |
 | Ollama quick-start | Partial | Service, UI backend selector, local model listing, explicit pull-command planning, and setup docs exist; local Ollama install/real model verification missing |
-| Reward model eval | Not implemented | Needs `training/reward_eval.py` |
-| Synthetic data generation | Not implemented | Needs `datasets/synthetic.py` |
+| Reward model eval | Implemented locally | `training/reward_eval.py` provides deterministic reward scoring, best-of-N, DPO pairs, and LoRA-vs-base reward reports |
+| Synthetic data generation | Implemented locally | `datasets/synthetic.py` provides deterministic generation, validation, filtering, augmentation, and JSONL export |
 | Paper-to-code agent | Not implemented | Needs real agent loop and safety gates |
 | HF Spaces deploy | Partial | README metadata, deployment helper, command plan, required-file validation, and remote/build status checks exist; HF auth/remote/push still missing |
 | VINDEX integration | Not implemented | Needs integration boundary and dependency |
@@ -66,8 +66,8 @@ Current state:
 Current verified gates:
 
 - Structure check passes.
-- 99 unit/user-story tests pass.
-- Coverage report passes at 65%, above the current 60% configured threshold.
+- 107 unit/user-story tests pass.
+- Coverage report passes at 66%, above the current 60% configured threshold.
 - 2 lightweight performance tests pass.
 - Ruff passes.
 - Mypy passes.

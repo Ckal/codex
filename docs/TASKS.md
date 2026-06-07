@@ -292,7 +292,7 @@ the extension PRD. A task is complete only when the matching acceptance criteria
 - [x] Add quantization selector.
 - [x] Add llama.cpp tool detection.
 - [x] Add exported file listing.
-- [ ] Add download link in UI.
+- [x] Add download link in UI.
 - [x] Document GGUF export.
 
 ## Phase 13 - Trackio Tracing
@@ -397,18 +397,18 @@ the extension PRD. A task is complete only when the matching acceptance criteria
 
 ### Reward Model Eval
 
-- [ ] Add reward evaluator.
-- [ ] Add best-of-N generation.
-- [ ] Add DPO pair generation.
-- [ ] Add LoRA vs base reward report.
+- [x] Add reward evaluator.
+- [x] Add best-of-N generation.
+- [x] Add DPO pair generation.
+- [x] Add LoRA vs base reward report.
 
 ### Synthetic Data Generation
 
-- [ ] Add synthetic generator.
-- [ ] Add JSON validation.
-- [ ] Add quality filters.
-- [ ] Add augmentation flow.
-- [ ] Add dataset save/export.
+- [x] Add synthetic generator.
+- [x] Add JSON validation.
+- [x] Add quality filters.
+- [x] Add augmentation flow.
+- [x] Add dataset save/export.
 
 ### Paper-To-Code Agent
 
@@ -458,7 +458,7 @@ the extension PRD. A task is complete only when the matching acceptance criteria
 ### Cross-Extension Wiring
 
 - [ ] Document OCR -> Field Notes -> Training.
-- [ ] Document Synthetic Gen -> Reward Eval -> DPO.
+- [x] Document Synthetic Gen -> Reward Eval -> DPO.
 - [ ] Document Agent -> Desk-Pet Persona.
 - [x] Document HF Spaces -> Trackio.
 

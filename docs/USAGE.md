@@ -83,7 +83,7 @@ uses compact responsive styling for narrow screens:
 - Vision - placeholder, llama.cpp, llama-cpp-python, or Ollama image + prompt inference with tab status/errors.
 - Dataset - local CSV/JSONL/NDJSON preview, optional Hugging Face dataset preview, stats, and tab status/errors.
 - Train - LoRA dry-run training plan plus local base-vs-tuned exact-match evaluation.
-- Export - GGUF download/conversion/quantization planning and exported-file listing.
+- Export - GGUF download/conversion/quantization planning, exported-file listing, and existing-file downloads.
 - Field Notes - saves human corrections to CSV, captures media paths/training flags, exports corrected JSONL, and exports local HF Dataset files.
 - Traces - local event preview, JSONL trace rows, tracking status, and trace export.
 - Agent - local non-autonomous research-plan-implement-verify trace mode.
@@ -121,7 +121,8 @@ run shell commands, commit, push, deploy, download models, or call external serv
 
 The Export tab is a planning surface. It shows explicit `huggingface-cli`,
 `convert_hf_to_gguf.py`, and `llama-quantize` commands for the selected model and quantization,
-plus a list of files already present in the export directory. It does not run those commands yet.
+plus a list of files already present in the export directory. Existing files are exposed through
+the download output. It does not run those commands yet.
 
 The Train tab does not start LoRA training yet. It builds a dry-run plan from
 `config/training.yaml`, validates the dataset path, shows the planned checkpoint output directory,
@@ -161,6 +162,11 @@ backend and running a prompt.
 
 Trackio/HF sync path: local traces are written to JSONL first, then optional Trackio can be enabled
 in `config/training.yaml` after package availability and credentials are ready.
+
+Synthetic data and reward evaluation helpers are local Python utilities. `datasets/synthetic.py`
+can generate, validate, filter, augment, and export JSONL examples. `training/reward_eval.py` can
+score supplied responses, select best-of-N candidates, create DPO chosen/rejected pairs, and compare
+base responses against LoRA responses. They do not load reward models or call external services.
 
 ## 9. How To Work With Codex
 

@@ -39,8 +39,10 @@ An item is done only when:
 | Training tab | Partial | `ui/train_tab.py` builds a LoRA dry-run plan, checkpoint output path, hardware notes, local deterministic evaluation, and optional loss-based perplexity summary |
 | Training planner | Implemented, non-executing | `training/planner.py` parses LoRA/training config, validates dry runs, and never starts training |
 | Evaluation | Implemented, local-only | `training/evaluation.py` provides prompt cases, exact-match scoring, optional loss-based perplexity, qualitative table, base-vs-tuned comparison, and JSONL logging |
-| Export tab | Partial | `ui/export_tab.py` builds GGUF download/conversion/quantization plans and lists exported files |
+| Export tab | Partial | `ui/export_tab.py` builds GGUF download/conversion/quantization plans, lists exported files, and exposes existing exported files through a download output |
 | Export planner | Implemented, non-executing | `training/export.py` detects llama.cpp tools, builds explicit commands, and does not run downloads/conversions |
+| Reward evaluation | Implemented locally | `training/reward_eval.py` provides deterministic reward scoring, best-of-N selection, DPO pair generation, and LoRA-vs-base reward reports |
+| Synthetic data generation | Implemented locally | `datasets/synthetic.py` provides deterministic generation, validation, quality filtering, augmentation, and JSONL export |
 | Field notes | Partial | `ui/notes_tab.py` saves CSV, supports media paths/training flag, emits field-note events, and exports JSONL/local HF Dataset files |
 | Field note module | Implemented | CSV save, SQLite store, corrected/tag/training filters, JSONL export, local HF Dataset export via `datasets/field_notes.py` |
 | Tracking | Implemented with local fallback | `tracking/trackio_client.py` loads Trackio config, writes local JSONL traces, and calls Trackio when installed/enabled |
@@ -52,9 +54,9 @@ An item is done only when:
 | Loading/progress states | Implemented | `ui/progress.py` applies full Gradio progress indicators to tab actions |
 | Compact responsive layout | Implemented | `APP_CSS` constrains app width, keeps tabs scrollable, sizes touch targets, and adds mobile padding/type rules |
 | Structure verification | Done | `scripts/verify_structure.ps1` passed |
-| Unit tests | Passing | 99 unit/user-story tests pass |
-| User-story tests | Passing | Included in the 99-test suite |
-| Coverage | Passing | 65% line/branch coverage at current configured threshold |
+| Unit tests | Passing | 107 unit/user-story tests pass |
+| User-story tests | Passing | Included in the 107-test suite |
+| Coverage | Passing | 66% line/branch coverage at current configured threshold |
 | Performance tests | Passing | 2 lightweight performance tests pass |
 | CI pipeline | Added, not run remotely | `.github/workflows/ci.yml` |
 | Quality tooling | Passing | Tests, coverage, performance, ruff, mypy, pylint, bandit, and pip-audit pass; all-in-one script can time out while waiting on network-backed checks |

@@ -25,7 +25,7 @@ models/*
   holds model catalog, local backend config, and inference services
 
 datasets/*
-  stores dataset and correction-loop helpers
+  stores dataset, synthetic data, and correction-loop helpers
 
 mcp_tools/*
   holds local tool functions that can later be exposed through MCP
@@ -206,12 +206,12 @@ GGUF export planning surface.
 - Shows official GGUF download command plans when the model has GGUF metadata.
 - Shows local HF-to-GGUF conversion and llama.cpp quantization command plans.
 - Lists files already present under the selected export directory.
+- Exposes existing exported files through a Gradio download output.
 - Does not execute downloads, conversion, or quantization.
 
 Future behavior:
 
 - Execute downloads and conversions after explicit user action.
-- Provide download links for generated files.
 
 ### `ui/notes_tab.py`
 
@@ -274,6 +274,16 @@ Dataset preview and statistics helpers.
 - `dataset_statistics()` reports row count, column count, names, and non-empty counts.
 - `preview_huggingface_dataset()` optionally uses the external Hugging Face `datasets` package.
 
+### `datasets/synthetic.py`
+
+Deterministic local synthetic data helpers.
+
+- `generate_synthetic_examples()` creates local prompt/response/correction examples.
+- `validate_synthetic_example()` checks schema requirements.
+- `quality_filter_examples()` removes incomplete or low-value examples.
+- `augment_examples()` creates deterministic variants for workflow testing.
+- `export_synthetic_jsonl()` writes JSONL without external services.
+
 ### `mcp_tools/tools.py`
 
 Local MCP-style tools.
@@ -320,6 +330,15 @@ Local deterministic evaluation helpers.
 - `perplexity_from_losses()` computes perplexity from explicit negative log likelihood values.
 - `compare_base_vs_tuned()` reports exact-match delta.
 - `log_eval_report()` appends JSONL evaluation results.
+
+### `training/reward_eval.py`
+
+Deterministic local reward-style evaluation helpers.
+
+- `RewardEvaluator.evaluate()` scores supplied responses with transparent lexical heuristics.
+- `best_of_n()` selects the highest-scoring candidate without model calls.
+- `create_dpo_pairs()` creates chosen/rejected pairs for DPO-style datasets.
+- `eval_lora_vs_base()` compares base and LoRA response rewards.
 
 ### `training/planner.py`
 

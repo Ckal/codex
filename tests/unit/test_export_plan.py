@@ -11,6 +11,7 @@ from training.export import (
     detect_llama_cpp_tools,
     list_exported_files,
 )
+from ui.export_tab import export_download_paths
 
 
 class ExportPlanTest(unittest.TestCase):
@@ -51,6 +52,41 @@ class ExportPlanTest(unittest.TestCase):
             rows = list_exported_files(output)
 
             self.assertEqual(rows, [[str(file_path), "4"]])
+
+    def test_export_download_paths_prioritizes_existing_planned_files(self) -> None:
+        catalog = load_model_catalog("config/models.yaml")
+        tools = [ToolStatus("llama-quantize", False, "")]
+
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            model_dir = root / "minicpm_v46"
+            model_dir.mkdir()
+            extra_file = root / "notes.txt"
+            extra_file.write_text("manual note", encoding="utf-8")
+
+            plan = build_export_plan(catalog["minicpm_v46"], "Q4_K_M", root, tools)
+            planned_file = model_dir / plan.official_gguf_file
+            planned_file.write_bytes(b"planned gguf")
+
+            rows = list_exported_files(root)
+            paths = export_download_paths(plan.as_dict(), rows)
+
+            self.assertEqual(paths[0], str(planned_file))
+            self.assertIn(str(extra_file), paths)
+
+    def test_export_download_paths_omits_missing_planned_files(self) -> None:
+        catalog = load_model_catalog("config/models.yaml")
+        tools = [ToolStatus("llama-quantize", False, "")]
+
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            extra_file = root / "already-exported.gguf"
+            extra_file.write_bytes(b"existing")
+
+            plan = build_export_plan(catalog["minicpm_v46"], "Q4_K_M", root, tools)
+            paths = export_download_paths(plan.as_dict(), list_exported_files(root))
+
+            self.assertEqual(paths, [str(extra_file)])
 
 
 if __name__ == "__main__":
