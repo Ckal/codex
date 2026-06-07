@@ -30,6 +30,7 @@ An item is done only when:
 | llama.cpp backend | Implemented, not locally verified | `models/llama_cpp_service.py`; Status tab can pick GGUF/mmproj paths and build a `llama-server` command; llama.cpp tools not found on PATH |
 | llama-cpp-python backend | Implemented as fallback, not locally verified | `models/llama_cpp_python_service.py`; uses the configured local GGUF path when package is installed; `llama_cpp` package not installed |
 | Ollama backend | Implemented, not locally verified | `models/ollama_service.py`; Status tab lists local Ollama models and prepares explicit `ollama pull` commands; Ollama executable not found on PATH |
+| Transformers text backend | Implemented, not locally verified | `models/transformers_text.py`; lazy-loads tokenizer/model only when selected; `transformers` package/model weights are not installed or downloaded automatically |
 | App state | Implemented | `core/app_state.py` records local events and dispatches through `EventBus`; `core/tab_feedback.py` emits tab-level UI errors |
 | Service registry | Implemented | `models/service_factory.py` registers text and vision backend factories |
 | Dataset tab | Partial | Local CSV/JSONL preview, optional HF dataset preview, schema, split selector, row count, samples, stats, dataset event emission, and tab-level error status |
@@ -51,14 +52,14 @@ An item is done only when:
 | Loading/progress states | Implemented | `ui/progress.py` applies full Gradio progress indicators to tab actions |
 | Compact responsive layout | Implemented | `APP_CSS` constrains app width, keeps tabs scrollable, sizes touch targets, and adds mobile padding/type rules |
 | Structure verification | Done | `scripts/verify_structure.ps1` passed |
-| Unit tests | Passing | 87 unit/user-story tests pass |
-| User-story tests | Passing | Included in the 87-test suite |
+| Unit tests | Passing | 92 unit/user-story tests pass |
+| User-story tests | Passing | Included in the 92-test suite |
 | Coverage | Passing | 65% line/branch coverage at current configured threshold |
 | Performance tests | Passing | 2 lightweight performance tests pass |
 | CI pipeline | Added, not run remotely | `.github/workflows/ci.yml` |
 | Quality tooling | Passing | Tests, coverage, performance, ruff, mypy, pylint, bandit, and pip-audit pass; all-in-one script can time out while waiting on network-backed checks |
 | Secrets and model-weight git policy | Implemented | `.gitignore` excludes env files, keys, caches, generated data/exports, and common model weight formats; policy has a unit test |
-| Real model inference | Partial | llama.cpp, llama-cpp-python, and Ollama services exist, but no installed/running backend was found locally |
+| Real model inference | Partial | llama.cpp, llama-cpp-python, Ollama, and Transformers text services exist, but no installed/running backend was found locally |
 | Hugging Face Space deploy | Not started | Needs HF login/repo |
 | GitHub push | Done | GitHub remote `https://github.com/Ckal/codex.git`; commits pushed to `origin/main` |
 
@@ -77,6 +78,8 @@ An item is done only when:
 - Ollama is not on PATH.
 - Ollama setup/list/pull command planning is implemented in the Status tab, but real list/pull and
   generation still require installing and starting Ollama locally.
+- `transformers`/`torch` are not installed for real local Transformers inference; selecting that
+  backend reports a clear unavailable status until the packages and model weights are available.
 - Trackio is optional; local JSONL tracing works without the `trackio` package, but remote Trackio/HF
   sync still needs package availability and credentials.
 - LoRA dry-run planning works locally, but real training remains blocked until a final backend,

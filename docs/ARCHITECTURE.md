@@ -76,7 +76,7 @@ This file should be replaced or complemented by real services such as:
 
 - `ollama_service.py`
 - `llama_cpp_service.py`
-- `transformers_service.py`
+- `transformers_text.py`
 - `sglang_service.py`
 
 ### `models/base.py`
@@ -125,6 +125,16 @@ Optional direct Python binding backend for GGUF inference.
 - Does not download model files.
 - Provides text chat through `Llama.create_chat_completion()`.
 - Vision support remains routed through llama-server until mmproj/image serialization is wired.
+
+### `models/transformers_text.py`
+
+Optional Transformers text backend.
+
+- Checks whether the `transformers` package is installed.
+- Lazy-loads `AutoTokenizer` and `AutoModelForCausalLM` only when the backend is selected.
+- Reads `trust_remote_code`, device map, dtype, max token, and temperature settings from explicit config.
+- Provides a simple token-list streaming helper for future Gradio streaming wiring.
+- Does not download model weights on startup.
 
 ### `models/service_factory.py`
 

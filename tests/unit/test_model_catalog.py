@@ -33,6 +33,7 @@ class ModelCatalogTest(unittest.TestCase):
         self.assertIn("gguf", summary)
         self.assertIn("backend_capabilities", summary)
         self.assertIn("llama.cpp", summary["backend_capabilities"])
+        self.assertIn("trust_remote_code", summary)
 
     def test_all_models_have_backend_capability_metadata(self) -> None:
         catalog = load_model_catalog("config/models.yaml")

@@ -79,7 +79,7 @@ docs, and workflow before downloading large model files.
 Available tabs. User-triggered tab actions show Gradio progress while callbacks run, and the app
 uses compact responsive styling for narrow screens:
 
-- Chat - placeholder, llama.cpp, llama-cpp-python, or Ollama text inference with tab status/errors.
+- Chat - placeholder, llama.cpp, llama-cpp-python, Ollama, or Transformers text inference with tab status/errors.
 - Vision - placeholder, llama.cpp, llama-cpp-python, or Ollama image + prompt inference with tab status/errors.
 - Dataset - local CSV/JSONL/NDJSON preview, optional Hugging Face dataset preview, stats, and tab status/errors.
 - Train - LoRA dry-run training plan plus local base-vs-tuned exact-match evaluation.
@@ -101,6 +101,10 @@ tab, pick or type an explicit GGUF path, optionally pick an mmproj GGUF for visi
 Start `llama-server` yourself with that command, then select the `llama.cpp` backend in the app.
 `llama-cpp-python` is also available as an optional backend when the package is installed and a
 local GGUF path is configured.
+
+The Transformers text backend is optional. It requires installing `transformers` and a compatible
+PyTorch build for your CPU/GPU, and it may download model weights when you explicitly select it and
+run a prompt. It is not installed automatically and is not used on startup.
 
 Dataset preview supports local `.csv`, `.jsonl`, and `.ndjson` files, split names for optional
 Hugging Face dataset preview, and basic local statistics. Field Notes can export corrected

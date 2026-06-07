@@ -16,9 +16,9 @@ Current state:
 - Local JSONL tracing and optional Trackio wrapper exist.
 - Dataset statistics and local MCP tool functions exist.
 - Local non-autonomous agent mode exists with trace export.
-- Real local model inference is partially implemented through llama.cpp, llama-cpp-python, and
-  Ollama services. The Status tab now includes llama.cpp setup plus Ollama local model listing and
-  explicit pull-command planning, but none has been locally verified with a real model.
+- Real local model inference is partially implemented through llama.cpp, llama-cpp-python, Ollama,
+  and Transformers text services. The Status tab includes llama.cpp setup plus Ollama local model
+  listing and explicit pull-command planning, but none has been locally verified with a real model.
 - LoRA training execution, served MCP endpoint, deployment, and most extensions are not implemented.
 - Placeholder services remain intentionally visible so the app never pretends to be real inference.
 
@@ -30,7 +30,7 @@ Current state:
 | Template architecture | Partial | Config-driven model catalog exists |
 | System architecture | Partial | `app.py`, `core/`, `models/`, `ui/`, `datasets/`, local app state/events |
 | Model registry | Partial | `config/models.yaml`, `models/model_catalog.py`; includes GGUF and backend capability metadata |
-| Five inference modes | Partial | llama.cpp, llama-cpp-python, and Ollama services exist; Transformers, SGLang, vLLM missing |
+| Five inference modes | Partial | llama.cpp, llama-cpp-python, Ollama, and Transformers text services exist; SGLang and vLLM missing |
 | Trackio | Partial | Local traces and optional Trackio wrapper exist; HF Space sync missing |
 | MCP layer | Partial | Local tool functions exist; served MCP endpoint still missing |
 | Training pipeline | Partial | `training/` package supports dry-run planning, export planning, and local evaluation; LoRA trainer missing |
@@ -66,7 +66,7 @@ Current state:
 Current verified gates:
 
 - Structure check passes.
-- 87 unit/user-story tests pass.
+- 92 unit/user-story tests pass.
 - Coverage report passes at 65%, above the current 60% configured threshold.
 - 2 lightweight performance tests pass.
 - Ruff passes.

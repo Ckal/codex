@@ -10,6 +10,7 @@ from models.local_backend_config import load_local_backend_config
 from models.model_catalog import ModelInfo
 from models.ollama_service import OllamaService
 from models.placeholder_service import PlaceholderModelService
+from models.transformers_text import TransformersTextService
 
 TextFactory = Callable[[ModelInfo], TextModelService]
 VisionFactory = Callable[[ModelInfo], VisionModelService]
@@ -19,6 +20,7 @@ TEXT_SERVICE_REGISTRY.register("placeholder", PlaceholderModelService)
 TEXT_SERVICE_REGISTRY.register("llama.cpp", LlamaCppService)
 TEXT_SERVICE_REGISTRY.register("llama-cpp-python", LlamaCppPythonService)
 TEXT_SERVICE_REGISTRY.register("ollama", OllamaService)
+TEXT_SERVICE_REGISTRY.register("transformers", TransformersTextService)
 
 VISION_SERVICE_REGISTRY: Registry[VisionFactory] = Registry()
 VISION_SERVICE_REGISTRY.register("placeholder", PlaceholderModelService)
@@ -83,4 +85,5 @@ def backend_statuses() -> list[BackendStatus]:
         LlamaCppService.status(),
         LlamaCppPythonService.status(),
         OllamaService.status(),
+        TransformersTextService.status(),
     ]

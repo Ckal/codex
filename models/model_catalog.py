@@ -22,6 +22,7 @@ class ModelInfo:
     thinking_mode: bool
     gguf: dict[str, Any]
     backend_capabilities: dict[str, list[str]]
+    trust_remote_code: bool
 
 
 def load_model_catalog(path: str) -> dict[str, ModelInfo]:
@@ -43,6 +44,7 @@ def load_model_catalog(path: str) -> dict[str, ModelInfo]:
                 backend: list(capabilities)
                 for backend, capabilities in cfg.get("backend_capabilities", {}).items()
             },
+            trust_remote_code=bool(cfg.get("trust_remote_code", False)),
         )
     return catalog
 
@@ -68,6 +70,7 @@ def model_summary(model: ModelInfo) -> dict[str, Any]:
         "thinking_mode": model.thinking_mode,
         "gguf": model.gguf,
         "backend_capabilities": model.backend_capabilities,
+        "trust_remote_code": model.trust_remote_code,
         "notes": model.notes,
     }
 

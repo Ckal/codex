@@ -187,13 +187,13 @@ the extension PRD. A task is complete only when the matching acceptance criteria
 
 ### Transformers Backend
 
-- [ ] Add `models/transformers_text.py`.
-- [ ] Add `AutoModelForCausalLM` loading for text models.
-- [ ] Add tokenizer loading.
-- [ ] Add explicit trust-remote-code handling.
-- [ ] Add device/dtype settings.
-- [ ] Add streaming generation.
-- [ ] Document hardware expectations.
+- [x] Add `models/transformers_text.py`.
+- [x] Add `AutoModelForCausalLM` loading for text models.
+- [x] Add tokenizer loading.
+- [x] Add explicit trust-remote-code handling.
+- [x] Add device/dtype settings.
+- [x] Add streaming generation.
+- [x] Document hardware expectations.
 
 ### MiniCPM Vision Backend
 

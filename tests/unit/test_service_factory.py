@@ -13,6 +13,7 @@ from models.service_factory import (
     backend_statuses,
     create_text_service,
 )
+from models.transformers_text import TransformersTextService
 
 
 class ServiceFactoryTest(unittest.TestCase):
@@ -47,12 +48,22 @@ class ServiceFactoryTest(unittest.TestCase):
         self.assertIn("llama.cpp", [status.name for status in statuses])
         self.assertIn("llama-cpp-python", [status.name for status in statuses])
         self.assertIn("ollama", [status.name for status in statuses])
+        self.assertIn("transformers", [status.name for status in statuses])
 
     def test_model_service_registries_include_all_backends(self) -> None:
-        expected = ["placeholder", "llama.cpp", "llama-cpp-python", "ollama"]
+        expected = ["placeholder", "llama.cpp", "llama-cpp-python", "ollama", "transformers"]
 
         self.assertEqual(TEXT_SERVICE_REGISTRY.list(), expected)
-        self.assertEqual(VISION_SERVICE_REGISTRY.list(), expected)
+        self.assertEqual(
+            VISION_SERVICE_REGISTRY.list(),
+            ["placeholder", "llama.cpp", "llama-cpp-python", "ollama"],
+        )
+
+    def test_creates_transformers_service_when_selected(self) -> None:
+        catalog = load_model_catalog("config/models.yaml")
+        service = create_text_service(catalog["minicpm5_1b"], "transformers")
+
+        self.assertIsInstance(service, TransformersTextService)
 
 
 if __name__ == "__main__":
