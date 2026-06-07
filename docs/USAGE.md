@@ -85,7 +85,7 @@ Available tabs:
 - Export - GGUF download/conversion/quantization planning and exported-file listing.
 - Field Notes - saves human corrections to CSV, captures media paths/training flags, exports corrected JSONL, and exports local HF Dataset files.
 - Traces - local event preview, JSONL trace rows, tracking status, and trace export.
-- Agent - placeholder for research-plan-implement mode.
+- Agent - local non-autonomous research-plan-implement-verify trace mode.
 - Status - shows configured models, backend metadata, and local llama.cpp setup.
 
 Ollama is optional and is not installed automatically. Install and start Ollama yourself, then
@@ -107,6 +107,10 @@ training rows to `data/field_notes.jsonl` and local HF Dataset-style files to
 Local MCP-style tools live in `mcp_tools/tools.py`. They are Python functions for dataset stats,
 optional HF dataset preview, safe arithmetic, and model inference. They are not served through an
 MCP endpoint yet.
+
+The Agent tab drafts a local research-plan-implement-verify trace, stores it in
+`data/agent_traces.jsonl`, and can export JSONL or local HF Dataset-style trace files. It does not
+run shell commands, commit, push, deploy, download models, or call external services.
 
 The Export tab is a planning surface. It shows explicit `huggingface-cli`,
 `convert_hf_to_gguf.py`, and `llama-quantize` commands for the selected model and quantization,

@@ -9,6 +9,8 @@ from typing import Any
 
 import yaml
 
+from core.file_exports import copy_text_file_or_empty
+
 
 @dataclass(frozen=True)
 class TrackingConfig:
@@ -98,14 +100,7 @@ def export_traces(
     source_path: str | Path = "data/traces.jsonl",
     output_path: str | Path = "exports/traces.jsonl",
 ) -> Path:
-    source = Path(source_path)
-    output = Path(output_path)
-    output.parent.mkdir(parents=True, exist_ok=True)
-    if source.exists():
-        output.write_text(source.read_text(encoding="utf-8"), encoding="utf-8")
-    else:
-        output.write_text("", encoding="utf-8")
-    return output
+    return copy_text_file_or_empty(source_path, output_path)
 
 
 def read_trace_rows(path: str | Path = "data/traces.jsonl", limit: int = 20) -> list[dict]:

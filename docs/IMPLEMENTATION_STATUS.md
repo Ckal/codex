@@ -42,12 +42,13 @@ An item is done only when:
 | Field note module | Implemented | CSV save, SQLite store, corrected/tag/training filters, JSONL export, local HF Dataset export via `datasets/field_notes.py` |
 | Tracking | Implemented with local fallback | `tracking/trackio_client.py` loads Trackio config, writes local JSONL traces, and calls Trackio when installed/enabled |
 | Traces tab | Partial | `ui/traces_tab.py` previews app events, reads local trace rows, shows tracking status, and exports traces |
-| Agent tab | Placeholder | `ui/agent_tab.py` |
+| Agent mode | Implemented locally, non-autonomous | `agent/runner.py` provides system prompt, deterministic research-plan-implement-verify trace, tool registry integration, JSONL trace save/export, and local HF Dataset-style export |
+| Agent tab | Implemented locally | `ui/agent_tab.py` drafts agent traces and exports trace files/datasets |
 | Status tab | Implemented | `ui/status_tab.py` lists model config, backend status, and local llama.cpp setup |
 | Structure verification | Done | `scripts/verify_structure.ps1` passed |
-| Unit tests | Passing | 69 unit/user-story tests pass |
-| User-story tests | Passing | Included in the 69-test suite |
-| Coverage | Passing | 62% line/branch coverage at current configured threshold |
+| Unit tests | Passing | 73 unit/user-story tests pass |
+| User-story tests | Passing | Included in the 73-test suite |
+| Coverage | Passing | 61% line/branch coverage at current configured threshold |
 | Performance tests | Passing | 2 lightweight performance tests pass |
 | CI pipeline | Added, not run remotely | `.github/workflows/ci.yml` |
 | Quality tooling | Passing | Tests, coverage, performance, ruff, mypy, pylint, bandit, and pip-audit pass; all-in-one script can time out while waiting on network-backed checks |

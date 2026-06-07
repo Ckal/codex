@@ -323,15 +323,15 @@ the extension PRD. A task is complete only when the matching acceptance criteria
 
 ## Phase 14 - Agent Mode
 
-- [ ] Add `agent/` package.
-- [ ] Add agent system prompt.
-- [ ] Add research-plan-implement loop placeholder.
-- [ ] Add tool registry integration.
-- [ ] Add session trace logging.
-- [ ] Add Agent tab.
-- [ ] Add trace export to JSONL.
-- [ ] Add HF Dataset upload for traces.
-- [ ] Document limitations.
+- [x] Add `agent/` package.
+- [x] Add agent system prompt.
+- [x] Add research-plan-implement loop placeholder.
+- [x] Add tool registry integration.
+- [x] Add session trace logging.
+- [x] Add Agent tab.
+- [x] Add trace export to JSONL.
+- [x] Add local HF Dataset export for traces.
+- [x] Document limitations.
 
 ## Phase 15 - Hugging Face Space Deployment
 

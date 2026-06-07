@@ -2,22 +2,36 @@ from __future__ import annotations
 
 import gradio as gr
 
+from agent.runner import (
+    export_agent_traces,
+    export_agent_traces_hf_dataset,
+    run_agent_loop,
+    save_agent_trace,
+)
+
 
 def build_agent_tab() -> None:
-    gr.Markdown("Agent mode is planned as a research -> plan -> implement helper.")
+    gr.Markdown("Agent mode drafts a local research -> plan -> implement -> verify trace.")
     task = gr.Textbox(label="Agent task", lines=5, placeholder="Example: improve field-note export")
-    plan = gr.Button("Draft agent plan", variant="primary")
+    plan = gr.Button("Draft agent trace", variant="primary")
+    export = gr.Button("Export traces")
+    export_dataset = gr.Button("Export traces dataset")
     output = gr.Textbox(label="Plan", lines=10)
+    trace = gr.JSON(label="Trace")
 
-    def draft_plan(task_text: str) -> str:
-        return (
-            "Agent mode is not autonomous yet.\n\n"
-            f"Task: {task_text or '(none)'}\n\n"
-            "Planned loop:\n"
-            "1. Research relevant docs/files.\n"
-            "2. Propose a small implementation plan.\n"
-            "3. Execute with explicit verification.\n"
-            "4. Save trace for sharing."
-        )
+    def draft_plan(task_text: str) -> tuple[str, dict]:
+        session = run_agent_loop(task_text)
+        save_agent_trace(session)
+        return session.as_markdown(), session.as_dict()
 
-    plan.click(draft_plan, task, output)
+    def export_trace_file() -> dict:
+        path = export_agent_traces()
+        return {"exported_to": str(path)}
+
+    def export_trace_dataset() -> dict:
+        path = export_agent_traces_hf_dataset()
+        return {"exported_to": str(path)}
+
+    plan.click(draft_plan, task, [output, trace])
+    export.click(export_trace_file, outputs=trace)
+    export_dataset.click(export_trace_dataset, outputs=trace)

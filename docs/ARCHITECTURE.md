@@ -17,6 +17,9 @@ ui/*
   calls service classes
   emits local app events for inference, datasets, and field notes
 
+agent/*
+  holds deterministic local agent planning and trace export helpers
+
 models/*
   holds model catalog, local backend config, and inference services
 
@@ -217,10 +220,12 @@ Local trace and tracking preview.
 
 ### `ui/agent_tab.py`
 
-Placeholder for ml-intern-style agent mode.
+Local non-autonomous agent mode.
 
-- Drafts the future research-plan-implement loop.
-- Does not run autonomous steps yet.
+- Drafts a research-plan-implement-verify trace.
+- Saves agent traces to `data/agent_traces.jsonl`.
+- Exports trace JSONL and local HF Dataset-style trace files.
+- Does not execute shell commands, commit, push, deploy, download models, or call external services.
 
 ### `ui/status_tab.py`
 
@@ -258,6 +263,23 @@ Local MCP-style tools.
 - `safe_calculator_tool()` evaluates numeric arithmetic only.
 - `model_inference_tool()` routes text prompts through the selected model service.
 - `tool_registry()` returns the local tool map for a future MCP endpoint.
+
+### `agent/runner.py`
+
+Deterministic local agent trace runner.
+
+- `AGENT_SYSTEM_PROMPT` defines the agent behavior contract.
+- `run_agent_loop()` produces research, plan, implement, and verify trace steps.
+- `save_agent_trace()` appends traces to JSONL.
+- `export_agent_traces()` exports trace JSONL.
+- `export_agent_traces_hf_dataset()` writes local HF Dataset-style trace files.
+- The runner can call safe local tools, but it is not autonomous.
+
+### `core/file_exports.py`
+
+Shared export helper.
+
+- `copy_text_file_or_empty()` copies a text artifact to an export path or creates an empty one.
 
 ### `training/export.py`
 

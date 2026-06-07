@@ -14,9 +14,10 @@ Current state:
 - GGUF export planning exists with tool detection and explicit non-executing command plans.
 - Local JSONL tracing and optional Trackio wrapper exist.
 - Dataset statistics and local MCP tool functions exist.
+- Local non-autonomous agent mode exists with trace export.
 - Real local model inference is partially implemented through llama.cpp, llama-cpp-python, and
   Ollama services, but none has been locally verified with a real model.
-- LoRA training execution, MCP, agent mode, deployment, and most extensions are not implemented.
+- LoRA training execution, served MCP endpoint, deployment, and most extensions are not implemented.
 - Placeholder services remain intentionally visible so the app never pretends to be real inference.
 
 ## Main PRD
@@ -32,7 +33,7 @@ Current state:
 | MCP layer | Partial | Local tool functions exist; served MCP endpoint still missing |
 | Training pipeline | Partial | `training/` package supports export planning and local evaluation; LoRA trainer missing |
 | Export and quantization | Partial | `training/export.py` and Export tab plan downloads/conversion/quantization; execution/download links missing |
-| Agent mode | Not implemented | `ui/agent_tab.py` is placeholder only |
+| Agent mode | Partial | Local deterministic agent trace loop exists; autonomous execution and remote uploads missing |
 | UI tabs | Partial | Tabs exist; Chat/Vision/Dataset/Field Notes/Status have behavior; several tabs are still placeholders |
 | Field notes | Partial | CSV save, SQLite store, corrected/tag/training filters, media paths, JSONL export, and local HF Dataset export exist; remote HF upload missing |
 | Directory structure | Partial | Foundation exists; many PRD packages missing |
@@ -63,8 +64,8 @@ Current state:
 Current verified gates:
 
 - Structure check passes.
-- 69 unit/user-story tests pass.
-- Coverage report passes at 62%, above the current 60% configured threshold.
+- 73 unit/user-story tests pass.
+- Coverage report passes at 61%, above the current 60% configured threshold.
 - 2 lightweight performance tests pass.
 - Ruff passes.
 - Mypy passes.
