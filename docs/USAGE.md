@@ -111,9 +111,11 @@ Hugging Face dataset preview, and basic local statistics. Field Notes can export
 training rows to `data/field_notes.jsonl` and local HF Dataset-style files to
 `data/hf_field_notes/`.
 
-Local MCP-style tools live in `mcp_tools/tools.py`. They are Python functions for dataset stats,
-optional HF dataset preview, safe arithmetic, and model inference. They are not served through an
-MCP endpoint yet.
+Local MCP-style tools live in `mcp_tools/tools.py`. The selected MCP path is Gradio native MCP,
+enabled by `launch(mcp_server=True)`. The documented endpoint path is `/gradio_api/mcp/sse`.
+`mcp_tools/bridge.py` exposes a local manifest and invocation helper for dataset stats, optional
+HF dataset preview, safe arithmetic, and model inference. Full external MCP client verification
+still depends on launching the app and connecting a client.
 
 The Agent tab drafts a local research-plan-implement-verify trace, stores it in
 `data/agent_traces.jsonl`, and can export JSONL or local HF Dataset-style trace files. It does not

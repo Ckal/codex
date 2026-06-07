@@ -91,4 +91,10 @@ def build_app() -> gr.Blocks:
 
 
 if __name__ == "__main__":
-    build_app().launch(server_port=7860, share=False, theme=APP_THEME, css=APP_CSS)
+    build_app().launch(
+        server_port=7860,
+        share=False,
+        theme=APP_THEME,
+        css=APP_CSS,
+        mcp_server=True,
+    )

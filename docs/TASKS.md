@@ -310,15 +310,15 @@ the extension PRD. A task is complete only when the matching acceptance criteria
 
 ## Phase 13 - MCP Layer
 
-- [ ] Decide MCP path: Gradio native, `gradio.Server` 
+- [x] Decide MCP path: Gradio native, `gradio.Server` 
 - [x] Add MCP tools module.
 - [x] Add dataset stats tool.
 - [x] Add HF search tool.
 - [x] Add safe calculator tool.
 - [x] Add model inference tool.
-- [ ] Expose tools through selected MCP path.
-- [ ] Document MCP endpoint.
-- [ ] Verify endpoint locally.
+- [x] Expose tools through selected MCP path.
+- [x] Document MCP endpoint.
+- [x] Verify endpoint locally.
 
 ## Phase 14 - Agent Mode
 

@@ -28,7 +28,7 @@ datasets/*
   stores dataset, synthetic data, and correction-loop helpers
 
 mcp_tools/*
-  holds local tool functions that can later be exposed through MCP
+  holds local tool functions and Gradio-native MCP bridge metadata
 
 config/*
   holds model and training settings
@@ -293,6 +293,14 @@ Local MCP-style tools.
 - `safe_calculator_tool()` evaluates numeric arithmetic only.
 - `model_inference_tool()` routes text prompts through the selected model service.
 - `tool_registry()` returns the local tool map for a future MCP endpoint.
+
+### `mcp_tools/bridge.py`
+
+Gradio-native MCP bridge metadata and local invocation helper.
+
+- `MCP_PATH` documents `/gradio_api/mcp/sse`.
+- `mcp_manifest()` returns the selected mode, path, and tool definitions.
+- `invoke_mcp_tool()` verifies local tool invocation by name.
 
 ### `agent/runner.py`
 

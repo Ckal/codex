@@ -32,7 +32,7 @@ Current state:
 | Model registry | Partial | `config/models.yaml`, `models/model_catalog.py`; includes GGUF and backend capability metadata |
 | Five inference modes | Partial | llama.cpp, llama-cpp-python, Ollama, and Transformers text services exist; SGLang and vLLM missing |
 | Trackio | Partial | Local traces, optional Trackio wrapper, and HF Space sync docs exist; credentials/package setup still missing |
-| MCP layer | Partial | Local tool functions exist; served MCP endpoint still missing |
+| MCP layer | Partial | Local tool functions, Gradio-native MCP path metadata, `mcp_server=True` launch flag, and local invocation tests exist; full external client verification still missing |
 | Training pipeline | Partial | `training/` package supports dry-run planning, export planning, exact-match/perplexity evaluation, and local logging; LoRA trainer missing |
 | Export and quantization | Partial | `training/export.py` and Export tab plan downloads/conversion/quantization and expose existing exported files for download; execution still missing |
 | Agent mode | Partial | Local deterministic agent trace loop exists; autonomous execution and remote uploads missing |
@@ -66,7 +66,7 @@ Current state:
 Current verified gates:
 
 - Structure check passes.
-- 107 unit/user-story tests pass.
+- 121 unit/user-story tests pass.
 - Coverage report passes at 66%, above the current 60% configured threshold.
 - 2 lightweight performance tests pass.
 - Ruff passes.
