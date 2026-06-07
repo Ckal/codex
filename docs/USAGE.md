@@ -127,7 +127,8 @@ The Train tab does not start LoRA training yet. It builds a dry-run plan from
 `config/training.yaml`, validates the dataset path, shows the planned checkpoint output directory,
 and documents hardware expectations. It can also run a local evaluation by comparing newline-
 separated base and tuned responses against the built-in prompt cases. It reports exact match,
-shows a qualitative table, and appends tuned results to `data/eval_results.jsonl`.
+can calculate perplexity from optional negative log likelihood values, shows a qualitative table,
+and appends tuned results to `data/eval_results.jsonl`.
 
 Tracing writes local events to `data/traces.jsonl` by default. The Traces tab can show recent app
 events, show JSONL trace rows, report whether optional Trackio is available, and export local

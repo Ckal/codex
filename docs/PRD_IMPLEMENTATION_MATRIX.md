@@ -33,7 +33,7 @@ Current state:
 | Five inference modes | Partial | llama.cpp, llama-cpp-python, Ollama, and Transformers text services exist; SGLang and vLLM missing |
 | Trackio | Partial | Local traces, optional Trackio wrapper, and HF Space sync docs exist; credentials/package setup still missing |
 | MCP layer | Partial | Local tool functions exist; served MCP endpoint still missing |
-| Training pipeline | Partial | `training/` package supports dry-run planning, export planning, and local evaluation; LoRA trainer missing |
+| Training pipeline | Partial | `training/` package supports dry-run planning, export planning, exact-match/perplexity evaluation, and local logging; LoRA trainer missing |
 | Export and quantization | Partial | `training/export.py` and Export tab plan downloads/conversion/quantization; execution/download links missing |
 | Agent mode | Partial | Local deterministic agent trace loop exists; autonomous execution and remote uploads missing |
 | UI tabs | Partial | Tabs exist; Chat/Vision/Dataset/Field Notes/Status have behavior; tab actions have Gradio progress indicators; Chat/Vision/Dataset have tab-level status/error messages; compact responsive CSS exists; several tabs are still placeholders |
@@ -66,7 +66,7 @@ Current state:
 Current verified gates:
 
 - Structure check passes.
-- 96 unit/user-story tests pass.
+- 99 unit/user-story tests pass.
 - Coverage report passes at 65%, above the current 60% configured threshold.
 - 2 lightweight performance tests pass.
 - Ruff passes.

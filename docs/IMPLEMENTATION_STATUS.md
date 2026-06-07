@@ -36,9 +36,9 @@ An item is done only when:
 | Dataset tab | Partial | Local CSV/JSONL preview, optional HF dataset preview, schema, split selector, row count, samples, stats, dataset event emission, and tab-level error status |
 | Local dataset preview | Implemented | CSV, JSONL, NDJSON preview and statistics via `datasets/loader.py` |
 | MCP tools | Implemented locally, not served | `mcp_tools/tools.py` provides dataset stats, HF dataset preview/search-style helper, safe calculator, and model inference tool functions |
-| Training tab | Partial | `ui/train_tab.py` builds a LoRA dry-run plan, checkpoint output path, hardware notes, and local deterministic evaluation |
+| Training tab | Partial | `ui/train_tab.py` builds a LoRA dry-run plan, checkpoint output path, hardware notes, local deterministic evaluation, and optional loss-based perplexity summary |
 | Training planner | Implemented, non-executing | `training/planner.py` parses LoRA/training config, validates dry runs, and never starts training |
-| Evaluation | Implemented, local-only | `training/evaluation.py` provides prompt cases, exact-match scoring, qualitative table, base-vs-tuned comparison, and JSONL logging |
+| Evaluation | Implemented, local-only | `training/evaluation.py` provides prompt cases, exact-match scoring, optional loss-based perplexity, qualitative table, base-vs-tuned comparison, and JSONL logging |
 | Export tab | Partial | `ui/export_tab.py` builds GGUF download/conversion/quantization plans and lists exported files |
 | Export planner | Implemented, non-executing | `training/export.py` detects llama.cpp tools, builds explicit commands, and does not run downloads/conversions |
 | Field notes | Partial | `ui/notes_tab.py` saves CSV, supports media paths/training flag, emits field-note events, and exports JSONL/local HF Dataset files |
@@ -52,8 +52,8 @@ An item is done only when:
 | Loading/progress states | Implemented | `ui/progress.py` applies full Gradio progress indicators to tab actions |
 | Compact responsive layout | Implemented | `APP_CSS` constrains app width, keeps tabs scrollable, sizes touch targets, and adds mobile padding/type rules |
 | Structure verification | Done | `scripts/verify_structure.ps1` passed |
-| Unit tests | Passing | 96 unit/user-story tests pass |
-| User-story tests | Passing | Included in the 96-test suite |
+| Unit tests | Passing | 99 unit/user-story tests pass |
+| User-story tests | Passing | Included in the 99-test suite |
 | Coverage | Passing | 65% line/branch coverage at current configured threshold |
 | Performance tests | Passing | 2 lightweight performance tests pass |
 | CI pipeline | Added, not run remotely | `.github/workflows/ci.yml` |

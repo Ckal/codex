@@ -6,11 +6,13 @@ import unittest
 from pathlib import Path
 
 from training.evaluation import (
+    attach_perplexity,
     compare_base_vs_tuned,
     default_prompt_cases,
     evaluate_responses,
     load_prompt_cases,
     log_eval_report,
+    perplexity_from_losses,
 )
 
 
@@ -54,6 +56,20 @@ class EvaluationTest(unittest.TestCase):
 
             self.assertEqual(saved, path)
             self.assertIn("exact_match_rate", path.read_text(encoding="utf-8"))
+
+    def test_calculates_perplexity_from_average_loss(self) -> None:
+        perplexity = perplexity_from_losses([0.0, 0.0])
+
+        self.assertEqual(perplexity, 1.0)
+        self.assertIsNone(perplexity_from_losses([]))
+
+    def test_attaches_perplexity_to_eval_report(self) -> None:
+        report = evaluate_responses(default_prompt_cases(), ["field note"])
+
+        updated = attach_perplexity(report, [0.0])
+
+        self.assertEqual(updated.exact_match_rate, report.exact_match_rate)
+        self.assertEqual(updated.perplexity, 1.0)
 
 
 if __name__ == "__main__":

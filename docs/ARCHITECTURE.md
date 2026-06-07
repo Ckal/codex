@@ -317,6 +317,7 @@ Local deterministic evaluation helpers.
 - `default_prompt_cases()` returns a small built-in prompt test set.
 - `load_prompt_cases()` loads prompt/expected pairs from JSONL.
 - `evaluate_responses()` computes exact-match rows and a qualitative table.
+- `perplexity_from_losses()` computes perplexity from explicit negative log likelihood values.
 - `compare_base_vs_tuned()` reports exact-match delta.
 - `log_eval_report()` appends JSONL evaluation results.
 

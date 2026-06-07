@@ -3,6 +3,7 @@ from __future__ import annotations
 import gradio as gr
 
 from training.evaluation import (
+    attach_perplexity,
     compare_base_vs_tuned,
     default_prompt_cases,
     evaluate_responses,
@@ -47,6 +48,11 @@ def build_train_tab() -> None:
         lines=4,
         placeholder="One response per default prompt case",
     )
+    tuned_losses = gr.Textbox(
+        label="Optional tuned losses",
+        lines=2,
+        placeholder="Optional negative log likelihood values, comma or newline separated",
+    )
     run_eval = gr.Button("Run local evaluation")
     eval_summary = gr.JSON(label="Evaluation summary")
     eval_table = gr.Dataframe(
@@ -55,17 +61,28 @@ def build_train_tab() -> None:
         interactive=False,
     )
 
-    def evaluate_local(base_text: str, tuned_text: str) -> tuple[dict, list[list[str]]]:
+    def evaluate_local(
+        base_text: str,
+        tuned_text: str,
+        loss_text: str,
+    ) -> tuple[dict, list[list[str]]]:
         cases = default_prompt_cases()
         base_report = evaluate_responses(cases, base_text.splitlines())
         tuned_report = evaluate_responses(cases, tuned_text.splitlines())
+        tuned_report = attach_perplexity(tuned_report, parse_losses(loss_text))
         comparison = compare_base_vs_tuned(base_report, tuned_report)
         log_eval_report(tuned_report)
-        return comparison.as_dict(), tuned_report.as_table()
+        summary = comparison.as_dict()
+        summary["tuned_perplexity"] = tuned_report.perplexity
+        return summary, tuned_report.as_table()
+
+    def parse_losses(loss_text: str) -> list[float]:
+        cleaned = loss_text.replace(",", "\n")
+        return [float(value.strip()) for value in cleaned.splitlines() if value.strip()]
 
     run_eval.click(
         evaluate_local,
-        [base_responses, tuned_responses],
+        [base_responses, tuned_responses, tuned_losses],
         [eval_summary, eval_table],
         show_progress=CLICK_PROGRESS,
     )

@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import math
 from dataclasses import asdict, dataclass
 from pathlib import Path
 
@@ -32,6 +33,7 @@ class EvalReport:
 
     rows: list[EvalRow]
     exact_match_rate: float
+    perplexity: float | None = None
 
     def as_table(self) -> list[list[str]]:
         return [
@@ -48,6 +50,7 @@ class EvalReport:
     def as_dict(self) -> dict:
         return {
             "exact_match_rate": self.exact_match_rate,
+            "perplexity": self.perplexity,
             "rows": [asdict(row) for row in self.rows],
         }
 
@@ -100,6 +103,21 @@ def evaluate_responses(cases: list[PromptCase], responses: list[str]) -> EvalRep
     return EvalReport(rows=rows, exact_match_rate=exact_match_rate)
 
 
+def perplexity_from_losses(losses: list[float]) -> float | None:
+    if not losses:
+        return None
+    average_loss = sum(losses) / len(losses)
+    return math.exp(average_loss)
+
+
+def attach_perplexity(report: EvalReport, losses: list[float]) -> EvalReport:
+    return EvalReport(
+        rows=report.rows,
+        exact_match_rate=report.exact_match_rate,
+        perplexity=perplexity_from_losses(losses),
+    )
+
+
 def compare_base_vs_tuned(base: EvalReport, tuned: EvalReport) -> ComparisonReport:
     return ComparisonReport(
         base=base,
@@ -126,6 +144,7 @@ def log_eval_metrics(
         "training_metrics",
         {
             "exact_match_rate": report.exact_match_rate,
+            "perplexity": report.perplexity,
             "rows": len(report.rows),
         },
     )

@@ -278,7 +278,7 @@ the extension PRD. A task is complete only when the matching acceptance criteria
 - [x] Add simple prompt test set.
 - [x] Add exact-match metric.
 - [x] Add qualitative eval table.
-- [ ] Add perplexity metric where appropriate.
+- [x] Add perplexity metric where appropriate.
 - [x] Add base vs tuned comparison.
 - [x] Log eval results.
 - [x] Document evaluation method.
