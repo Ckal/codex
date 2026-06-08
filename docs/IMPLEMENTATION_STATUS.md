@@ -64,6 +64,7 @@ An item is done only when:
 | User-story tests | Passing | Included in the 170-test suite |
 | Coverage | Passing | 68% line/branch coverage at current configured threshold |
 | Performance tests | Passing | 2 lightweight performance tests pass |
+| Playwright E2E | Added, not locally run | `tests/e2e/workbench_user_story.spec.ts` walks all major Gradio tabs, exercises safe user paths, and writes screenshots/story Markdown to `assets/e2e/`; Node/npm is not installed in this workspace |
 | CI pipeline | Added, not run remotely | `.github/workflows/ci.yml` |
 | Quality tooling | Passing | Tests, coverage, performance, ruff, mypy, pylint, bandit, and pip-audit pass through `scripts/run_quality.ps1` |
 | Secrets and model-weight git policy | Implemented | `.gitignore` excludes env files, keys, caches, generated data/exports, and common model weight formats; policy has a unit test |
@@ -110,8 +111,10 @@ An item is done only when:
   PEFT/TRL or SWIFT/LLaMA-Factory path, and hardware are chosen.
 - Hugging Face dataset preview is optional and requires the external `datasets` package; the app
   reports a clear status when it is not installed.
+- Playwright E2E is implemented, but local execution is blocked until Node.js/npm and Playwright
+  browser binaries are installed.
 - Full PRD implementation is not complete. There are still unchecked tasks in `docs/TASKS.md`.
-- Current unchecked task count is 37, plus 3 blocked tasks, because several PRD/ext PRD items still
+- Current unchecked task count is 33, plus 3 blocked tasks, because several PRD/ext PRD items still
   need real local setup, credentials, hardware, product decisions, or hackathon submission artifacts.
 
 ## Latest Local Verification
@@ -120,6 +123,8 @@ An item is done only when:
   app smoke, 68% coverage, performance, ruff, mypy, pylint, bandit, and pip-audit.
 - `powershell -ExecutionPolicy Bypass -File scripts/run_tests.ps1` was superseded by the final
   all-in-one quality run with 170 tests and 68% coverage.
+- `node --version` and `npm --version` failed because Node.js/npm are not installed; Playwright
+  screenshots were therefore not generated locally yet.
 - Direct `ruff check .` passed; cache-write warnings were caused by OneDrive permissions.
 - Direct `mypy . --no-incremental` passed when `MYPY_CACHE_DIR` was moved to `%TEMP%`.
 - LM Studio `/v1/models` at `http://192.168.188.37:1234` returned

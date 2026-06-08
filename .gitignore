@@ -7,6 +7,11 @@ htmlcov/
 .mypy_cache/
 .ruff_cache/
 .gradio/
+node_modules/
+test-results/
+playwright-report/
+blob-report/
+assets/e2e/playwright-report/
 gradio.out.log
 gradio.err.log
 data/*

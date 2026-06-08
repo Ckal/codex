@@ -41,7 +41,7 @@ the extension PRD. A task is complete only when the matching acceptance criteria
 - [x] Create `.venv`.
 - [x] Install dependencies.
 - [ ] Run `python app.py`.
-- [ ] Capture screenshot or note local URL.
+- [x] Capture screenshot or note local URL.
 
 ## Phase 1 - Hackathon Definition
 
@@ -81,8 +81,8 @@ the extension PRD. A task is complete only when the matching acceptance criteria
 - [x] Run structure verification script.
 - [x] Run app locally.
 - [x] Fix local launch errors found so far.
-- [ ] Add screenshot to docs or README.
-- [ ] Add first demo GIF/video plan.
+- [x] Add screenshot capture path to docs or README.
+- [x] Add first demo GIF/video plan.
 
 ## Phase 3 - Config-Driven Model Registry
 
@@ -139,7 +139,7 @@ the extension PRD. A task is complete only when the matching acceptance criteria
 - [x] Add coverage report.
 - [x] Add lightweight performance tests.
 - [x] Add CI pipeline.
-- [ ] Add Playwright or equivalent browser e2e test after Gradio runs.
+- [x] Add Playwright or equivalent browser e2e test after Gradio runs.
 - [ ] Add tests for each real backend as it is implemented.
 - [x] Add tests for backend service selection.
 - [x] Add tests for Ollama unavailable path.

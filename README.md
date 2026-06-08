@@ -44,6 +44,20 @@ python -m pip install -r requirements-dev.txt
 python app.py
 ```
 
+## Browser E2E Screenshots
+
+After installing Node.js:
+
+```powershell
+npm install
+npm run e2e:install
+npm run e2e
+```
+
+The Playwright user-story test walks the major Gradio tabs and saves documentation screenshots plus
+`user-story.md` under `assets/e2e/`. To record or edit the browser flow manually, run
+`npm run e2e:record`.
+
 If `python` is not recognized, install Python 3.11+ from python.org or the Windows Store,
 then reopen the terminal so PATH is refreshed.
 
