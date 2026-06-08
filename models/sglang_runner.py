@@ -9,9 +9,8 @@ from typing import Any
 import requests
 
 from models.base import BackendStatus
-from models.http_chat import post_chat_completion
 from models.model_catalog import ModelInfo
-from models.response_parsing import extract_chat_response
+from models.server_helpers import host_port_args, request_openai_chat_text
 
 
 @dataclass(frozen=True)
@@ -86,20 +85,17 @@ class SGLangService:
                 "Install SGLang, start the planned local server command, then retry."
             )
 
-        try:
-            data = post_chat_completion(
-                post_func=self.post_func,
-                url=f"{self.config.base_url.rstrip('/')}/v1/chat/completions",
-                model=self.model.hf_id,
-                system_prompt=system_prompt,
-                user_prompt=user_prompt,
-                temperature=self.config.temperature,
-                max_tokens=self.config.max_tokens,
-                timeout=self.config.timeout_seconds,
-            )
-        except requests.RequestException as exc:
-            return f"[SGLang request failed]\n\n{exc}"
-        return extract_chat_response(data)
+        return request_openai_chat_text(
+            self.post_func,
+            self.config.base_url,
+            self.model.hf_id,
+            system_prompt,
+            user_prompt,
+            self.config.temperature,
+            self.config.max_tokens,
+            self.config.timeout_seconds,
+            "SGLang",
+        )
 
     def stop_server(self) -> str:
         try:
@@ -126,10 +122,7 @@ def build_sglang_run_plan(
             "sglang.launch_server",
             "--model-path",
             model.hf_id,
-            "--host",
-            cfg.host,
-            "--port",
-            str(cfg.port),
+            *host_port_args(cfg.host, cfg.port),
             "--tp-size",
             str(cfg.tp_size),
             "--tool-call-parser",

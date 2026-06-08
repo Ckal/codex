@@ -23,6 +23,12 @@ class AppShellTest(unittest.TestCase):
 
         self.assertIn("analytics_enabled=False", source)
 
+    def test_app_includes_vllm_tab(self) -> None:
+        source = Path("app.py").read_text(encoding="utf-8")
+
+        self.assertIn('with gr.Tab("vLLM")', source)
+        self.assertIn("build_vllm_tab(catalog)", source)
+
 
 if __name__ == "__main__":
     unittest.main()

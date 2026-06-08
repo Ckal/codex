@@ -34,7 +34,7 @@ config/*
   holds model and training settings
 
 training/*
-  holds non-executing training, evaluation, and export planning helpers
+  holds non-executing training, LoRA request, evaluation, and export planning helpers
 
 tracking/*
   holds local JSONL tracing and optional Trackio integration
@@ -162,6 +162,16 @@ SGLang local server planner and OpenAI-compatible chat client.
 - Checks `/health`, sends chat requests to `/v1/chat/completions`, and can request `/shutdown`.
 - Does not install SGLang, start a process, download model weights, or load a model on app startup.
 
+### `models/vllm_runner.py`
+
+vLLM local server planner and OpenAI-compatible chat client.
+
+- Builds explicit `vllm serve <model>` command plans.
+- Checks `/health`, parses Prometheus-style `/metrics`, and sends chat requests to
+  `/v1/chat/completions`.
+- Logs parsed benchmark metrics through `TrackingClient`.
+- Does not install vLLM, start a process, download model weights, or load a model on app startup.
+
 ### `models/transformers_text.py`
 
 Optional Transformers text backend.
@@ -223,6 +233,8 @@ Future behavior:
 Training planning and local evaluation surface.
 
 - Builds a LoRA dry-run training plan without launching training.
+- Builds a non-executing LoRA trainer request with dependency status.
+- Shows SWIFT/LLaMA-Factory vision fine-tuning plan.
 - Shows checkpoint output path, validation status, and hardware notes.
 - Runs local base-vs-tuned evaluation from newline-separated response text.
 - Shows exact-match summary and a qualitative eval table.
@@ -233,6 +245,16 @@ Future behavior:
 - Start LoRA training.
 - Show loss and metrics.
 - Write Trackio traces.
+
+### `ui/vllm_tab.py`
+
+vLLM local serving planner.
+
+- Builds explicit `vllm serve` command plans.
+- Checks local vLLM `/health`.
+- Fetches and parses `/metrics`.
+- Logs vLLM benchmark metrics through local JSONL/Trackio fallback tracking.
+- Does not install vLLM, start a process, download models, or load weights on startup.
 
 ### `ui/export_tab.py`
 
@@ -404,6 +426,16 @@ Local deterministic evaluation helpers.
 - `perplexity_from_losses()` computes perplexity from explicit negative log likelihood values.
 - `compare_base_vs_tuned()` reports exact-match delta.
 - `log_eval_report()` appends JSONL evaluation results.
+
+### `training/lora_trainer.py`
+
+Non-executing LoRA trainer request builder.
+
+- `lora_dependency_report()` reports PEFT, TRL, Transformers, and Torch availability.
+- `build_lora_training_request()` combines the training plan with dependency status and a command
+  preview.
+- `vision_finetuning_plan()` documents SWIFT/LLaMA-Factory as the future MiniCPM-V fine-tuning path.
+- Keeps `execute_training` false until dependencies, hardware, and dataset schema are approved.
 
 ### `training/reward_eval.py`
 

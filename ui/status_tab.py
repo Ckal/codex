@@ -17,6 +17,7 @@ from models.openai_compatible_service import OpenAICompatibleService
 from models.service_factory import backend_statuses
 from models.sglang_runner import SGLangConfig, SGLangService, build_sglang_run_plan
 from ui.progress import CLICK_PROGRESS
+from ui.server_controls import create_serving_controls
 
 
 def build_status_tab(catalog: dict[str, ModelInfo]) -> None:
@@ -131,7 +132,7 @@ def build_sglang_setup_panel(catalog: dict[str, ModelInfo]) -> None:
             controls["base_url"],
             controls["host"],
             controls["port"],
-            controls["tp_size"],
+            controls["parallel"],
             controls["tool_parser"],
         ],
         [command, summary],
@@ -152,14 +153,7 @@ def build_sglang_setup_panel(catalog: dict[str, ModelInfo]) -> None:
 
 
 def create_sglang_controls(catalog: dict[str, ModelInfo]) -> dict[str, Any]:
-    controls: dict[str, Any] = {
-        "selected": gr.Dropdown(list(catalog), value=next(iter(catalog)), label="Model config"),
-        "base_url": gr.Textbox(label="SGLang base URL", value="http://127.0.0.1:30000"),
-    }
-    with gr.Row():
-        controls["host"] = gr.Textbox(label="Host", value="127.0.0.1")
-        controls["port"] = gr.Number(label="Port", value=30000, precision=0)
-        controls["tp_size"] = gr.Number(label="Tensor parallel size", value=1, precision=0)
+    controls = create_serving_controls(catalog, "SGLang", "http://127.0.0.1:30000", 30000)
     controls["tool_parser"] = gr.Textbox(label="Tool parser", value="minicpm")
     with gr.Row():
         controls["prepare"] = gr.Button("Prepare SGLang command", variant="primary")

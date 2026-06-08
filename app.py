@@ -15,6 +15,7 @@ from ui.status_tab import build_status_tab
 from ui.traces_tab import build_traces_tab
 from ui.train_tab import build_train_tab
 from ui.vision_tab import build_vision_tab
+from ui.vllm_tab import build_vllm_tab
 
 APP_THEME = gr.themes.Soft(primary_hue="teal", neutral_hue="slate")
 APP_CSS = """
@@ -76,6 +77,8 @@ def build_app() -> gr.Blocks:
                 build_dataset_tab()
             with gr.Tab("Train"):
                 build_train_tab()
+            with gr.Tab("vLLM"):
+                build_vllm_tab(catalog)
             with gr.Tab("Export"):
                 build_export_tab(catalog)
             with gr.Tab("Field Notes"):

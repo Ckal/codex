@@ -34,10 +34,10 @@ Current state:
 | Template architecture | Partial | Config-driven model catalog exists |
 | System architecture | Partial | `app.py`, `core/`, `models/`, `ui/`, `datasets/`, local app state/events |
 | Model registry | Partial | `config/models.yaml`, `models/model_catalog.py`; includes GGUF and backend capability metadata |
-| Five inference modes | Partial | llama.cpp, llama-cpp-python, Ollama, OpenAI-compatible/LM Studio, SGLang, Transformers text, and MiniCPM vision services exist; vLLM runner/start-stop UI missing |
+| Five inference modes | Partial | llama.cpp, llama-cpp-python, Ollama, OpenAI-compatible/LM Studio, SGLang, vLLM, Transformers text, and MiniCPM vision services exist; local verification remains incomplete for most real backends |
 | Trackio | Partial | Local traces, optional Trackio wrapper, and HF Space sync docs exist; credentials/package setup still missing |
 | MCP layer | Partial | Local tool functions, Gradio-native MCP path metadata, `mcp_server=True` launch flag, and local invocation tests exist; full external client verification still missing |
-| Training pipeline | Partial | `training/` package supports dry-run planning, export planning, exact-match/perplexity evaluation, and local logging; LoRA trainer missing |
+| Training pipeline | Partial | `training/` package supports dry-run planning, non-executing LoRA request planning, export planning, exact-match/perplexity evaluation, and local logging; real PEFT/TRL execution missing |
 | Export and quantization | Partial | `training/export.py` and Export tab plan downloads/conversion/quantization and expose existing exported files for download; execution still missing |
 | Agent mode | Partial | Local deterministic task and paper-to-code trace loops exist with safety gates; autonomous execution and remote uploads missing |
 | UI tabs | Partial | Tabs exist; Chat/Vision/Dataset/Field Notes/Status have behavior; Status includes SGLang setup; tab actions have Gradio progress indicators; Chat/Vision/Dataset have tab-level status/error messages; compact responsive CSS exists; several tabs are still placeholders |
@@ -53,7 +53,7 @@ Current state:
 
 | Extension | Status | Evidence / Next Step |
 | --- | --- | --- |
-| vLLM serving tab | Partial | OpenAI-compatible client exists and can target vLLM-style servers; needs `models/vllm_runner.py`, start/stop UI, metrics parsing, and benchmark logging |
+| vLLM serving tab | Implemented locally, not locally verified | `models/vllm_runner.py` and vLLM tab provide command planning, health checks, metrics parsing, benchmark logging, and OpenAI-compatible chat client; needs installed/running vLLM for real serving |
 | Ollama quick-start | Partial | Service, UI backend selector, local model listing, explicit pull-command planning, and setup docs exist; local Ollama install/real model verification missing |
 | Reward model eval | Implemented locally | `training/reward_eval.py` provides deterministic reward scoring, best-of-N, DPO pairs, and LoRA-vs-base reward reports |
 | Synthetic data generation | Implemented locally | `datasets/synthetic.py` provides deterministic generation, validation, filtering, augmentation, and JSONL export |
@@ -70,7 +70,7 @@ Current state:
 Current verified gates:
 
 - Structure check passes.
-- 160 unit/user-story tests pass.
+- 170 unit/user-story tests pass.
 - Coverage report passes at 68%, above the current 60% configured threshold.
 - 2 lightweight performance tests pass.
 - Ruff passes.

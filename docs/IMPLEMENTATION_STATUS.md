@@ -42,6 +42,7 @@ An item is done only when:
 | VINDEX boundary | Implemented locally, execution disabled | `mcp_tools/vindex_tool.py` validates the eight PRD methods, builds non-executing call plans, caps risky edit parameters, and reports local package/server availability |
 | Training tab | Partial | `ui/train_tab.py` builds a LoRA dry-run plan, checkpoint output path, hardware notes, local deterministic evaluation, and optional loss-based perplexity summary |
 | Training planner | Implemented, non-executing | `training/planner.py` parses LoRA/training config, validates dry runs, and never starts training |
+| LoRA trainer planner | Implemented locally, execution disabled | `training/lora_trainer.py` reports PEFT/TRL/Transformers/Torch availability, builds a non-executing LoRA request, and documents SWIFT/LLaMA-Factory vision fine-tuning path |
 | Evaluation | Implemented, local-only | `training/evaluation.py` provides prompt cases, exact-match scoring, optional loss-based perplexity, qualitative table, base-vs-tuned comparison, and JSONL logging |
 | Export tab | Partial | `ui/export_tab.py` builds GGUF download/conversion/quantization plans, lists exported files, and exposes existing exported files through a download output |
 | Export planner | Implemented, non-executing | `training/export.py` detects llama.cpp tools, builds explicit commands, and does not run downloads/conversions |
@@ -59,8 +60,8 @@ An item is done only when:
 | Loading/progress states | Implemented | `ui/progress.py` applies full Gradio progress indicators to tab actions |
 | Compact responsive layout | Implemented | `APP_CSS` constrains app width, keeps tabs scrollable, sizes touch targets, and adds mobile padding/type rules |
 | Structure verification | Done | `scripts/verify_structure.ps1` passed |
-| Unit tests | Passing | 160 unit/user-story tests pass |
-| User-story tests | Passing | Included in the 160-test suite |
+| Unit tests | Passing | 170 unit/user-story tests pass |
+| User-story tests | Passing | Included in the 170-test suite |
 | Coverage | Passing | 68% line/branch coverage at current configured threshold |
 | Performance tests | Passing | 2 lightweight performance tests pass |
 | CI pipeline | Added, not run remotely | `.github/workflows/ci.yml` |
@@ -69,6 +70,7 @@ An item is done only when:
 | Real model inference | Partial | OpenAI-compatible/LM Studio text generation is live-verified through `llama-3.2-1b-instruct`; llama.cpp, llama-cpp-python, Ollama, SGLang, Transformers text, and MiniCPM vision services exist but remain unverified locally |
 | Hugging Face Space deploy | Not started | Needs HF login/repo |
 | HF Space deployment helper | Implemented locally | `deployment/hf_space.py` and `scripts/plan_hf_space.py` validate required files, README Space metadata, remote status, and manual deployment commands |
+| vLLM serving tab | Implemented locally, not locally verified | `models/vllm_runner.py` and `ui/vllm_tab.py` build explicit vLLM commands, check health, parse metrics, log benchmark metrics through local tracking, and use OpenAI-compatible chat when a server is running |
 | GitHub push | Done | GitHub remote `https://github.com/Ckal/codex.git`; commits pushed to `origin/main` |
 
 ## Known Blockers
@@ -82,7 +84,10 @@ An item is done only when:
   until llama.cpp tooling is installed.
 - A GGUF path can now be configured from the Status tab, but no GGUF model file has been selected
   and verified in this workspace.
-- `llama_cpp` Python package is not installed in `.venv`.
+- `llama_cpp` Python package is not installed in `.venv`. Installing `llama-cpp-python` from
+  source failed on Windows long paths inside the package source tree; binary-wheel-only install
+  found no matching distribution from the configured package index. Real Python-binding generation
+  remains blocked until Windows long paths or a compatible wheel/install path is available.
 - Ollama is not on PATH.
 - Ollama setup/list/pull command planning is implemented in the Status tab, but real list/pull and
   generation still require installing and starting Ollama locally.
@@ -95,6 +100,10 @@ An item is done only when:
   `transformers`/`torch`, local model weights, and hardware verification.
 - SGLang command planning, health, stop, and chat client code is implemented, but the `sglang`
   package/server is not installed or running in this workspace.
+- vLLM command planning, health, metrics, benchmark logging, and chat client code is implemented,
+  but the `vllm` package/server is not installed or running in this workspace.
+- LoRA training request planning is implemented, but real execution remains blocked until PEFT/TRL,
+  Transformers, Torch, and final hardware are approved and installed.
 - Trackio is optional; local JSONL tracing works without the `trackio` package, but remote Trackio/HF
   sync still needs package availability and credentials.
 - LoRA dry-run planning works locally, but real training remains blocked until a final backend,
@@ -102,16 +111,15 @@ An item is done only when:
 - Hugging Face dataset preview is optional and requires the external `datasets` package; the app
   reports a clear status when it is not installed.
 - Full PRD implementation is not complete. There are still unchecked tasks in `docs/TASKS.md`.
-- Current unchecked task count is 45 because many PRD/ext PRD items still need real local setup,
-  credentials, hardware, product decisions, or hackathon submission artifacts.
+- Current unchecked task count is 37, plus 3 blocked tasks, because several PRD/ext PRD items still
+  need real local setup, credentials, hardware, product decisions, or hackathon submission artifacts.
 
 ## Latest Local Verification
 
-- `powershell -ExecutionPolicy Bypass -File scripts/run_quality.ps1` passed all gates: tests,
-  smoke, coverage, performance, ruff, mypy, pylint, bandit, and pip-audit.
-- `powershell -ExecutionPolicy Bypass -File scripts/run_tests.ps1` passed: 158 tests and 67%
-  coverage before the shared-helper refactor; final all-in-one quality passed with 160 tests and
-  68% coverage.
+- `powershell -ExecutionPolicy Bypass -File scripts/run_quality.ps1` passed all gates: 170 tests,
+  app smoke, 68% coverage, performance, ruff, mypy, pylint, bandit, and pip-audit.
+- `powershell -ExecutionPolicy Bypass -File scripts/run_tests.ps1` was superseded by the final
+  all-in-one quality run with 170 tests and 68% coverage.
 - Direct `ruff check .` passed; cache-write warnings were caused by OneDrive permissions.
 - Direct `mypy . --no-incremental` passed when `MYPY_CACHE_DIR` was moved to `%TEMP%`.
 - LM Studio `/v1/models` at `http://192.168.188.37:1234` returned

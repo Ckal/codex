@@ -158,10 +158,16 @@ the download output. It does not run those commands yet.
 
 The Train tab does not start LoRA training yet. It builds a dry-run plan from
 `config/training.yaml`, validates the dataset path, shows the planned checkpoint output directory,
-and documents hardware expectations. It can also run a local evaluation by comparing newline-
-separated base and tuned responses against the built-in prompt cases. It reports exact match,
-can calculate perplexity from optional negative log likelihood values, shows a qualitative table,
-and appends tuned results to `data/eval_results.jsonl`.
+documents hardware expectations, and builds a non-executing LoRA trainer request with PEFT/TRL
+dependency status. It can also run a local evaluation by comparing newline-separated base and tuned
+responses against the built-in prompt cases. It reports exact match, can calculate perplexity from
+optional negative log likelihood values, shows a qualitative table, and appends tuned results to
+`data/eval_results.jsonl`.
+
+The vLLM tab is a local serving planner. It prepares an explicit `vllm serve ...` command, checks
+`/health`, fetches `/metrics`, logs parsed benchmark metrics through local tracking, and points the
+chat client at `/v1/chat/completions` only after you start vLLM yourself. It does not install vLLM
+or start a server on app startup.
 
 Tracing writes local events to `data/traces.jsonl` by default. The Traces tab can show recent app
 events, show JSONL trace rows, report whether optional Trackio is available, and export local

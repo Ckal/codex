@@ -181,9 +181,9 @@ the extension PRD. A task is complete only when the matching acceptance criteria
 
 - [x] Add optional Python binding service.
 - [x] Add backend selector support.
-- [ ] Install `llama-cpp-python` locally.
+- [blocked] Install `llama-cpp-python` locally.
 - [x] Configure local GGUF path.
-- [ ] Verify real text generation through Python binding.
+- [blocked] Verify real text generation through Python binding.
 - [x] Decide whether to keep Python binding as fallback or primary local path.
 
 ### Transformers Backend
@@ -272,7 +272,7 @@ the extension PRD. A task is complete only when the matching acceptance criteria
 - [x] Add training config placeholder.
 - [x] Add training UI placeholder.
 - [x] Add `training/` package.
-- [ ] Add LoRA text trainer.
+- [x] Add LoRA text trainer.
 - [x] Add LoRA config parser.
 - [ ] Add PEFT/TRL dependencies when ready.
 - [x] Add training dry-run validation.
@@ -280,7 +280,7 @@ the extension PRD. A task is complete only when the matching acceptance criteria
 - [x] Add Trackio integration.
 - [x] Add evaluation after training.
 - [x] Add LoRA vs base comparison.
-- [ ] Add vision fine-tuning plan using SWIFT or LLaMA-Factory.
+- [x] Add vision fine-tuning plan using SWIFT or LLaMA-Factory.
 - [x] Document training hardware requirements.
 
 ## Phase 11 - Evaluation
@@ -382,11 +382,11 @@ the extension PRD. A task is complete only when the matching acceptance criteria
 
 ### vLLM Serving Tab
 
-- [ ] Add vLLM runner.
-- [ ] Add vLLM start/stop UI.
+- [x] Add vLLM runner.
+- [x] Add vLLM start/stop UI.
 - [x] Add OpenAI-compatible client.
-- [ ] Add metrics parsing.
-- [ ] Add Trackio benchmark logging.
+- [x] Add metrics parsing.
+- [x] Add Trackio benchmark logging.
 
 ### Ollama Quick-Start
 

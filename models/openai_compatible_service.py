@@ -7,9 +7,9 @@ from typing import Any
 import requests
 
 from models.base import BackendStatus
-from models.http_chat import post_chat_completion
 from models.model_catalog import ModelInfo
 from models.response_parsing import extract_chat_response
+from models.server_helpers import request_openai_chat_text
 
 
 @dataclass(frozen=True)
@@ -74,21 +74,18 @@ class OpenAICompatibleService:
                 "Start LM Studio or another local OpenAI-compatible server before retrying."
             )
 
-        try:
-            data = post_chat_completion(
-                self.post_func,
-                f"{self.config.api_base}/v1/chat/completions",
-                self.config.request_model(self.model.hf_id),
-                system_prompt,
-                user_prompt,
-                self.config.temperature,
-                self.config.max_tokens,
-                self.config.timeout_seconds,
-                {"Authorization": f"Bearer {self.config.api_key}"},
-            )
-        except requests.RequestException as exc:
-            return f"[OpenAI-compatible request failed]\n\n{exc}"
-        return self._extract_response(data)
+        return request_openai_chat_text(
+            post_func=self.post_func,
+            base_url=self.config.api_base,
+            model=self.config.request_model(self.model.hf_id),
+            system_prompt=system_prompt,
+            user_prompt=user_prompt,
+            temperature=self.config.temperature,
+            max_tokens=self.config.max_tokens,
+            timeout_seconds=self.config.timeout_seconds,
+            failure_label="OpenAI-compatible",
+            headers={"Authorization": f"Bearer {self.config.api_key}"},
+        )
 
     @staticmethod
     def _extract_response(data: dict[str, Any]) -> str:
