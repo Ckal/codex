@@ -18,6 +18,7 @@ An item is done only when:
 | Docs folder | Done | `docs/` exists with task, usage, architecture, extension docs |
 | README | Done | `README.md` exists |
 | Hackathon submission package | Drafted | `docs/HACKATHON_SUBMISSION.md` contains track, story, user, benefit, model compliance, demo flow, video script, social post draft, and submission checklist |
+| Critical improvement roadmap | Done | `docs/ROADMAP_V2_CRITICAL_IMPROVEMENT_PLAN.md` gives a hard judge-oriented rating, architecture/security critique, and second roadmap |
 | Gradio app shell | Implemented and launch-verified | `app.py` builds and foreground launch holds the server open; not currently running |
 | Model config | Implemented | `config/models.yaml` exists |
 | Expanded model config | Implemented | MiniCPM text, thinking, 4.1, V 4.6, V thinking, omnimodal entries, GGUF metadata, and backend capability metadata including OpenAI-compatible text serving |

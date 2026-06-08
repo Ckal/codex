@@ -12,6 +12,7 @@ small-model choices clearly.
 - Use `docs/PRD_IMPLEMENTATION_MATRIX.md` before claiming PRD or extension PRD completion.
 - Use `docs/ACCEPTANCE_CRITERIA.md` before marking work complete.
 - Use `docs/ROADMAP.md` to prioritize hackathon work over stretch work.
+- Use `docs/ROADMAP_V2_CRITICAL_IMPROVEMENT_PLAN.md` for hard judge-oriented prioritization.
 - Use `docs/ARCHITECTURE.md` before changing app structure.
 - Use `docs/EXTENDING.md` before adding models, tabs, services, or training.
 - Main PRD: `HF_PRD_v1.md`.

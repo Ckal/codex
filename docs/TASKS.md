@@ -26,6 +26,7 @@ the extension PRD. A task is complete only when the matching acceptance criteria
 - [x] Add extension guide.
 - [x] Add acceptance criteria.
 - [x] Add roadmap.
+- [x] Add critical judge-oriented improvement roadmap.
 - [x] Add PRD implementation matrix.
 - [x] Add test folder.
 - [x] Add user-story test folder.
