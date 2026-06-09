@@ -23,6 +23,9 @@ This is stronger than a generic workbench for hackathon judging because it has a
 - [x] Add clean `plant/models.yaml`.
 - [x] Add deterministic no-model demo service.
 - [x] Add optional MiniCPM-V service adapter.
+- [x] Add explicit `demo`, `openbmb`, and `finetuned` model modes.
+- [x] Make OpenBMB MiniCPM-V the default real model mode.
+- [x] Add fine-tuned adapter loading path through PEFT when configured.
 - [x] Avoid hard `torch`/`transformers` imports at module import time.
 - [x] Add plant schema/parser through `PlantID`.
 - [x] Add local species index builder.
@@ -31,6 +34,8 @@ This is stronger than a generic workbench for hackathon judging because it has a
 - [x] Add focused Gradio UI with Identify, Field Guide, Corrections, and Stats.
 - [x] Replace direct training execution with non-executing training plan.
 - [x] Add optional pure tool functions and lazy MCP server builder.
+- [x] Add non-executing plant training planner.
+- [x] Add Plant model/training how-to.
 - [x] Add plant unit tests.
 - [x] Add no-model app build verification.
 
@@ -88,6 +93,8 @@ This is stronger than a generic workbench for hackathon judging because it has a
 - [ ] Add before/after model comparison.
 - [ ] Run SWIFT or LLaMA-Factory locally only after dependencies and hardware are approved.
 - [ ] Publish adapter only if it improves the evaluation set.
+- [ ] Update `plant/models.yaml` with the real adapter repo.
+- [ ] Verify `python -m plant.app --model-mode finetuned --port 7861`.
 
 ## Recommended Next Command Sequence
 
@@ -96,6 +103,7 @@ This is stronger than a generic workbench for hackathon judging because it has a
 .venv\Scripts\ruff.exe check plant tests/unit/test_plant_reference_app.py --no-cache
 .venv\Scripts\python.exe -m mypy plant tests/unit/test_plant_reference_app.py --cache-dir "$env:TEMP\openbmb-workbench-mypy-cache"
 .venv\Scripts\python.exe -m plant.app --no-model --port 7861
+.venv\Scripts\python.exe scripts\plan_plant_training.py --corrected-examples 30
 ```
 
 ## Template Lessons From Plant Discovery

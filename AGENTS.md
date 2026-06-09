@@ -15,6 +15,7 @@ small-model choices clearly.
 - Use `docs/ROADMAP_V2_CRITICAL_IMPROVEMENT_PLAN.md` for hard judge-oriented prioritization.
 - Use `docs/TEMPLATE_HOWTO.md` before creating a new domain app from the template.
 - Use `docs/PLANT_DISCOVERY_APP_PLAN.md` before changing the Plant Discovery reference app.
+- Use `docs/PLANT_MODEL_AND_TRAINING_HOWTO.md` before changing Plant Discovery model or training behavior.
 - Use `docs/ARCHITECTURE.md` before changing app structure.
 - Use `docs/EXTENDING.md` before adding models, tabs, services, or training.
 - Main PRD: `HF_PRD_v1.md`.

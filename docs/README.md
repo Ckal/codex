@@ -14,6 +14,10 @@ This folder is the project memory. Use it before asking Codex to make larger cha
 - [TEMPLATE_HOWTO.md](TEMPLATE_HOWTO.md) - how to build new domain apps from this template.
 - [PLANT_DISCOVERY_APP_PLAN.md](PLANT_DISCOVERY_APP_PLAN.md) - detailed checklist for the first
   reference app.
+- [PLANT_MODEL_AND_TRAINING_HOWTO.md](PLANT_MODEL_AND_TRAINING_HOWTO.md) - model modes and
+  adapter training path for Plant Discovery.
+- [PLANT_MODEL_AND_TRAINING_HOWTO.md](PLANT_MODEL_AND_TRAINING_HOWTO.md) - how Plant Discovery
+  uses OpenBMB MiniCPM-V and how to train an adapter.
 - [USAGE.md](USAGE.md) - how to install, run, and use the app.
 - [ARCHITECTURE.md](ARCHITECTURE.md) - how the code is organized and how pieces connect.
 - [EXTENDING.md](EXTENDING.md) - how to add models, tabs, services, and features later.

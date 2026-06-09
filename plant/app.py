@@ -41,6 +41,7 @@ def build_app(
     config_path: str | Path = DEFAULT_CONFIG,
     no_model: bool = False,
     data_dir: str | Path = "data",
+    model_mode: str = "openbmb",
 ) -> gr.Blocks:
     cfg = load_config(config_path)
     root = Path(config_path).parent
@@ -48,10 +49,12 @@ def build_app(
     note_store = FieldNoteStore(Path(data_dir) / "plant_field_notes.csv")
 
     plant_service: Any
-    if no_model:
+    if no_model or model_mode == "demo":
         plant_service = DemoPlantVisionService()
+    elif model_mode == "finetuned":
+        plant_service = PlantVisionService.from_config(config_path, "plant_vlm_finetuned")
     else:
-        plant_service = PlantVisionService.from_config(config_path)
+        plant_service = PlantVisionService.from_config(config_path, "plant_vlm")
 
     set_services(plant_service, note_store, species_index)
 
@@ -85,13 +88,23 @@ def main() -> None:
     parser.add_argument("--port", type=int, default=7861)
     parser.add_argument("--share", action="store_true")
     parser.add_argument(
+        "--model-mode",
+        choices=["openbmb", "finetuned", "demo"],
+        default="openbmb",
+        help=(
+            "openbmb uses MiniCPM-V, finetuned uses the configured adapter, "
+            "demo is deterministic."
+        ),
+    )
+    parser.add_argument(
         "--no-model",
         action="store_true",
         help="Use deterministic demo identification instead of loading a vision model.",
     )
     args = parser.parse_args()
 
-    demo = build_app(args.config, no_model=args.no_model)
+    model_mode = "demo" if args.no_model else args.model_mode
+    demo = build_app(args.config, no_model=args.no_model, model_mode=model_mode)
     print(f"Starting Plant Discovery on http://127.0.0.1:{args.port}")
     demo.launch(
         server_port=args.port,

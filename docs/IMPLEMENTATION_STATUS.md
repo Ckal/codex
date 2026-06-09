@@ -21,6 +21,7 @@ An item is done only when:
 | Critical improvement roadmap | Done | `docs/ROADMAP_V2_CRITICAL_IMPROVEMENT_PLAN.md` gives a hard judge-oriented rating, architecture/security critique, and second roadmap |
 | Template how-to | Done | `docs/TEMPLATE_HOWTO.md` documents how to build new domain apps from the template |
 | Plant Discovery plan | Done | `docs/PLANT_DISCOVERY_APP_PLAN.md` tracks the first reference app and remaining work |
+| Plant model/training how-to | Done | `docs/PLANT_MODEL_AND_TRAINING_HOWTO.md` documents demo, OpenBMB zero-shot, fine-tuned adapter mode, correction export, training plan, and adapter configuration |
 | Gradio app shell | Implemented and launch-verified | `app.py` builds and foreground launch holds the server open; not currently running |
 | Model config | Implemented | `config/models.yaml` exists |
 | Expanded model config | Implemented | MiniCPM text, thinking, 4.1, V 4.6, V thinking, omnimodal entries, GGUF metadata, and backend capability metadata including OpenAI-compatible text serving |
@@ -63,8 +64,8 @@ An item is done only when:
 | Loading/progress states | Implemented | `ui/progress.py` applies full Gradio progress indicators to tab actions |
 | Compact responsive layout | Implemented | `APP_CSS` constrains app width, keeps tabs scrollable, sizes touch targets, and adds mobile padding/type rules |
 | Structure verification | Done | `scripts/verify_structure.ps1` passed |
-| Unit tests | Passing | 183 unit/user-story tests pass |
-| User-story tests | Passing | Included in the 183-test suite |
+| Unit tests | Passing | 187 unit/user-story tests pass |
+| User-story tests | Passing | Included in the 187-test suite |
 | Coverage | Passing | 68% line/branch coverage at current configured threshold |
 | Performance tests | Passing | 2 lightweight performance tests pass |
 | Playwright E2E | Added, not locally run | `tests/e2e/workbench_user_story.spec.ts` walks all major Gradio tabs, exercises safe user paths, and writes screenshots/story Markdown to `assets/e2e/`; Node/npm is not installed in this workspace |
@@ -75,7 +76,7 @@ An item is done only when:
 | Hugging Face Space deploy | Not started | Needs HF login/repo |
 | HF Space deployment helper | Implemented locally | `deployment/hf_space.py` and `scripts/plan_hf_space.py` validate required files, README Space metadata, remote status, and manual deployment commands |
 | vLLM serving tab | Implemented locally, not locally verified | `models/vllm_runner.py` and `ui/vllm_tab.py` build explicit vLLM commands, check health, parse metrics, log benchmark metrics through local tracking, and use OpenAI-compatible chat when a server is running |
-| Plant Discovery reference app | Implemented locally, no-model verified | `plant/` is a standalone template-built app with demo/no-model service, optional MiniCPM-V adapter, local species index, correction export, non-executing training plan, optional MCP tools, unit tests, and HTTP smoke verification on port 7861 |
+| Plant Discovery reference app | Implemented locally, no-model verified | `plant/` is a standalone template-built app with demo/no-model service, default OpenBMB MiniCPM-V mode, optional fine-tuned adapter mode, local species index, correction export, non-executing training plan, optional MCP tools, unit tests, and HTTP smoke verification on port 7861 |
 | GitHub push | Done | GitHub remote `https://github.com/Ckal/codex.git`; commits pushed to `origin/main` |
 
 ## Known Blockers
@@ -117,21 +118,27 @@ An item is done only when:
   reports a clear status when it is not installed.
 - Playwright E2E is implemented, but local execution is blocked until Node.js/npm and Playwright
   browser binaries are installed.
-- Plant Discovery real MiniCPM-V inference is optional and remains unverified until
-  `plant/requirements.txt` dependencies, local hardware, and model weights are available.
+- Plant Discovery OpenBMB MiniCPM-V inference is implemented as the default real mode, but remains
+  unverified until `plant/requirements.txt` dependencies, local hardware, and model weights are
+  available.
+- Plant Discovery fine-tuned adapter mode is implemented, but no trained plant adapter exists in
+  this workspace yet.
 - Plant Discovery public Space mode still needs path/url hardening and screenshots.
 - Full PRD implementation is not complete. There are still unchecked tasks in `docs/TASKS.md`.
-- Current unchecked task count is 38, plus 3 blocked tasks, because several PRD/ext PRD items still
+- Current unchecked task count is 40, plus 3 blocked tasks, because several PRD/ext PRD items still
   need real local setup, credentials, hardware, product decisions, or hackathon submission artifacts.
 
 ## Latest Local Verification
 
-- `powershell -ExecutionPolicy Bypass -File scripts/run_quality.ps1` passed all gates: 183 tests,
+- `powershell -ExecutionPolicy Bypass -File scripts/run_quality.ps1` passed all gates: 187 tests,
   app smoke, 68% coverage, performance, ruff, mypy, pylint, bandit, and pip-audit.
 - `powershell -ExecutionPolicy Bypass -File scripts/run_tests.ps1` was superseded by the final
-  all-in-one quality run with 183 tests and 68% coverage.
+  all-in-one quality run with 187 tests and 68% coverage.
 - Plant Discovery no-model HTTP smoke passed on `http://127.0.0.1:7861`; the process was stopped
   after verification.
+- `python scripts\plan_plant_training.py --corrected-examples 30` prints a non-executing SWIFT /
+  LLaMA-Factory adapter training plan; current environment is missing torch, transformers, PEFT,
+  TRL, and SWIFT.
 - `node --version` and `npm --version` failed because Node.js/npm are not installed; Playwright
   screenshots were therefore not generated locally yet.
 - Direct `ruff check .` passed; cache-write warnings were caused by OneDrive permissions.

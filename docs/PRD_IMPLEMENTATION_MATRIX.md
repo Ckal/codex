@@ -71,7 +71,7 @@ Current state:
 Current verified gates:
 
 - Structure check passes.
-- 183 unit/user-story tests pass.
+- 187 unit/user-story tests pass.
 - Coverage report passes at 68%, above the current 60% configured threshold.
 - 2 lightweight performance tests pass.
 - Ruff passes.

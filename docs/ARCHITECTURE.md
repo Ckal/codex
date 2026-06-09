@@ -71,8 +71,8 @@ Standalone Plant Discovery reference app built from the template.
 - Loads `plant/models.yaml`.
 - Builds a local species index.
 - Reuses `datasets.field_notes.FieldNoteStore` for corrections.
-- Uses `DemoPlantVisionService` for screenshots/tests or `PlantVisionService` for optional
-  MiniCPM-V inference.
+- Uses `DemoPlantVisionService` for screenshots/tests or `PlantVisionService` for OpenBMB
+  MiniCPM-V zero-shot and fine-tuned adapter inference.
 
 ### `plant/plant_service.py`
 
@@ -81,7 +81,18 @@ Domain service and schema for Plant Discovery.
 - `PlantID` is the structured output schema.
 - `DemoPlantVisionService` provides deterministic no-model results.
 - `PlantVisionService` lazy-loads optional MiniCPM-V dependencies only during identification.
+- `PlantVisionService.from_config(..., "plant_vlm_finetuned")` can load a PEFT adapter after a real
+  adapter repo is configured.
 - `extract_json_object()` and `parse_plant_response()` make model JSON output testable.
+
+### `plant/training.py`
+
+Non-executing training planner for Plant Discovery.
+
+- `build_plant_training_plan()` returns SWIFT and LLaMA-Factory command previews.
+- `plant_training_dependency_report()` reports optional training dependency availability.
+- `write_llamafactory_dataset_info()` writes a dataset-info preview for LLaMA-Factory workflows.
+- Training is never started by the Gradio UI or script.
 
 ### `plant/plant_loader.py`
 

@@ -99,6 +99,8 @@ Plant example: `PlantID` in `plant/plant_service.py`.
 - [ ] Avoid loading weights on startup.
 - [ ] Add a deterministic demo/no-model service for screenshots and tests.
 - [ ] Add an unavailable-path response when optional packages are missing.
+- [ ] Add explicit runtime modes such as `demo`, `base-model`, and `finetuned`.
+- [ ] Do not claim a fine-tuned model until a real adapter/checkpoint is configured and verified.
 
 For vision apps, start with a VLM such as MiniCPM-V. For text apps, start with a small instruct
 model through LM Studio, Ollama, llama.cpp, or Transformers.
@@ -146,6 +148,7 @@ model through LM Studio, Ollama, llama.cpp, or Transformers.
 - [ ] Require enough corrected examples before recommending training.
 - [ ] Keep real training as a separate local command or approved action.
 - [ ] Add evaluation before/after tuning.
+- [ ] Add a small script that prints the training plan as JSON.
 
 ### 9. Add Security Guardrails
 

@@ -29,6 +29,7 @@ the extension PRD. A task is complete only when the matching acceptance criteria
 - [x] Add critical judge-oriented improvement roadmap.
 - [x] Add template how-to for building new domain apps.
 - [x] Add Plant Discovery reference app checklist.
+- [x] Add Plant Discovery model and training how-to.
 - [x] Add PRD implementation matrix.
 - [x] Add test folder.
 - [x] Add user-story test folder.
@@ -495,6 +496,9 @@ the extension PRD. A task is complete only when the matching acceptance criteria
 - [x] Add clean plant model/domain config.
 - [x] Add deterministic no-model plant service.
 - [x] Add optional MiniCPM-V plant service adapter.
+- [x] Make OpenBMB MiniCPM-V the default real model mode.
+- [x] Add explicit demo/openbmb/finetuned runtime modes.
+- [x] Add optional fine-tuned adapter loading path.
 - [x] Keep optional model dependencies lazy.
 - [x] Add plant structured result schema and parser.
 - [x] Add species index builder.
@@ -503,6 +507,8 @@ the extension PRD. A task is complete only when the matching acceptance criteria
 - [x] Add focused Identify, Field Guide, Corrections, and Stats UI.
 - [x] Replace direct training execution with non-executing training plan.
 - [x] Add optional plant tool functions with lazy MCP server construction.
+- [x] Add non-executing plant training planner.
+- [x] Add `scripts/plan_plant_training.py`.
 - [x] Add Plant Discovery unit tests.
 - [x] Verify no-model app shell builds.
 - [x] Run Plant Discovery as a long-running local app.
@@ -510,6 +516,8 @@ the extension PRD. A task is complete only when the matching acceptance criteria
 - [ ] Add Plant Discovery screenshots to README/docs.
 - [ ] Decide whether hackathon Space launches root workbench or Plant Discovery app.
 - [ ] Verify real MiniCPM-V plant identification with optional dependencies.
+- [ ] Train or configure a real Plant Discovery adapter.
+- [ ] Verify `--model-mode finetuned` with the real adapter.
 - [ ] Add public-mode file/path/url hardening before Space deployment.
 
 ## Ongoing Maintenance

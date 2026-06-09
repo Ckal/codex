@@ -9,6 +9,7 @@ import gradio as gr
 from datasets.field_notes import FieldNote, FieldNoteStore
 from plant.plant_loader import FieldNotesPlantExporter
 from plant.plant_service import PlantID
+from plant.training import build_plant_training_plan
 
 
 def build_plant_tab(
@@ -28,6 +29,12 @@ def build_plant_tab(
 
 
 def build_identify_panel(plant_service: Any, note_store: FieldNoteStore) -> None:
+    status = (
+        plant_service.service_status()
+        if hasattr(plant_service, "service_status")
+        else {"mode": "unknown", "uses_llm": False}
+    )
+    gr.JSON(status, label="Model status")
     with gr.Row():
         with gr.Column(scale=1):
             image = gr.Image(type="pil", label="Primary plant image", height=280)
@@ -315,29 +322,7 @@ def export_corrections(note_store: FieldNoteStore) -> dict[str, Any]:
 
 def plant_training_plan(note_store: FieldNoteStore) -> dict[str, Any]:
     corrected = len(note_store.list_notes(corrected_only=True, training_only=True))
-    return {
-        "execute_training": False,
-        "corrected_examples": corrected,
-        "minimum_recommended_examples": 30,
-        "backend": "SWIFT or LLaMA-Factory vision LoRA",
-        "command_preview": [
-            "swift",
-            "sft",
-            "--model",
-            "openbmb/MiniCPM-V-4.6",
-            "--dataset",
-            "data/plant_training.jsonl",
-            "--freeze_vit",
-            "true",
-            "--output_dir",
-            "checkpoints/plant_lora",
-        ],
-        "notes": [
-            "Do not start training from the public UI.",
-            "Collect enough corrections first.",
-            "Run training locally after checking GPU memory and dataset quality.",
-        ],
-    }
+    return build_plant_training_plan(corrected_examples=corrected).to_dict()
 
 
 def plant_stats(

@@ -35,6 +35,7 @@ models:
   plant_vlm_finetuned:
     hf_id: your-username/minicpm-v46-plant-lora
     base_model: openbmb/MiniCPM-V-4.6
+    adapter_id: your-username/minicpm-v46-plant-lora
     type: vision
     architecture: minicpm_v
     role: finetuned

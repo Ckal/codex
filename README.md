@@ -67,8 +67,16 @@ Plant Discovery under `plant/`.
 .venv\Scripts\python.exe -m plant.app --no-model --port 7861
 ```
 
+Use the real OpenBMB VLM path after installing optional plant dependencies:
+
+```powershell
+.venv\Scripts\python.exe -m plant.app --model-mode openbmb --port 7861
+```
+
 The detailed build guide is [docs/TEMPLATE_HOWTO.md](docs/TEMPLATE_HOWTO.md), and the Plant
 Discovery checklist is [docs/PLANT_DISCOVERY_APP_PLAN.md](docs/PLANT_DISCOVERY_APP_PLAN.md).
+Model and adapter training steps are in
+[docs/PLANT_MODEL_AND_TRAINING_HOWTO.md](docs/PLANT_MODEL_AND_TRAINING_HOWTO.md).
 
 If `python` is not recognized, install Python 3.11+ from python.org or the Windows Store,
 then reopen the terminal so PATH is refreshed.

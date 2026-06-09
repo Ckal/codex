@@ -5,6 +5,7 @@ from typing import Any
 
 from datasets.field_notes import FieldNote, FieldNoteStore
 from plant.plant_loader import FieldNotesPlantExporter
+from plant.training import build_plant_training_plan
 
 _plant_service: Any | None = None
 _note_store: FieldNoteStore | None = None
@@ -119,27 +120,13 @@ def training_plan(
     lora_rank: int = 16,
     epochs: int = 3,
 ) -> dict[str, Any]:
-    return {
-        "execute_training": False,
-        "dataset_path": dataset_path,
-        "lora_rank": lora_rank,
-        "epochs": epochs,
-        "backend": "SWIFT or LLaMA-Factory vision LoRA",
-        "command_preview": [
-            "swift",
-            "sft",
-            "--model",
-            "openbmb/MiniCPM-V-4.6",
-            "--dataset",
-            dataset_path,
-            "--lora_rank",
-            str(lora_rank),
-            "--num_train_epochs",
-            str(epochs),
-            "--freeze_vit",
-            "true",
-        ],
-    }
+    plan = build_plant_training_plan(
+        dataset_path=dataset_path,
+        corrected_examples=dataset_stats().get("corrections", 0),
+    ).to_dict()
+    plan["requested_lora_rank"] = lora_rank
+    plan["requested_epochs"] = epochs
+    return plan
 
 
 def build_mcp_server():

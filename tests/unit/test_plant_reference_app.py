@@ -21,6 +21,7 @@ from plant.plant_tab import (
     species_table,
 )
 from plant.plant_tools import dataset_stats, search_species, set_services, training_plan
+from plant.training import build_plant_training_plan, write_llamafactory_dataset_info
 
 
 class PlantReferenceAppTest(unittest.TestCase):
@@ -35,12 +36,23 @@ class PlantReferenceAppTest(unittest.TestCase):
 
         self.assertEqual(type(demo).__name__, "Blocks")
 
+    def test_default_app_builds_openbmb_service_without_loading_weights(self) -> None:
+        demo = build_app()
+
+        self.assertEqual(type(demo).__name__, "Blocks")
+
     def test_demo_service_returns_structured_plant_result(self) -> None:
         result = DemoPlantVisionService().identify(object(), force_thinking=True)
 
         self.assertEqual(result.latin_name, "Bellis perennis")
         self.assertGreater(result.confidence, 0.8)
         self.assertEqual(result.to_dict()["family"], "Asteraceae")
+
+    def test_demo_service_reports_no_llm_usage(self) -> None:
+        status = DemoPlantVisionService().service_status()
+
+        self.assertFalse(status["uses_llm"])
+        self.assertEqual(status["mode"], "demo")
 
     def test_extract_json_repairs_common_model_wrapping(self) -> None:
         parsed = extract_json_object('```json\n{"latin_name":"Rosa canina",}\n```')
@@ -133,6 +145,24 @@ class PlantReferenceAppTest(unittest.TestCase):
 
             self.assertFalse(plan["execute_training"])
             self.assertEqual(plan["corrected_examples"], 1)
+            self.assertIn("swift", plan["swift_command"])
+
+    def test_build_plant_training_plan_documents_openbmb_and_adapter_mode(self) -> None:
+        plan = build_plant_training_plan(corrected_examples=42)
+
+        self.assertFalse(plan.execute_training)
+        self.assertEqual(plan.base_model, "openbmb/MiniCPM-V-4.6")
+        self.assertEqual(plan.corrected_examples, 42)
+        self.assertIn("--model-mode", plan.use_trained_model_command)
+
+    def test_write_llamafactory_dataset_info(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            output = write_llamafactory_dataset_info(
+                dataset_path="data/plant_training.jsonl",
+                output_path=Path(tmp) / "dataset_info.json",
+            )
+
+            self.assertIn("plant_discovery", output.read_text(encoding="utf-8"))
 
     def test_tools_use_registered_services_without_hard_mcp_dependency(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
@@ -142,6 +172,7 @@ class PlantReferenceAppTest(unittest.TestCase):
             self.assertEqual(search_species("daisy")[0]["latin_name"], "Bellis perennis")
             self.assertEqual(dataset_stats()["species_index_size"], len(demo_species()))
             self.assertFalse(training_plan()["execute_training"])
+            self.assertIn("swift_command", training_plan())
 
 
 if __name__ == "__main__":

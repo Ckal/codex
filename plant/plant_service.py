@@ -63,6 +63,8 @@ class PlantID:
 class PlantVisionConfig:
     model_id: str = "openbmb/MiniCPM-V-4.6"
     thinking_model_id: str = "openbmb/MiniCPM-V-4.6-Thinking"
+    adapter_id: str = ""
+    model_key: str = "plant_vlm"
     confidence_threshold: float = 0.70
     max_new_tokens: int = 512
     temperature: float = 0.1
@@ -76,6 +78,15 @@ class DemoPlantVisionService:
     """Deterministic no-model service for screenshots, tests, and template demos."""
 
     model_id = "demo/plant-discovery"
+
+    def service_status(self) -> dict[str, Any]:
+        return {
+            "mode": "demo",
+            "uses_llm": False,
+            "model_id": self.model_id,
+            "ready": True,
+            "notes": "Deterministic demo mode; no model weights are loaded.",
+        }
 
     def identify(
         self,
@@ -132,21 +143,35 @@ class PlantVisionService:
             "transformers": importlib.util.find_spec("transformers") is not None,
             "torch": importlib.util.find_spec("torch") is not None,
             "pillow": importlib.util.find_spec("PIL") is not None,
+            "peft": importlib.util.find_spec("peft") is not None,
         }
 
     @classmethod
-    def from_config(cls, config_path: str | Path) -> PlantVisionService:
+    def from_config(
+        cls,
+        config_path: str | Path,
+        model_key: str = "plant_vlm",
+    ) -> PlantVisionService:
         cfg = yaml.safe_load(Path(config_path).read_text(encoding="utf-8")) or {}
         models = cfg.get("models", {})
         inference = cfg.get("inference", {})
-        primary = models.get("plant_vlm", {})
+        primary = models.get(model_key, {}) or models.get("plant_vlm", {})
         thinking = models.get("plant_vlm_thinking", {})
+        adapter_id = str(primary.get("adapter_id") or "")
+        if not adapter_id and bool(primary.get("requires_training", False)):
+            adapter_id = str(primary.get("hf_id") or "")
         return cls(
             PlantVisionConfig(
-                model_id=str(primary.get("hf_id") or PlantVisionConfig.model_id),
+                model_id=str(
+                    primary.get("base_model")
+                    or primary.get("hf_id")
+                    or PlantVisionConfig.model_id
+                ),
                 thinking_model_id=str(
                     thinking.get("hf_id") or PlantVisionConfig.thinking_model_id
                 ),
+                adapter_id=adapter_id,
+                model_key=model_key,
                 confidence_threshold=float(inference.get("confidence_threshold", 0.70)),
                 max_new_tokens=int(inference.get("max_new_tokens", 512)),
                 temperature=float(inference.get("temperature", 0.1)),
@@ -156,13 +181,33 @@ class PlantVisionService:
             )
         )
 
+    def service_status(self) -> dict[str, Any]:
+        dependencies = self.dependency_report()
+        required = ["transformers", "torch", "pillow"]
+        if self.config.adapter_id:
+            required.append("peft")
+        missing = [name for name in required if not dependencies[name]]
+        return {
+            "mode": "openbmb-finetuned" if self.config.adapter_id else "openbmb-zero-shot",
+            "uses_llm": True,
+            "model_id": self.config.model_id,
+            "adapter_id": self.config.adapter_id,
+            "model_key": self.config.model_key,
+            "ready": not missing,
+            "missing_dependencies": missing,
+            "notes": (
+                "Uses OpenBMB MiniCPM-V through Transformers. Weights load only during Identify."
+            ),
+        }
+
     def identify(
         self,
         image: Any,
         extra_images: list[Any] | None = None,
         force_thinking: bool = False,
     ) -> PlantID:
-        missing = [name for name, available in self.dependency_report().items() if not available]
+        status = self.service_status()
+        missing = list(status["missing_dependencies"])
         if missing:
             return PlantID(
                 common_name="Model unavailable",
@@ -259,6 +304,9 @@ class PlantVisionService:
             device_map=self.config.device_map,
             torch_dtype=self.config.torch_dtype,
         )
+        if self.config.adapter_id and not thinking:
+            peft = import_module("peft")
+            model = peft.PeftModel.from_pretrained(model, self.config.adapter_id)
         model.eval()
 
         if thinking:
