@@ -8,7 +8,8 @@ The full PRD and extension PRD are not fully implemented yet.
 
 Current state:
 
-- Foundation, docs, test policy, quality gates, CI, and placeholder Gradio surfaces exist.
+- Foundation, docs, test policy, quality gates, CI, placeholder Gradio surfaces, and a Plant
+  Discovery reference app exist.
 - Shared app state, service registries, local event logging, tab-level error events, and local
   trace preview exist.
 - Local llama.cpp settings, GGUF/mmproj pickers, and command generation exist without startup downloads.
@@ -31,7 +32,7 @@ Current state:
 | PRD Area | Status | Evidence / Next Step |
 | --- | --- | --- |
 | Purpose and design philosophy | Documented | `README.md`, `docs/ROADMAP.md` |
-| Template architecture | Partial | Config-driven model catalog exists |
+| Template architecture | Partial | Config-driven model catalog exists; `docs/TEMPLATE_HOWTO.md` and `plant/` show the first domain-app pattern |
 | System architecture | Partial | `app.py`, `core/`, `models/`, `ui/`, `datasets/`, local app state/events |
 | Model registry | Partial | `config/models.yaml`, `models/model_catalog.py`; includes GGUF and backend capability metadata |
 | Five inference modes | Partial | llama.cpp, llama-cpp-python, Ollama, OpenAI-compatible/LM Studio, SGLang, vLLM, Transformers text, and MiniCPM vision services exist; local verification remains incomplete for most real backends |
@@ -70,7 +71,7 @@ Current state:
 Current verified gates:
 
 - Structure check passes.
-- 170 unit/user-story tests pass.
+- 183 unit/user-story tests pass.
 - Coverage report passes at 68%, above the current 60% configured threshold.
 - 2 lightweight performance tests pass.
 - Ruff passes.

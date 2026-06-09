@@ -27,6 +27,8 @@ the extension PRD. A task is complete only when the matching acceptance criteria
 - [x] Add acceptance criteria.
 - [x] Add roadmap.
 - [x] Add critical judge-oriented improvement roadmap.
+- [x] Add template how-to for building new domain apps.
+- [x] Add Plant Discovery reference app checklist.
 - [x] Add PRD implementation matrix.
 - [x] Add test folder.
 - [x] Add user-story test folder.
@@ -473,6 +475,42 @@ the extension PRD. A task is complete only when the matching acceptance criteria
 - [x] Document Synthetic Gen -> Reward Eval -> DPO.
 - [x] Document Agent -> Desk-Pet Persona.
 - [x] Document HF Spaces -> Trackio.
+
+## Phase 18 - Template And Reference Apps
+
+### Template How-To
+
+- [x] Document branch strategy for new domain apps.
+- [x] Document required domain app file contract.
+- [x] Document schema, service, loader, UI, tools, tests, and docs pattern.
+- [x] Document no-model/demo-mode requirement.
+- [x] Document correction-loop-first workflow.
+- [x] Document optional training and real-model verification steps.
+- [x] Document security requirements for public Space mode.
+
+### Plant Discovery Reference App
+
+- [x] Add `plant/` package.
+- [x] Add standalone Plant Discovery Gradio entrypoint.
+- [x] Add clean plant model/domain config.
+- [x] Add deterministic no-model plant service.
+- [x] Add optional MiniCPM-V plant service adapter.
+- [x] Keep optional model dependencies lazy.
+- [x] Add plant structured result schema and parser.
+- [x] Add species index builder.
+- [x] Add local image-folder loader.
+- [x] Add field-note correction export to plant training JSONL.
+- [x] Add focused Identify, Field Guide, Corrections, and Stats UI.
+- [x] Replace direct training execution with non-executing training plan.
+- [x] Add optional plant tool functions with lazy MCP server construction.
+- [x] Add Plant Discovery unit tests.
+- [x] Verify no-model app shell builds.
+- [x] Run Plant Discovery as a long-running local app.
+- [ ] Generate Plant Discovery screenshots.
+- [ ] Add Plant Discovery screenshots to README/docs.
+- [ ] Decide whether hackathon Space launches root workbench or Plant Discovery app.
+- [ ] Verify real MiniCPM-V plant identification with optional dependencies.
+- [ ] Add public-mode file/path/url hardening before Space deployment.
 
 ## Ongoing Maintenance
 

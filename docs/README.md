@@ -11,6 +11,9 @@ This folder is the project memory. Use it before asking Codex to make larger cha
 - [ROADMAP.md](ROADMAP.md) - hackathon path versus long-term PRD vision.
 - [ROADMAP_V2_CRITICAL_IMPROVEMENT_PLAN.md](ROADMAP_V2_CRITICAL_IMPROVEMENT_PLAN.md) - hard
   judge-oriented critique and second roadmap.
+- [TEMPLATE_HOWTO.md](TEMPLATE_HOWTO.md) - how to build new domain apps from this template.
+- [PLANT_DISCOVERY_APP_PLAN.md](PLANT_DISCOVERY_APP_PLAN.md) - detailed checklist for the first
+  reference app.
 - [USAGE.md](USAGE.md) - how to install, run, and use the app.
 - [ARCHITECTURE.md](ARCHITECTURE.md) - how the code is organized and how pieces connect.
 - [EXTENDING.md](EXTENDING.md) - how to add models, tabs, services, and features later.

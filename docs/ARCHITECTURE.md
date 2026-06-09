@@ -42,6 +42,11 @@ tracking/*
 deployment/*
   holds Hugging Face Space deployment planning and validation helpers
 
+plant/*
+  holds the first reference domain app built from the template
+  can run standalone with python -m plant.app --no-model
+  keeps heavy model dependencies optional
+
 core/*
   shared app state, event, logging, and registry helpers
 ```
@@ -57,6 +62,53 @@ Builds and launches the Gradio app.
 - Registers the current UI tabs.
 - `APP_CSS` defines compact responsive layout rules for app width, mobile padding, scrollable tabs,
   and button touch targets.
+
+### `plant/app.py`
+
+Standalone Plant Discovery reference app built from the template.
+
+- `build_app(no_model=True)` creates a Gradio app without loading model weights.
+- Loads `plant/models.yaml`.
+- Builds a local species index.
+- Reuses `datasets.field_notes.FieldNoteStore` for corrections.
+- Uses `DemoPlantVisionService` for screenshots/tests or `PlantVisionService` for optional
+  MiniCPM-V inference.
+
+### `plant/plant_service.py`
+
+Domain service and schema for Plant Discovery.
+
+- `PlantID` is the structured output schema.
+- `DemoPlantVisionService` provides deterministic no-model results.
+- `PlantVisionService` lazy-loads optional MiniCPM-V dependencies only during identification.
+- `extract_json_object()` and `parse_plant_response()` make model JSON output testable.
+
+### `plant/plant_loader.py`
+
+Domain data and export helpers for Plant Discovery.
+
+- `PlantRecord` normalizes plant examples into training rows.
+- `LocalFolderLoader` maps species folders to image metadata.
+- `SpeciesIndexBuilder` builds a no-network species index with demo fallback.
+- `FieldNotesPlantExporter` exports corrected field notes to plant training JSONL.
+
+### `plant/plant_tab.py`
+
+Focused Gradio UI for Plant Discovery.
+
+- Identify tab uploads images and renders a safe escaped result card.
+- Field Guide tab searches the species index.
+- Corrections tab saves and exports training-ready corrections.
+- Stats tab summarizes species and correction counts.
+- Training is represented as a non-executing plan, not a subprocess.
+
+### `plant/plant_tools.py`
+
+Optional local/MCP tools for Plant Discovery.
+
+- Pure functions can be tested without an MCP server.
+- `build_mcp_server()` imports `mcp` only when explicitly requested.
+- Tools expose identify, species search, correction save/export, stats, and training plan.
 
 ### `models/model_catalog.py`
 

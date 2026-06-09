@@ -58,6 +58,18 @@ The Playwright user-story test walks the major Gradio tabs and saves documentati
 `user-story.md` under `assets/e2e/`. To record or edit the browser flow manually, run
 `npm run e2e:record`.
 
+## Template And Reference Apps
+
+This repo is also a template for focused local-first Gradio apps. The first reference app is
+Plant Discovery under `plant/`.
+
+```powershell
+.venv\Scripts\python.exe -m plant.app --no-model --port 7861
+```
+
+The detailed build guide is [docs/TEMPLATE_HOWTO.md](docs/TEMPLATE_HOWTO.md), and the Plant
+Discovery checklist is [docs/PLANT_DISCOVERY_APP_PLAN.md](docs/PLANT_DISCOVERY_APP_PLAN.md).
+
 If `python` is not recognized, install Python 3.11+ from python.org or the Windows Store,
 then reopen the terminal so PATH is refreshed.
 
@@ -109,6 +121,8 @@ The working docs live in [docs/README.md](docs/README.md).
 - [PRD implementation matrix](docs/PRD_IMPLEMENTATION_MATRIX.md)
 - [Acceptance criteria](docs/ACCEPTANCE_CRITERIA.md)
 - [Roadmap](docs/ROADMAP.md)
+- [Template how-to](docs/TEMPLATE_HOWTO.md)
+- [Plant Discovery plan](docs/PLANT_DISCOVERY_APP_PLAN.md)
 - [Usage guide](docs/USAGE.md)
 - [Architecture guide](docs/ARCHITECTURE.md)
 - [Extension guide](docs/EXTENDING.md)

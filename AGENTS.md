@@ -13,6 +13,8 @@ small-model choices clearly.
 - Use `docs/ACCEPTANCE_CRITERIA.md` before marking work complete.
 - Use `docs/ROADMAP.md` to prioritize hackathon work over stretch work.
 - Use `docs/ROADMAP_V2_CRITICAL_IMPROVEMENT_PLAN.md` for hard judge-oriented prioritization.
+- Use `docs/TEMPLATE_HOWTO.md` before creating a new domain app from the template.
+- Use `docs/PLANT_DISCOVERY_APP_PLAN.md` before changing the Plant Discovery reference app.
 - Use `docs/ARCHITECTURE.md` before changing app structure.
 - Use `docs/EXTENDING.md` before adding models, tabs, services, or training.
 - Main PRD: `HF_PRD_v1.md`.

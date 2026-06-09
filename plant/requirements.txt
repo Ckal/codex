@@ -1,0 +1,27 @@
+# Plant Discovery optional runtime.
+#
+# The root project can import and run the no-model Plant Discovery demo without these
+# heavyweight packages. Install this file only when you want real MiniCPM-V inference
+# or local vision LoRA experiments.
+
+gradio[mcp]>=5.38.0
+pyyaml>=6.0.0
+Pillow>=10.0.0
+huggingface_hub>=0.23.0
+requests>=2.31.0
+pandas>=2.0.0
+
+# Real vision inference.
+transformers>=4.41.0
+torch>=2.1.0
+torchvision
+accelerate
+
+# Optional dataset/training path.
+datasets>=2.18.0
+peft>=0.10.0
+trl>=0.9.0
+
+# Optional MCP and tracking extras.
+mcp[cli]>=1.0.0
+trackio>=0.1.0
