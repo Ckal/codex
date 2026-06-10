@@ -4,7 +4,9 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "e2e": "playwright test",
+    "e2e": "npm run e2e:workbench && npm run e2e:plant",
+    "e2e:workbench": "playwright test --config playwright.config.ts",
+    "e2e:plant": "powershell -ExecutionPolicy Bypass -File scripts/run_plant_e2e.ps1",
     "e2e:headed": "playwright test --headed",
     "e2e:record": "playwright codegen http://127.0.0.1:7860",
     "e2e:install": "playwright install chromium"

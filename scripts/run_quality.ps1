@@ -9,11 +9,6 @@ if (-not (Test-Path $python)) {
         $python = "$env:LOCALAPPDATA\Microsoft\WindowsApps\python3.11.exe"
     }
 }
-$scripts = ".venv\Scripts"
-if (-not (Test-Path $scripts)) {
-    $scripts = "$env:LOCALAPPDATA\Packages\PythonSoftwareFoundation.Python.3.11_qbz5n2kfra8p0\LocalCache\local-packages\Python311\Scripts"
-}
-$ruff = "$scripts\ruff.exe"
 $mypyCache = "$env:TEMP\openbmb-workbench-mypy-cache"
 $pipAuditCache = "$env:TEMP\openbmb-workbench-pip-audit-cache"
 $pytestCache = "$env:TEMP\openbmb-workbench-pytest-cache"
@@ -68,7 +63,7 @@ Invoke-Checked @(
 )
 
 Write-Host "Running ruff"
-Invoke-Checked @($ruff, "check", ".", "--no-cache")
+Invoke-Checked @($python, "-m", "ruff", "check", ".", "--no-cache")
 
 Write-Host "Running mypy"
 Invoke-Checked @($python, "-m", "mypy", ".", "--cache-dir", $mypyCache)
@@ -80,4 +75,14 @@ Write-Host "Running bandit"
 Invoke-Checked @($python, "-m", "bandit", "-r", "app.py", "core", "datasets", "models", "ui")
 
 Write-Host "Running pip-audit"
-Invoke-Checked @($python, "-m", "pip_audit", "--cache-dir", $pipAuditCache)
+Invoke-Checked @(
+    $python,
+    "-m",
+    "pip_audit",
+    "--cache-dir",
+    $pipAuditCache,
+    "-r",
+    "requirements.txt",
+    "-r",
+    "requirements-dev.txt"
+)

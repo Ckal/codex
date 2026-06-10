@@ -4,7 +4,7 @@ models:
     display_name: MiniCPM5 1B
     type: text
     parameters_b: 1
-    backend: placeholder
+    backend: transformers
     backend_capabilities:
       placeholder: [text]
       ollama: [text, streaming]
@@ -28,7 +28,7 @@ models:
     display_name: MiniCPM5 1B Thinking
     type: text
     parameters_b: 1
-    backend: placeholder
+    backend: transformers
     backend_capabilities:
       placeholder: [text]
       ollama: [text, thinking, streaming]
@@ -52,7 +52,7 @@ models:
     display_name: MiniCPM4.1 8B
     type: text
     parameters_b: 8
-    backend: placeholder
+    backend: transformers
     backend_capabilities:
       placeholder: [text]
       ollama: [text, streaming]
@@ -72,12 +72,36 @@ models:
       default_quant: Q4_K_M
     notes: Long-context sparse-attention text model; real backend will require trust_remote_code.
 
+  nemotron_nano_9b_v2:
+    hf_id: nvidia/NVIDIA-Nemotron-Nano-9B-v2
+    display_name: NVIDIA Nemotron Nano 9B v2
+    type: text
+    parameters_b: 9
+    backend: transformers
+    backend_capabilities:
+      placeholder: [text]
+      llama.cpp: [text, gguf]
+      llama-cpp-python: [text, gguf]
+      transformers: [text, custom-code]
+      openai-compatible: [text, openai-compatible]
+      sglang: [text]
+      vllm: [text, openai-compatible]
+    context_length: 131072
+    local_first: true
+    thinking_mode: false
+    trust_remote_code: true
+    gguf:
+      available: true
+      repo: bartowski/nvidia_NVIDIA-Nemotron-Nano-9B-v2-GGUF
+      default_quant: Q4_K_M
+    notes: Small Nemotron text option under the 32B hackathon limit; verify license and hardware before using in a public Space.
+
   minicpm_v46:
     hf_id: openbmb/MiniCPM-V-4.6
     display_name: MiniCPM-V 4.6
     type: vision
     parameters_b: 1.3
-    backend: placeholder
+    backend: transformers
     backend_capabilities:
       placeholder: [vision]
       ollama: [vision]
@@ -100,7 +124,7 @@ models:
     display_name: MiniCPM-V 4.6 Thinking
     type: vision
     parameters_b: 1.3
-    backend: placeholder
+    backend: transformers
     backend_capabilities:
       placeholder: [vision, thinking]
       ollama: [vision, thinking]
@@ -121,7 +145,7 @@ models:
     display_name: MiniCPM-o 4.5
     type: omnimodal
     parameters_b: 8
-    backend: placeholder
+    backend: transformers
     backend_capabilities:
       placeholder: [text, vision, audio]
       transformers: [text, vision, audio]

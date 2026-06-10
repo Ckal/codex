@@ -57,6 +57,7 @@ class TransformersTextService:
         model, tokenizer = self._load_components()
         prompt = self._format_chat_prompt(tokenizer, system_prompt, user_prompt)
         encoded = tokenizer(prompt, return_tensors="pt")
+        encoded = self._move_encoded_to_model_device(encoded, model)
         outputs = model.generate(**encoded, **self.generation_kwargs())
         decoded = cast(str, tokenizer.decode(outputs[0], skip_special_tokens=True))
         return decoded[len(prompt) :].strip() or decoded.strip()
@@ -102,3 +103,15 @@ class TransformersTextService:
         parts = [f"{message['role']}: {message['content']}" for message in messages]
         parts.append("assistant:")
         return "\n".join(parts)
+
+    @staticmethod
+    def _move_encoded_to_model_device(encoded, model):
+        device = getattr(model, "device", None)
+        if device is None:
+            return encoded
+        if hasattr(encoded, "to"):
+            return encoded.to(device)
+        return {
+            key: value.to(device) if hasattr(value, "to") else value
+            for key, value in encoded.items()
+        }

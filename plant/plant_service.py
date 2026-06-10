@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import importlib.util
 import json
+import os
 import re
 import time
 from dataclasses import asdict, dataclass, field
@@ -173,11 +174,16 @@ class PlantVisionService:
                 adapter_id=adapter_id,
                 model_key=model_key,
                 confidence_threshold=float(inference.get("confidence_threshold", 0.70)),
-                max_new_tokens=int(inference.get("max_new_tokens", 512)),
+                max_new_tokens=int(
+                    os.getenv("PLANT_MAX_NEW_TOKENS", str(inference.get("max_new_tokens", 512)))
+                ),
                 temperature=float(inference.get("temperature", 0.1)),
                 trust_remote_code=bool(primary.get("trust_remote_code", True)),
                 torch_dtype=str(primary.get("dtype") or "auto"),
-                auto_thinking=bool(inference.get("auto_thinking", True)),
+                auto_thinking=_env_bool(
+                    "PLANT_AUTO_THINKING",
+                    bool(inference.get("auto_thinking", True)),
+                ),
             )
         )
 
@@ -406,6 +412,13 @@ def _toxicity_mapping(value: Any) -> dict[str, str]:
             "pets": str(value.get("pets") or "unknown"),
         }
     return {"humans": "unknown", "pets": "unknown"}
+
+
+def _env_bool(name: str, default: bool) -> bool:
+    value = os.getenv(name)
+    if value is None:
+        return default
+    return value.strip().lower() in {"1", "true", "yes", "on"}
 
 
 def _clamp_float(value: Any, minimum: float, maximum: float) -> float:

@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import unittest
 
+from core.deployment import DeploymentPolicy
 from models.llama_cpp_python_service import LlamaCppPythonService
 from models.llama_cpp_service import LlamaCppService
 from models.minicpm_vision import MiniCPMVisionService
@@ -26,6 +27,16 @@ class ServiceFactoryTest(unittest.TestCase):
         service = create_text_service(catalog["minicpm5_1b"], "placeholder")
 
         self.assertIsInstance(service, PlaceholderModelService)
+
+    def test_space_policy_rejects_placeholder_service(self) -> None:
+        catalog = load_model_catalog("config/models.yaml")
+
+        with self.assertRaises(ValueError):
+            create_text_service(
+                catalog["minicpm5_1b"],
+                "placeholder",
+                DeploymentPolicy("space"),
+            )
 
     def test_creates_ollama_service_when_selected(self) -> None:
         catalog = load_model_catalog("config/models.yaml")
@@ -56,6 +67,12 @@ class ServiceFactoryTest(unittest.TestCase):
         self.assertIn("openai-compatible", [status.name for status in statuses])
         self.assertIn("sglang", [status.name for status in statuses])
         self.assertIn("transformers-vision", [status.name for status in statuses])
+
+    def test_space_backend_statuses_hide_placeholder(self) -> None:
+        statuses = backend_statuses(DeploymentPolicy("space"))
+
+        self.assertNotIn("placeholder", [status.name for status in statuses])
+        self.assertIn("transformers", [status.name for status in statuses])
 
     def test_model_service_registries_include_all_backends(self) -> None:
         expected = [

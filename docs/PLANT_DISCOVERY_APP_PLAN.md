@@ -48,8 +48,8 @@ This is stronger than a generic workbench for hackathon judging because it has a
 - [ ] Generate Playwright screenshots for the plant app.
 - [ ] Add Plant Discovery screenshots to README.
 - [ ] Add a 60-90 second demo script focused on plant correction.
-- [ ] Decide whether the hackathon Space should launch `app.py` or `plant/app.py`.
-- [ ] If using `plant/app.py` for Space, add a Space-specific entrypoint or README note.
+- [x] Decide whether the hackathon Space should launch `app.py` or `plant/app.py`.
+- [x] If using `plant/app.py` for Space, add a Space-specific entrypoint or README note.
 
 ### P1 - Real Model Path
 
@@ -105,6 +105,9 @@ This is stronger than a generic workbench for hackathon judging because it has a
 .venv\Scripts\python.exe -m plant.app --no-model --port 7861
 .venv\Scripts\python.exe scripts\plan_plant_training.py --corrected-examples 30
 ```
+
+For the deployed Plant Identification Tool Space, use `plant_space_app.py`. It launches
+OpenBMB MiniCPM-V mode and does not enable `--no-model`/demo mode.
 
 ## Template Lessons From Plant Discovery
 

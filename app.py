@@ -5,6 +5,7 @@ from typing import cast
 import gradio as gr
 
 from core.app_logging import configure_app_logging
+from core.deployment import current_policy
 from models.model_catalog import load_model_catalog
 from ui.agent_tab import build_agent_tab
 from ui.chat_tab import build_chat_tab
@@ -57,22 +58,28 @@ input,
 
 def build_app() -> gr.Blocks:
     configure_app_logging()
+    policy = current_policy()
     catalog = load_model_catalog("config/models.yaml")
 
     with gr.Blocks(title="OpenBMB Local AI Workbench", analytics_enabled=False) as demo:
         gr.Markdown(
             """
             # OpenBMB Local AI Workbench
-            Small-model experimentation for Gradio + Hugging Face Spaces.
+            Real small-model experimentation for Gradio + Hugging Face Spaces.
             """,
             elem_classes=["app-title"],
         )
+        if policy.is_space:
+            gr.Markdown(
+                "Deployment mode: Space. Placeholder and demo inference are disabled; "
+                "select a configured real backend before running model calls."
+            )
 
         with gr.Tabs():
             with gr.Tab("Chat"):
-                build_chat_tab(catalog)
+                build_chat_tab(catalog, policy)
             with gr.Tab("Vision"):
-                build_vision_tab(catalog)
+                build_vision_tab(catalog, policy)
             with gr.Tab("Dataset"):
                 build_dataset_tab()
             with gr.Tab("Train"):
@@ -88,7 +95,7 @@ def build_app() -> gr.Blocks:
             with gr.Tab("Agent"):
                 build_agent_tab()
             with gr.Tab("Status"):
-                build_status_tab(catalog)
+                build_status_tab(catalog, policy)
 
     return cast(gr.Blocks, demo)
 

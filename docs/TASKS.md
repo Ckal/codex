@@ -44,7 +44,7 @@ the extension PRD. A task is complete only when the matching acceptance criteria
 - [x] Verify `python --version`.
 - [x] Create `.venv`.
 - [x] Install dependencies.
-- [ ] Run `python app.py`.
+- [x] Run `python app.py`.
 - [x] Capture screenshot or note local URL.
 
 ## Phase 1 - Hackathon Definition
@@ -161,7 +161,7 @@ the extension PRD. A task is complete only when the matching acceptance criteria
 
 ### Ollama Backend
 
-- [ ] Confirm Ollama is installed.
+- [x] Confirm Ollama is installed.
 - [x] Add `models/ollama_service.py`.
 - [x] Add local model list.
 - [x] Add pull model command with explicit user action.
@@ -171,7 +171,7 @@ the extension PRD. A task is complete only when the matching acceptance criteria
 
 ### llama.cpp Backend
 
-- [ ] Confirm llama.cpp tools are installed.
+- [x] Confirm llama.cpp tools are installed.
 - [x] Add `models/llama_cpp_service.py`.
 - [x] Add `models/llama_cpp_python_service.py`.
 - [x] Add GGUF file picker.
@@ -185,9 +185,9 @@ the extension PRD. A task is complete only when the matching acceptance criteria
 
 - [x] Add optional Python binding service.
 - [x] Add backend selector support.
-- [blocked] Install `llama-cpp-python` locally.
+- [x] Install `llama-cpp-python` locally.
 - [x] Configure local GGUF path.
-- [blocked] Verify real text generation through Python binding.
+- [x] Verify real text generation through Python binding.
 - [x] Decide whether to keep Python binding as fallback or primary local path.
 
 ### Transformers Backend
@@ -226,6 +226,7 @@ the extension PRD. A task is complete only when the matching acceptance criteria
 - [x] Add MiniCPM5 tool parser config.
 - [x] Add health check.
 - [x] Add chat endpoint client.
+- [x] Install `sglang` locally.
 
 ## Phase 7 - UI Tabs From Main PRD
 
@@ -349,12 +350,12 @@ the extension PRD. A task is complete only when the matching acceptance criteria
 
 ## Phase 15 - Hugging Face Space Deployment
 
-- [ ] Install/verify `huggingface_hub`.
-- [ ] Login with `huggingface-cli`.
+- [x] Install/verify `huggingface_hub`.
+- [x] Login with `hf auth login`.
 - [ ] Create Space.
 - [x] Add Space README metadata if needed.
-- [ ] Add Space remote.
-- [ ] Push to Space.
+- [x] Add Space remote.
+- [x] Push to Space.
 - [ ] Verify Space builds.
 - [ ] Add Space URL to README.
 - [x] Document hardware choice.
@@ -373,9 +374,9 @@ the extension PRD. A task is complete only when the matching acceptance criteria
 
 - [x] Finalize app name.
 - [x] Finalize track.
-- [ ] Verify Gradio app polish.
+- [x] Verify Gradio app polish.
 - [x] Verify model-size compliance.
-- [ ] Verify Space URL.
+- [ ] Verify Space URLs.
 - [x] Verify GitHub URL.
 - [ ] Record demo video.
 - [ ] Publish social post.
@@ -405,9 +406,9 @@ the extension PRD. A task is complete only when the matching acceptance criteria
 - [x] Add llama.cpp service.
 - [x] Add llama-cpp-python service.
 - [x] Add llama.cpp status check.
-- [ ] Install llama.cpp locally.
-- [ ] Download/pick GGUF model.
-- [ ] Verify real text generation.
+- [x] Install llama.cpp locally.
+- [x] Download/pick GGUF model.
+- [x] Verify real text generation.
 - [ ] Verify MiniCPM-V mmproj flow.
 
 ### Reward Model Eval
@@ -512,10 +513,10 @@ the extension PRD. A task is complete only when the matching acceptance criteria
 - [x] Add Plant Discovery unit tests.
 - [x] Verify no-model app shell builds.
 - [x] Run Plant Discovery as a long-running local app.
-- [ ] Generate Plant Discovery screenshots.
-- [ ] Add Plant Discovery screenshots to README/docs.
-- [ ] Decide whether hackathon Space launches root workbench or Plant Discovery app.
-- [ ] Verify real MiniCPM-V plant identification with optional dependencies.
+- [x] Generate Plant Discovery screenshots.
+- [x] Add Plant Discovery screenshots to README/docs.
+- [x] Decide whether hackathon Space launches root workbench or Plant Discovery app.
+- [x] Verify real MiniCPM-V plant identification with optional dependencies.
 - [ ] Train or configure a real Plant Discovery adapter.
 - [ ] Verify `--model-mode finetuned` with the real adapter.
 - [ ] Add public-mode file/path/url hardening before Space deployment.

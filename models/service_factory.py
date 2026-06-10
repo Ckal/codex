@@ -2,6 +2,12 @@ from __future__ import annotations
 
 from collections.abc import Callable
 
+from core.deployment import (
+    DeploymentPolicy,
+    current_policy,
+    ensure_backend_allowed,
+    filter_backends_for_policy,
+)
 from core.registry import Registry
 from models.base import BackendStatus, TextModelService, VisionModelService
 from models.llama_cpp_python_service import LlamaCppPythonConfig, LlamaCppPythonService
@@ -37,13 +43,20 @@ VISION_SERVICE_REGISTRY.register("transformers", MiniCPMVisionService)
 BACKENDS = TEXT_SERVICE_REGISTRY.list()
 
 
-def create_text_service(model: ModelInfo, backend: str) -> TextModelService:
+def create_text_service(
+    model: ModelInfo,
+    backend: str,
+    policy: DeploymentPolicy | None = None,
+) -> TextModelService:
+    active_policy = policy or current_policy()
+    ensure_backend_allowed(backend, active_policy)
     if backend == "llama.cpp":
         config = load_local_backend_config()
         return LlamaCppService(
             model,
             LlamaCppConfig(
                 server_url=config.llama_cpp_server_url,
+                server_path=config.llama_server_path,
                 model_path=config.gguf_path,
                 mmproj_path=config.mmproj_path,
             ),
@@ -72,13 +85,20 @@ def create_text_service(model: ModelInfo, backend: str) -> TextModelService:
     return TEXT_SERVICE_REGISTRY.get(backend)(model)
 
 
-def create_vision_service(model: ModelInfo, backend: str) -> VisionModelService:
+def create_vision_service(
+    model: ModelInfo,
+    backend: str,
+    policy: DeploymentPolicy | None = None,
+) -> VisionModelService:
+    active_policy = policy or current_policy()
+    ensure_backend_allowed(backend, active_policy)
     if backend == "llama.cpp":
         config = load_local_backend_config()
         return LlamaCppService(
             model,
             LlamaCppConfig(
                 server_url=config.llama_cpp_server_url,
+                server_path=config.llama_server_path,
                 model_path=config.gguf_path,
                 mmproj_path=config.mmproj_path,
             ),
@@ -96,8 +116,9 @@ def create_vision_service(model: ModelInfo, backend: str) -> VisionModelService:
     return VISION_SERVICE_REGISTRY.get(backend)(model)
 
 
-def backend_statuses() -> list[BackendStatus]:
-    return [
+def backend_statuses(policy: DeploymentPolicy | None = None) -> list[BackendStatus]:
+    active_policy = policy or current_policy()
+    statuses = [
         BackendStatus("placeholder", True, "Deterministic placeholder backend is available."),
         LlamaCppService.status(),
         LlamaCppPythonService.status(),
@@ -106,4 +127,12 @@ def backend_statuses() -> list[BackendStatus]:
         OpenAICompatibleService.status(load_local_backend_config().openai_compatible_base_url),
         SGLangService.status(),
         MiniCPMVisionService.status(),
+    ]
+    allowed_backend_names = set(filter_backends_for_policy(BACKENDS, active_policy))
+    if active_policy.allow_placeholder_backend:
+        allowed_backend_names.add("placeholder")
+    return [
+        status
+        for status in statuses
+        if status.name in allowed_backend_names or status.name == "transformers-vision"
     ]

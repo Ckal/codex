@@ -20,10 +20,14 @@ Current state:
 - VINDEX integration boundary exists locally as non-executing MCP-style planning tools.
 - Local non-autonomous agent mode exists with trace export.
 - Real local model inference is partially implemented through llama.cpp, llama-cpp-python, Ollama,
-  OpenAI-compatible/LM Studio, SGLang, Transformers text, and MiniCPM vision services. The Status
+  OpenAI-compatible/LM Studio, SGLang, Transformers text, and MiniCPM vision services. Verified
+  local paths now include llama.cpp CLI text, llama-cpp-python GGUF text, LM Studio text, and
+  OpenBMB MiniCPM-V Plant image inference. The Status
   tab includes llama.cpp setup, LM Studio/OpenAI-compatible setup, SGLang command/check/stop setup,
   and Ollama local model listing plus explicit pull-command planning. LM Studio text generation is
   live-verified with `llama-3.2-1b-instruct`; the other real backends still need local verification.
+- `WORKBENCH_DEPLOYMENT=space` now hides placeholder backend choices and refuses placeholder/demo
+  service creation for deployed app paths.
 - LoRA training execution, served MCP endpoint, deployment, and most extensions are not implemented.
 - Placeholder services remain intentionally visible so the app never pretends to be real inference.
 
@@ -35,7 +39,7 @@ Current state:
 | Template architecture | Partial | Config-driven model catalog exists; `docs/TEMPLATE_HOWTO.md` and `plant/` show the first domain-app pattern |
 | System architecture | Partial | `app.py`, `core/`, `models/`, `ui/`, `datasets/`, local app state/events |
 | Model registry | Partial | `config/models.yaml`, `models/model_catalog.py`; includes GGUF and backend capability metadata |
-| Five inference modes | Partial | llama.cpp, llama-cpp-python, Ollama, OpenAI-compatible/LM Studio, SGLang, vLLM, Transformers text, and MiniCPM vision services exist; local verification remains incomplete for most real backends |
+| Five inference modes | Partial | llama.cpp, llama-cpp-python, OpenAI-compatible/LM Studio, and MiniCPM-V Plant image inference are locally verified; Ollama generation, SGLang server generation, vLLM server generation, and llama.cpp mmproj vision remain unverified |
 | Trackio | Partial | Local traces, optional Trackio wrapper, and HF Space sync docs exist; credentials/package setup still missing |
 | MCP layer | Partial | Local tool functions, Gradio-native MCP path metadata, `mcp_server=True` launch flag, and local invocation tests exist; full external client verification still missing |
 | Training pipeline | Partial | `training/` package supports dry-run planning, non-executing LoRA request planning, export planning, exact-match/perplexity evaluation, and local logging; real PEFT/TRL execution missing |
@@ -59,7 +63,7 @@ Current state:
 | Reward model eval | Implemented locally | `training/reward_eval.py` provides deterministic reward scoring, best-of-N, DPO pairs, and LoRA-vs-base reward reports |
 | Synthetic data generation | Implemented locally | `datasets/synthetic.py` provides deterministic generation, validation, filtering, augmentation, and JSONL export |
 | Paper-to-code agent | Implemented locally | Agent tab and `agent/runner.py` support paper input, research/plan/implementation/verify trace, and safety gates without autonomous execution |
-| HF Spaces deploy | Partial | README metadata, deployment helper, command plan, required-file validation, and remote/build status checks exist; HF auth/remote/push still missing |
+| HF Spaces deploy | Partial | README metadata, deployment helper, command plan, required-file validation, Workbench/Plant target URLs, and remote/build status checks exist; HF auth/remote/push/build verification still missing |
 | VINDEX integration | Implemented locally, execution disabled | `mcp_tools/vindex_tool.py` validates VINDEX methods, builds safe call plans, reports dependency/server status, and documents that actual edits require a verified local VINDEX install |
 | OCR pipeline hook | Implemented locally | `datasets/ocr.py` and Field Notes tab support local OCR prediction loading, confidence thresholds, uncertain import, human correction, and corrected JSONL export |
 | MiniCPM Desk-Pet | Not implemented | Needs persona schema/export |
@@ -81,8 +85,9 @@ Current verified gates:
 - Pip-audit reports no known vulnerabilities in `.venv`.
 - LM Studio `/v1/models` and `/v1/chat/completions` are verified locally for
   `llama-3.2-1b-instruct`.
+- Workbench and Plant Playwright screenshot flows pass through `npm run e2e`.
 - CI workflow exists but has not run remotely.
-- App launch has been verified locally, but the server is not currently left running.
+- App launch has been verified locally through Playwright, but the server is not currently left running.
 
 ## No Pretend-Done Rule
 

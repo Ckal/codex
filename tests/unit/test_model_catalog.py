@@ -42,11 +42,13 @@ class ModelCatalogTest(unittest.TestCase):
             self.assertIn(model.backend, model.backend_capabilities)
             self.assertTrue(model.backend_capabilities[model.backend])
 
-    def test_catalog_warns_that_placeholder_backends_are_not_real_inference(self) -> None:
+    def test_catalog_defaults_to_real_transformers_backends(self) -> None:
         catalog = load_model_catalog("config/models.yaml")
         warnings = validate_catalog(catalog)
 
-        self.assertTrue(any("placeholder backend" in warning for warning in warnings))
+        self.assertFalse(any("placeholder backend" in warning for warning in warnings))
+        self.assertEqual(catalog["minicpm5_1b"].backend, "transformers")
+        self.assertEqual(catalog["minicpm_v46"].backend, "transformers")
 
 
 if __name__ == "__main__":

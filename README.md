@@ -1,7 +1,7 @@
 ---
 title: OpenBMB Local AI Workbench
-colorFrom: teal
-colorTo: slate
+colorFrom: green
+colorTo: gray
 sdk: gradio
 app_file: app.py
 pinned: false
@@ -18,8 +18,8 @@ The project turns the PRD in `HF_PRD_v1.md` into a staged implementation:
 
 1. A working Gradio app shell.
 2. Config-driven OpenBMB model registry.
-3. Local-first inference path, starting with deterministic placeholder mode and optional Ollama,
-   llama.cpp, LM Studio/OpenAI-compatible, and Transformers backends.
+3. Local-first inference path through real backends: Transformers, Ollama, llama.cpp,
+   LM Studio/OpenAI-compatible, SGLang, and vLLM.
 4. Field notes for collecting corrections.
 5. Extension points for training, GGUF export, Trackio traces, MCP tools, and agent workflows.
 
@@ -54,9 +54,20 @@ npm run e2e:install
 npm run e2e
 ```
 
-The Playwright user-story test walks the major Gradio tabs and saves documentation screenshots plus
-`user-story.md` under `assets/e2e/`. To record or edit the browser flow manually, run
+The Playwright user-story tests run separate Workbench and Plant flows and save documentation
+screenshots under `assets/e2e/workbench/` and `assets/e2e/plant/`. The Workbench screenshot now runs
+local GGUF chat through `llama-cpp-python`; the Plant screenshot can run OpenBMB MiniCPM-V on
+`assets/plant_sample.jpg` with `RUN_REAL_MODEL_E2E=1`.
+only when `RUN_REAL_MODEL_E2E=1` is set; otherwise the browser tests verify real-backend setup
+surfaces without using mock responses. To record or edit the browser flow manually, run
 `npm run e2e:record`.
+
+Generated screenshot sets:
+
+- [Workbench home](assets/e2e/workbench/01-workbench-home.png)
+- [Workbench backend status](assets/e2e/workbench/05-backend-status.png)
+- [Plant tool home](assets/e2e/plant/01-plant-home.png)
+- [Plant corrections export](assets/e2e/plant/03-corrections-export.png)
 
 ## Template And Reference Apps
 
@@ -139,10 +150,12 @@ The working docs live in [docs/README.md](docs/README.md).
 
 ## Current Truth
 
-The full PRD is not implemented yet. The current app is a tested, quality-gated scaffold with
-visible placeholder inference plus local backend planning surfaces. GitHub push is complete at
-`https://github.com/Ckal/codex`. Real verified local inference, training execution, served MCP,
-Hugging Face Space deployment, and most extension PRD items are still backlog work.
+The full PRD is not implemented yet. The current app is a tested, quality-gated scaffold moving
+from placeholder-first local verification to real-backend Workbench deployment. GitHub push is
+complete at `https://github.com/Ckal/codex`. LM Studio/OpenAI-compatible text inference has been
+verified previously; OpenBMB Transformers, Ollama OpenBMB, llama.cpp, MiniCPM-V, Space builds,
+training execution, served MCP, and most extension PRD items still need proof before being claimed
+done.
 
 ## Model Plan
 
@@ -154,10 +167,11 @@ Initial candidates from the PRD:
 | `minicpm_v46` | `openbmb/MiniCPM-V-4.6` | image/video understanding |
 | `minicpm_o45` | `openbmb/MiniCPM-o-4.5` | omnimodal stretch goal |
 
-The app starts in placeholder mode so it does not download large model files automatically.
-llama.cpp, llama-cpp-python, Ollama, LM Studio/OpenAI-compatible, and Transformers text can be
-selected as backends, but the backend tool/package/server must be installed and populated with the
-selected model explicitly by the user.
+The app does not download large model files automatically. In deployed Space mode, placeholder
+backend choices are hidden and model calls require real backend configuration. llama.cpp,
+llama-cpp-python, Ollama, LM Studio/OpenAI-compatible, SGLang, Nemotron Nano 9B v2, and Transformers text can be selected as
+backends, but the backend tool/package/server must be installed and populated with the selected
+model explicitly by the user.
 
 ## Deployment Target
 
@@ -171,19 +185,43 @@ For Hugging Face Spaces, keep these files at repo root:
 - `models/`
 - `ui/`
 
-Later deployment command:
+Workbench Space target:
+
+```text
+https://huggingface.co/spaces/build-small-hackathon/workbench
+```
+
+## Spaces
+
+- Workbench Space: https://huggingface.co/spaces/build-small-hackathon/workbench
+- Plant Identification Tool Space: https://huggingface.co/spaces/build-small-hackathon/plant_identification_tool
+
+Both Spaces have been pushed. At the latest local poll they were still in Hugging Face `BUILDING`
+state on `zero-a10g`, so final build/run smoke verification is still open.
+
+Plant Identification Tool Space target:
+
+```text
+https://huggingface.co/spaces/build-small-hackathon/plant_identification_tool
+```
+
+Use a freshly generated token through `hf auth login`; do not paste tokens into files or commit
+them.
+
+Later deployment commands:
 
 ```powershell
-huggingface-cli login
-huggingface-cli repo create openbmb-local-ai-workbench --type space --space-sdk gradio
-git remote add space https://huggingface.co/spaces/<user>/openbmb-local-ai-workbench
-git push space main
+hf auth login
+git remote add space-workbench https://huggingface.co/spaces/build-small-hackathon/workbench
+git push space-workbench main
+git remote add space-plant https://huggingface.co/spaces/build-small-hackathon/plant_identification_tool
+git push space-plant main
 ```
 
 ## Next Implementation Steps
 
 1. Decide the exact hackathon story and user.
 2. Add screenshot/demo media and Space submission URLs.
-3. Continue the llama.cpp GGUF champion path or Hugging Face Space deployment.
+3. Push and verify the two Hugging Face Spaces, then finish llama.cpp MiniCPM-V mmproj vision verification.
 4. Add field-note export to JSONL/HF Dataset.
 5. Polish README with screenshots, demo video script, and submission links.

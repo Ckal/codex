@@ -1,13 +1,14 @@
 from __future__ import annotations
 
 import csv
+import datetime as dt
 import json
 import sqlite3
 from contextlib import closing
 from dataclasses import asdict, dataclass
-from datetime import UTC, datetime
 from pathlib import Path
-from typing import Self
+
+UTC = getattr(dt, "UTC", dt.timezone.utc)  # noqa: UP017
 
 
 @dataclass
@@ -37,7 +38,7 @@ class FieldNote:
         use_for_training: bool = True,
     ) -> FieldNote:
         return cls(
-            created_at=datetime.now(UTC).isoformat(),
+            created_at=dt.datetime.now(UTC).isoformat(),
             model_id=model_id,
             prompt=prompt,
             response=response,
@@ -49,7 +50,7 @@ class FieldNote:
         )
 
     @classmethod
-    def from_row(cls, row: dict[str, str]) -> Self:
+    def from_row(cls, row: dict[str, str]) -> FieldNote:
         use_for_training = str(row.get("use_for_training", "true")).lower() in {
             "1",
             "true",

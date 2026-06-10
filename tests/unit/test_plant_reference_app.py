@@ -4,6 +4,7 @@ import tempfile
 import unittest
 from pathlib import Path
 
+from core.deployment import DeploymentPolicy
 from datasets.field_notes import FieldNote, FieldNoteStore
 from plant.app import build_app, load_config
 from plant.plant_loader import (
@@ -35,6 +36,17 @@ class PlantReferenceAppTest(unittest.TestCase):
         demo = build_app(no_model=True)
 
         self.assertEqual(type(demo).__name__, "Blocks")
+
+    def test_space_policy_rejects_no_model_mode(self) -> None:
+        import plant.app as plant_app
+
+        original = plant_app.current_policy
+        plant_app.current_policy = lambda: DeploymentPolicy("space")  # type: ignore[assignment]
+        try:
+            with self.assertRaises(ValueError):
+                build_app(no_model=True)
+        finally:
+            plant_app.current_policy = original  # type: ignore[assignment]
 
     def test_default_app_builds_openbmb_service_without_loading_weights(self) -> None:
         demo = build_app()

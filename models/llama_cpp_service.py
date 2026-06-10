@@ -18,6 +18,7 @@ class LlamaCppConfig:
     """Runtime configuration for a local llama.cpp server."""
 
     server_url: str = "http://127.0.0.1:8080"
+    server_path: str = ""
     model_path: str = ""
     mmproj_path: str = ""
 
@@ -40,8 +41,17 @@ class LlamaCppService:
         which_func: Callable[[str], str | None] = shutil.which,
         get_func: Callable[..., requests.Response] = requests.get,
         server_url: str = "http://127.0.0.1:8080",
+        server_path: str = "",
     ) -> BackendStatus:
-        if which_func("llama-server") is None:
+        executable = server_path or "llama-server"
+        if server_path:
+            if not Path(server_path).exists():
+                return BackendStatus(
+                    "llama.cpp",
+                    False,
+                    f"Configured llama-server was not found: {server_path}",
+                )
+        elif which_func(executable) is None:
             return BackendStatus("llama.cpp", False, "llama-server was not found on PATH.")
 
         try:
@@ -65,7 +75,7 @@ class LlamaCppService:
         if not self.config.model_path:
             return []
 
-        command = ["llama-server", "-m", self.config.model_path]
+        command = [self.config.server_path or "llama-server", "-m", self.config.model_path]
         if self.config.mmproj_path:
             command.extend(["--mmproj", self.config.mmproj_path])
         return command
@@ -89,7 +99,10 @@ class LlamaCppService:
         return self._post_chat([{"role": "user", "content": prompt}])
 
     def _post_chat(self, messages: list[dict[str, str]]) -> str:
-        status = self.status(server_url=self.config.server_url)
+        status = self.status(
+            server_url=self.config.server_url,
+            server_path=self.config.server_path,
+        )
         if not status.available:
             return (
                 "[llama.cpp unavailable]\n\n"

@@ -6,6 +6,7 @@ from typing import Any
 
 import gradio as gr
 
+from core.spaces_runtime import spaces
 from datasets.field_notes import FieldNote, FieldNoteStore
 from plant.plant_loader import FieldNotesPlantExporter
 from plant.plant_service import PlantID
@@ -131,6 +132,7 @@ def build_stats_panel(
     refresh.click(lambda: plant_stats(note_store, species_index), outputs=stats)
 
 
+@spaces.GPU(duration=240)
 def identify_plant_callback(
     plant_service: Any,
     image: Any,
@@ -228,7 +230,7 @@ def render_result_card(result: dict[str, Any]) -> str:
 def normalize_gallery_images(gallery: list[Any] | None) -> list[Any]:
     images: list[Any] = []
     for item in gallery or []:
-        if isinstance(item, (list, tuple)) and item:
+        if isinstance(item, list | tuple) and item:
             images.append(item[0])
         elif item is not None:
             images.append(item)

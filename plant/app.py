@@ -7,6 +7,7 @@ from typing import Any, cast
 import gradio as gr
 import yaml
 
+from core.deployment import current_policy, ensure_demo_mode_allowed
 from datasets.field_notes import FieldNoteStore
 from plant.plant_loader import SpeciesIndexBuilder
 from plant.plant_service import DemoPlantVisionService, PlantVisionService
@@ -43,6 +44,7 @@ def build_app(
     data_dir: str | Path = "data",
     model_mode: str = "openbmb",
 ) -> gr.Blocks:
+    policy = current_policy()
     cfg = load_config(config_path)
     root = Path(config_path).parent
     species_index = SpeciesIndexBuilder(root=root).build(cfg)
@@ -50,6 +52,7 @@ def build_app(
 
     plant_service: Any
     if no_model or model_mode == "demo":
+        ensure_demo_mode_allowed(policy)
         plant_service = DemoPlantVisionService()
     elif model_mode == "finetuned":
         plant_service = PlantVisionService.from_config(config_path, "plant_vlm_finetuned")

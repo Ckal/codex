@@ -24,20 +24,20 @@ An item is done only when:
 | Plant model/training how-to | Done | `docs/PLANT_MODEL_AND_TRAINING_HOWTO.md` documents demo, OpenBMB zero-shot, fine-tuned adapter mode, correction export, training plan, and adapter configuration |
 | Gradio app shell | Implemented and launch-verified | `app.py` builds and foreground launch holds the server open; not currently running |
 | Model config | Implemented | `config/models.yaml` exists |
-| Expanded model config | Implemented | MiniCPM text, thinking, 4.1, V 4.6, V thinking, omnimodal entries, GGUF metadata, and backend capability metadata including OpenAI-compatible text serving |
+| Expanded model config | Implemented | MiniCPM text, thinking, 4.1, V 4.6, V thinking, omnimodal entries, NVIDIA Nemotron Nano 9B v2, GGUF metadata, and backend capability metadata including OpenAI-compatible text serving |
 | Catalog validation | Implemented | `validate_catalog()` and Status tab warnings |
 | Training config | Implemented | `config/training.yaml` exists |
 | Placeholder chat | Implemented | `ui/chat_tab.py`, `models/placeholder_service.py` |
 | Placeholder vision | Implemented | `ui/vision_tab.py`, `models/placeholder_service.py` |
 | Service abstraction | Implemented | `models/base.py`, `models/service_factory.py` |
 | Local backend config | Implemented | `models/local_backend_config.py` saves ignored local settings in `data/local_backends.yaml` |
-| llama.cpp backend | Implemented, not locally verified | `models/llama_cpp_service.py`; Status tab can pick GGUF/mmproj paths and build a `llama-server` command; llama.cpp tools not found on PATH |
-| llama-cpp-python backend | Implemented as fallback, not locally verified | `models/llama_cpp_python_service.py`; uses the configured local GGUF path when package is installed; `llama_cpp` package not installed |
+| llama.cpp backend | Implemented and locally verified for text CLI | `models/llama_cpp_service.py`; Status tab can pick GGUF/mmproj paths and build a command using `C:\llama-b9587-bin-win-cuda-13.3-x64\llama-server.exe`; `llama-cli.exe` generated a real response from a local GGUF |
+| llama-cpp-python backend | Implemented and locally verified | `models/llama_cpp_python_service.py`; `llama_cpp 0.3.8` generated a real local response from `Llama-3.2-1B-Instruct-Q4_K_M.gguf`; Workbench Playwright captures this response |
 | Ollama backend | Implemented, not locally verified | `models/ollama_service.py`; Status tab lists local Ollama models and prepares explicit `ollama pull` commands; Ollama executable not found on PATH |
 | OpenAI-compatible backend | Implemented and live-verified | `models/openai_compatible_service.py`; Status tab stores LM Studio/vLLM-style base URL and optional served model name, checks `/v1/models`, and posts to `/v1/chat/completions` only when selected; verified `http://192.168.188.37:1234` with `llama-3.2-1b-instruct` |
-| Transformers text backend | Implemented, not locally verified | `models/transformers_text.py`; lazy-loads tokenizer/model only when selected; `transformers` package/model weights are not installed or downloaded automatically |
-| MiniCPM vision backend | Implemented, not locally verified | `models/minicpm_vision.py`; uses `AutoProcessor` and `AutoModelForImageTextToText` lazily when selected through the `transformers` vision backend; includes prompt/thinking formatting and video support plan |
-| SGLang backend | Implemented, not locally verified | `models/sglang_runner.py`; builds explicit local start commands, reports health, sends OpenAI-compatible chat requests, and provides a shutdown request; Status tab exposes command/check/stop controls |
+| Transformers text backend | Implemented, package installed | `models/transformers_text.py`; lazy-loads tokenizer/model only when selected; `transformers 5.10.2` is installed for MiniCPM-V support |
+| MiniCPM vision backend | Implemented and Plant-verified | `models/minicpm_vision.py` and `plant/plant_service.py` use `AutoProcessor` and `AutoModelForImageTextToText` lazily; `assets/plant_sample.jpg` produced a structured OpenBMB MiniCPM-V result |
+| SGLang backend | Implemented, optional local backend | `models/sglang_runner.py`; builds explicit local start commands, reports health, sends OpenAI-compatible chat requests, and provides a shutdown request; SGLang server launch remains unverified and is not a root Space dependency |
 | App state | Implemented | `core/app_state.py` records local events and dispatches through `EventBus`; `core/tab_feedback.py` emits tab-level UI errors |
 | Service registry | Implemented | `models/service_factory.py` registers text and vision backend factories |
 | Dataset tab | Partial | Local CSV/JSONL preview, optional HF dataset preview, schema, split selector, row count, samples, stats, dataset event emission, and tab-level error status |
@@ -68,44 +68,43 @@ An item is done only when:
 | User-story tests | Passing | Included in the 187-test suite |
 | Coverage | Passing | 68% line/branch coverage at current configured threshold |
 | Performance tests | Passing | 2 lightweight performance tests pass |
-| Playwright E2E | Added, not locally run | `tests/e2e/workbench_user_story.spec.ts` walks all major Gradio tabs, exercises safe user paths, and writes screenshots/story Markdown to `assets/e2e/`; Node/npm is not installed in this workspace |
+| Playwright E2E | Passing with real response screenshots | Workbench Playwright captures a real local GGUF `llama-cpp-python` chat response; Plant Playwright with `RUN_REAL_MODEL_E2E=1` captures a real OpenBMB MiniCPM-V image result from `assets/plant_sample.jpg` |
 | CI pipeline | Added, not run remotely | `.github/workflows/ci.yml` |
 | Quality tooling | Passing | Tests, coverage, performance, ruff, mypy, pylint, bandit, and pip-audit pass through `scripts/run_quality.ps1` |
 | Secrets and model-weight git policy | Implemented | `.gitignore` excludes env files, keys, caches, generated data/exports, and common model weight formats; policy has a unit test |
-| Real model inference | Partial | OpenAI-compatible/LM Studio text generation is live-verified through `llama-3.2-1b-instruct`; llama.cpp, llama-cpp-python, Ollama, SGLang, Transformers text, and MiniCPM vision services exist but remain unverified locally |
-| Hugging Face Space deploy | Not started | Needs HF login/repo |
-| HF Space deployment helper | Implemented locally | `deployment/hf_space.py` and `scripts/plan_hf_space.py` validate required files, README Space metadata, remote status, and manual deployment commands |
+| Real model inference | Partial but materially verified | Verified paths: LM Studio/OpenAI-compatible text, llama.cpp CLI text, llama-cpp-python GGUF text, and OpenBMB MiniCPM-V Plant image inference. Remaining unverified paths: Ollama generation, SGLang server generation, llama.cpp MiniCPM-V mmproj vision, full Transformers text generation |
+| Hugging Face Space deploy | Pushed, startup/build pending | Workbench pushed to `build-small-hackathon/workbench` at `6aafdc2083a9b82e9dca2cca5b87c3a1be05121b`; Plant pushed to `build-small-hackathon/plant_identification_tool` at `50897b3167a844b6a66ca0552b73a1791cdff926`; both include Python 3.10 compatibility fixes for HF Spaces |
+| HF Space deployment helper | Implemented locally | `deployment/hf_space.py` and `scripts/plan_hf_space.py` validate required files, README Space metadata, Workbench/Plant remote status, and manual `hf` deployment commands |
 | vLLM serving tab | Implemented locally, not locally verified | `models/vllm_runner.py` and `ui/vllm_tab.py` build explicit vLLM commands, check health, parse metrics, log benchmark metrics through local tracking, and use OpenAI-compatible chat when a server is running |
-| Plant Discovery reference app | Implemented locally, no-model verified | `plant/` is a standalone template-built app with demo/no-model service, default OpenBMB MiniCPM-V mode, optional fine-tuned adapter mode, local species index, correction export, non-executing training plan, optional MCP tools, unit tests, and HTTP smoke verification on port 7861 |
+| Plant Discovery reference app | Implemented locally, no-model verified; Space wrapper added | `plant/` is a standalone template-built app with demo/no-model service for local tests, default OpenBMB MiniCPM-V mode, optional fine-tuned adapter mode, local species index, correction export, non-executing training plan, optional MCP tools, unit tests, HTTP smoke verification on port 7861, and `plant_space_app.py` for real-model Space launch |
 | GitHub push | Done | GitHub remote `https://github.com/Ckal/codex.git`; commits pushed to `origin/main` |
 
 ## Known Blockers
 
-- `python` and `py` are not available on PATH in the current shell.
-- Direct WindowsApps Python works: `%LOCALAPPDATA%\Microsoft\WindowsApps\python3.11.exe`.
-- Project venv exists at `.venv`.
-- App smoke launch was rerun after the latest code changes, but no long-running server is currently active.
-- llama.cpp tools are not on PATH.
-- Export planning works without llama.cpp tools, but actual conversion/quantization remains blocked
-  until llama.cpp tooling is installed.
-- A GGUF path can now be configured from the Status tab, but no GGUF model file has been selected
-  and verified in this workspace.
-- `llama_cpp` Python package is not installed in `.venv`. Installing `llama-cpp-python` from
-  source failed on Windows long paths inside the package source tree; binary-wheel-only install
-  found no matching distribution from the configured package index. Real Python-binding generation
-  remains blocked until Windows long paths or a compatible wheel/install path is available.
-- Ollama is not on PATH.
-- Ollama setup/list/pull command planning is implemented in the Status tab, but real list/pull and
-  generation still require installing and starting Ollama locally.
+- `python` is available on PATH as Python 3.13 in the current shell. The documented `.venv` was not
+  visible during the latest verification run, so tests ran against the global Python environment
+  after reinstalling/updating `requirements.txt`.
+- App launch was verified by Playwright through `python app.py`; no long-running server is currently active.
+- llama.cpp tools are installed at `C:\llama-b9587-bin-win-cuda-13.3-x64`; they are not on PATH,
+  so the app stores/uses the explicit `llama-server.exe` path.
+- Export planning works, but actual conversion/quantization remains blocked until a specific export
+  run is requested and verified.
+- A GGUF path is configured locally for `Llama-3.2-1B-Instruct-Q4_K_M.gguf`; direct
+  `llama-cli.exe` and `llama-cpp-python` generation both produced real text.
+- Ollama is installed on PATH (`ollama version is 0.24.0`). `ollama pull openbmb/minicpm-v4.6`
+  succeeded and `ollama list` shows `openbmb/minicpm-v4.6:latest`; a tiny `ollama run` prompt
+  currently fails with a 500 model-load error, so real Ollama generation remains unverified.
 - LM Studio/OpenAI-compatible setup is implemented and verified for `http://192.168.188.37:1234`
   with served model override `llama-3.2-1b-instruct`. This local override is stored in ignored
   `data/local_backends.yaml`.
-- `transformers`/`torch` are not installed for real local Transformers inference; selecting that
-  backend reports a clear unavailable status until the packages and model weights are available.
-- MiniCPM vision uses the optional Transformers vision path and remains blocked by missing
-  `transformers`/`torch`, local model weights, and hardware verification.
-- SGLang command planning, health, stop, and chat client code is implemented, but the `sglang`
-  package/server is not installed or running in this workspace.
+- `transformers 5.10.2`, `torch`, and MiniCPM-V dependencies are installed. This conflicts with
+  the currently installed `sentence-transformers 3.4.1` requirement of `transformers<5.0.0`, so
+  future quality runs should watch for that dependency edge.
+- MiniCPM-V Plant inference is verified with `assets/plant_sample.jpg`; the app also supports
+  bounded E2E inference through `PLANT_MAX_NEW_TOKENS=320` and `PLANT_AUTO_THINKING=0`.
+- SGLang command planning, health, stop, and chat client code is implemented. SGLang remains an
+  optional local backend, not a root Space dependency, because the local Python 3.13 package index
+  cannot install the newer non-vulnerable SGLang server stack.
 - vLLM command planning, health, metrics, benchmark logging, and chat client code is implemented,
   but the `vllm` package/server is not installed or running in this workspace.
 - LoRA training request planning is implemented, but real execution remains blocked until PEFT/TRL,
@@ -116,31 +115,50 @@ An item is done only when:
   PEFT/TRL or SWIFT/LLaMA-Factory path, and hardware are chosen.
 - Hugging Face dataset preview is optional and requires the external `datasets` package; the app
   reports a clear status when it is not installed.
-- Playwright E2E is implemented, but local execution is blocked until Node.js/npm and Playwright
-  browser binaries are installed.
-- Plant Discovery OpenBMB MiniCPM-V inference is implemented as the default real mode, but remains
-  unverified until `plant/requirements.txt` dependencies, local hardware, and model weights are
-  available.
+- Hugging Face Space deployment is pushed with Python 3.10 compatibility fixes for `StrEnum` and
+  UTC timestamps. Final run verification and smoke workflows remain open until rebuilt Spaces
+  report `RUNNING`.
+- Node.js and npm are installed (`node v23.11.0`, `npm 10.9.2`). `npm install`,
+  `npm run e2e:install`, and `npm run e2e` pass.
+- Plant Discovery OpenBMB MiniCPM-V inference is implemented as the default real mode, and
+  `plant_space_app.py` launches that mode for Space deployment. `RUN_REAL_MODEL_E2E=1`
+  Playwright passed and captured a real response screenshot.
 - Plant Discovery fine-tuned adapter mode is implemented, but no trained plant adapter exists in
   this workspace yet.
 - Plant Discovery public Space mode still needs path/url hardening and screenshots.
 - Full PRD implementation is not complete. There are still unchecked tasks in `docs/TASKS.md`.
-- Current unchecked task count is 40, plus 3 blocked tasks, because several PRD/ext PRD items still
+- Current unchecked task count needs recounting after the latest Workbench/Space changes. Several PRD/ext PRD items still
   need real local setup, credentials, hardware, product decisions, or hackathon submission artifacts.
 
 ## Latest Local Verification
 
-- `powershell -ExecutionPolicy Bypass -File scripts/run_quality.ps1` passed all gates: 187 tests,
-  app smoke, 68% coverage, performance, ruff, mypy, pylint, bandit, and pip-audit.
-- `powershell -ExecutionPolicy Bypass -File scripts/run_tests.ps1` was superseded by the final
-  all-in-one quality run with 187 tests and 68% coverage.
+- `.\scripts\run_tests.ps1` passed: 200 tests and 70% coverage.
+- `.\scripts\run_quality.ps1` passed: tests, app smoke, 70% coverage, performance, Ruff, mypy,
+  Pylint, Bandit, and project-scoped pip-audit.
 - Plant Discovery no-model HTTP smoke passed on `http://127.0.0.1:7861`; the process was stopped
   after verification.
 - `python scripts\plan_plant_training.py --corrected-examples 30` prints a non-executing SWIFT /
   LLaMA-Factory adapter training plan; current environment is missing torch, transformers, PEFT,
   TRL, and SWIFT.
-- `node --version` and `npm --version` failed because Node.js/npm are not installed; Playwright
-  screenshots were therefore not generated locally yet.
+- `pytest tests/unit/test_local_backend_config.py tests/unit/test_llama_cpp_service.py tests/unit/test_model_catalog.py tests/unit/test_service_factory.py -q` passed: 30 tests.
+- `npm run e2e:workbench` passed and captured a visible local GGUF response through `llama-cpp-python`.
+- `RUN_REAL_MODEL_E2E=1 PLANT_MAX_NEW_TOKENS=320 PLANT_AUTO_THINKING=0 npx playwright test tests/e2e/plant_real_model.spec.ts --config playwright.plant.config.ts --reporter=list` passed and captured a real MiniCPM-V response.
+- `hf upload build-small-hackathon/workbench C:\tmp\workbench_space_payload . --repo-type space` pushed commit `6aafdc2083a9b82e9dca2cca5b87c3a1be05121b`.
+- `hf upload build-small-hackathon/plant_identification_tool C:\tmp\plant_space_payload . --repo-type space` pushed commit `50897b3167a844b6a66ca0552b73a1791cdff926`.
+- `hf spaces variables add` set `WORKBENCH_DEPLOYMENT=space` for Workbench and Plant; Plant also has `PLANT_MAX_NEW_TOKENS=320` and `PLANT_AUTO_THINKING=0`.
+- `hf spaces info` showed Workbench in `APP_STARTING` and Plant in `BUILDING` on `zero-a10g`; final build/run verification remains pending.
+- `pytest tests/unit tests/user_stories -q` passed earlier in this workstream: 197 tests.
+- `node --version` returned `v23.11.0`; `npm --version` returned `10.9.2`.
+- `ollama --version` returned `ollama version is 0.24.0`; `ollama list` returned `gemma4:latest`.
+- `ollama pull openbmb/minicpm5-1b` failed because the registry manifest does not exist.
+- `ollama pull openbmb/minicpm-v4.6` succeeded; `ollama run openbmb/minicpm-v4.6` failed with
+  a local 500 model-load error.
+- `hf --version` returned `1.17.0`; `huggingface-cli --version` reports the legacy command is
+  deprecated and recommends `hf`.
+- `hf auth whoami` failed with "Invalid user token"; Space push/build verification is blocked
+  until `hf auth login --force` is run with a fresh token.
+- `llama-server --version` failed because `llama-server` is not on PATH.
+- `git remote -v` shows `space-workbench` and `space-plant` remotes configured.
 - Direct `ruff check .` passed; cache-write warnings were caused by OneDrive permissions.
 - Direct `mypy . --no-incremental` passed when `MYPY_CACHE_DIR` was moved to `%TEMP%`.
 - LM Studio `/v1/models` at `http://192.168.188.37:1234` returned

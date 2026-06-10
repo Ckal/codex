@@ -44,7 +44,7 @@ All configured models are at or below the 32B hackathon limit.
 
 ## Badge Targets
 
-- Local-first: yes, through placeholder, Ollama, llama.cpp, and llama-cpp-python paths.
+- Local-first: yes, through verified llama.cpp CLI, llama-cpp-python GGUF, LM Studio/OpenAI-compatible, and OpenBMB MiniCPM-V Plant image paths; Ollama and SGLang remain setup paths until generation is verified.
 - llama.cpp: target badge path; requires local llama.cpp install and GGUF model verification.
 - Open trace: yes, through local JSONL tracking and trace export.
 - Field notes/report: yes, through corrected field notes, JSONL export, and local HF Dataset-style export.
@@ -53,13 +53,20 @@ All configured models are at or below the 32B hackathon limit.
 
 1. Open the Gradio app locally.
 2. Show the Status tab and explain model-size compliance plus backend availability.
-3. Use Chat in placeholder mode to demonstrate the workflow without downloading weights.
+3. Use Chat with the local `llama-cpp-python` GGUF backend to show a visible real response.
 4. Use the Dataset tab to preview a local JSONL/CSV training candidate.
 5. Save a correction in Field Notes and export corrected rows to JSONL.
 6. Open Traces to show local event history and optional Trackio status.
 7. Open Export to show GGUF conversion and quantization planning.
-8. Explain the llama.cpp/Ollama path for replacing placeholder output with real local inference.
+8. Explain the remaining llama.cpp mmproj, Ollama, SGLang, and Space build verification tasks.
 9. Show the GitHub repo and, when available, the Hugging Face Space URL.
+
+## Screenshot Assets
+
+- Workbench home: `assets/e2e/workbench/01-workbench-home.png`
+- Workbench backend status: `assets/e2e/workbench/05-backend-status.png`
+- Plant tool home: `assets/e2e/plant/01-plant-home.png`
+- Plant corrections export: `assets/e2e/plant/03-corrections-export.png`
 
 ## Demo Video Script
 
@@ -79,12 +86,15 @@ Gradio app for testing MiniCPM models, collecting field-note corrections, export
 planning GGUF/llama.cpp workflows, and keeping traceable evidence of small-model experiments.
 
 GitHub: https://github.com/Ckal/codex
-Space: pending
+Workbench Space: https://huggingface.co/spaces/build-small-hackathon/workbench
+Plant Space: https://huggingface.co/spaces/build-small-hackathon/plant_identification_tool
 
 ## Submission Checklist
 
 - GitHub URL: https://github.com/Ckal/codex
-- Hugging Face Space URL: pending
+- Workbench Space URL: https://huggingface.co/spaces/build-small-hackathon/workbench
+- Plant Identification Tool Space URL: https://huggingface.co/spaces/build-small-hackathon/plant_identification_tool
+- Space build verification: blocked until `hf auth login --force` is run with a fresh token
 - Demo video URL: pending
 - Social post URL: pending
 - Field notes/report URL: pending

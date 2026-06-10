@@ -27,12 +27,22 @@ class LlamaCppServiceTest(unittest.TestCase):
         catalog = load_model_catalog("config/models.yaml")
         service = LlamaCppService(
             catalog["minicpm_v46"],
-            LlamaCppConfig(model_path="model.gguf", mmproj_path="mmproj.gguf"),
+            LlamaCppConfig(
+                server_path="C:/llama/llama-server.exe",
+                model_path="model.gguf",
+                mmproj_path="mmproj.gguf",
+            ),
         )
 
         self.assertEqual(
             service.launch_command(),
-            ["llama-server", "-m", "model.gguf", "--mmproj", "mmproj.gguf"],
+            [
+                "C:/llama/llama-server.exe",
+                "-m",
+                "model.gguf",
+                "--mmproj",
+                "mmproj.gguf",
+            ],
         )
 
     def test_launch_command_is_empty_without_model_path(self) -> None:
@@ -67,6 +77,20 @@ class LlamaCppServiceTest(unittest.TestCase):
 
         self.assertFalse(status.available)
         self.assertIn("not reachable", status.detail)
+
+    def test_status_uses_configured_server_path(self) -> None:
+        def ok_response(*_args, **_kwargs):
+            response = requests.Response()
+            response.status_code = 200
+            return response
+
+        status = LlamaCppService.status(
+            which_func=lambda _name: None,
+            get_func=ok_response,
+            server_path=__file__,
+        )
+
+        self.assertTrue(status.available)
 
     def test_local_file_status(self) -> None:
         self.assertEqual(local_file_status(""), "not configured")

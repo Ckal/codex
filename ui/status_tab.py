@@ -4,6 +4,7 @@ from typing import Any
 
 import gradio as gr
 
+from core.deployment import DeploymentPolicy, current_policy
 from models.local_backend_config import (
     LocalBackendConfig,
     build_llama_server_command,
@@ -20,7 +21,11 @@ from ui.progress import CLICK_PROGRESS
 from ui.server_controls import create_serving_controls
 
 
-def build_status_tab(catalog: dict[str, ModelInfo]) -> None:
+def build_status_tab(
+    catalog: dict[str, ModelInfo],
+    policy: DeploymentPolicy | None = None,
+) -> None:
+    active_policy = policy or current_policy()
     gr.Markdown("Model and backend status. Real backend checks will be added after local setup.")
     gr.Dataframe(
         headers=[
@@ -62,7 +67,7 @@ def build_status_tab(catalog: dict[str, ModelInfo]) -> None:
         headers=["backend", "available", "detail"],
         value=[
             [status.name, status.available, status.detail]
-            for status in backend_statuses()
+            for status in backend_statuses(active_policy)
         ],
         label="Backend status",
         interactive=False,
@@ -184,6 +189,7 @@ def build_openai_compatible_setup_panel() -> None:
         current = load_local_backend_config()
         config = LocalBackendConfig(
             llama_cpp_server_url=current.llama_cpp_server_url,
+            llama_server_path=current.llama_server_path,
             openai_compatible_base_url=url.strip() or LocalBackendConfig.openai_compatible_base_url,
             openai_compatible_model_name=served_model_name.strip(),
             gguf_path=current.gguf_path,
@@ -252,6 +258,11 @@ def build_llama_cpp_setup_panel() -> None:
         label="llama-server URL",
         value=local_config.llama_cpp_server_url,
     )
+    server_path = gr.Textbox(
+        label="llama-server executable",
+        value=local_config.llama_server_path,
+        placeholder="C:\\llama-b9587-bin-win-cuda-13.3-x64\\llama-server.exe",
+    )
     gguf_path = gr.Textbox(
         label="GGUF model path",
         value=local_config.gguf_path,
@@ -277,6 +288,7 @@ def build_llama_cpp_setup_panel() -> None:
 
     def prepare_local_config(
         url: str,
+        executable_path: str,
         model_path: str,
         model_file: str | None,
         projector_path: str,
@@ -287,6 +299,7 @@ def build_llama_cpp_setup_panel() -> None:
         current = load_local_backend_config()
         config = LocalBackendConfig(
             llama_cpp_server_url=url or "http://127.0.0.1:8080",
+            llama_server_path=executable_path,
             openai_compatible_base_url=current.openai_compatible_base_url,
             openai_compatible_model_name=current.openai_compatible_model_name,
             gguf_path=model_file or model_path,
@@ -300,7 +313,16 @@ def build_llama_cpp_setup_panel() -> None:
 
     prepare.click(
         prepare_local_config,
-        [server_url, gguf_path, gguf_file, mmproj_path, mmproj_file, n_ctx, n_gpu_layers],
+        [
+            server_url,
+            server_path,
+            gguf_path,
+            gguf_file,
+            mmproj_path,
+            mmproj_file,
+            n_ctx,
+            n_gpu_layers,
+        ],
         [command, local_summary],
         show_progress=CLICK_PROGRESS,
     )

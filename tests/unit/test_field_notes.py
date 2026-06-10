@@ -37,6 +37,17 @@ class FieldNoteStoreTest(unittest.TestCase):
             self.assertEqual(rows[0]["image_path"], "images/basil.jpg")
             self.assertEqual(rows[0]["use_for_training"], "True")
 
+    def test_created_at_uses_utc_offset_without_python_311_utc_import(self) -> None:
+        note = FieldNote.create(
+            model_id="minicpm5_1b",
+            prompt="Prompt",
+            response="Response",
+            correction="Correction",
+            tags="demo",
+        )
+
+        self.assertTrue(note.created_at.endswith("+00:00"))
+
     def test_exports_corrected_notes_to_jsonl(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             path = Path(tmp) / "field_notes.csv"

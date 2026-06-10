@@ -20,6 +20,11 @@ class CoreTest(unittest.TestCase):
 
         self.assertEqual(seen, [3])
 
+    def test_event_type_behaves_like_string_on_python_310(self) -> None:
+        self.assertIsInstance(EventType.DATASET_LOADED, str)
+        self.assertEqual(str(EventType.DATASET_LOADED), "dataset_loaded")
+        self.assertEqual(EventType.DATASET_LOADED.value, "dataset_loaded")
+
     def test_registry_registers_and_gets_items(self) -> None:
         registry: Registry[int] = Registry()
         registry.register("answer", 42)

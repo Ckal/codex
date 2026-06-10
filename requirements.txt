@@ -3,3 +3,8 @@ pyyaml>=6.0.0
 Pillow>=10.0.0
 huggingface_hub>=0.23.0
 requests>=2.31.0
+transformers>=5.7.0
+torch>=2.1.0
+torchvision
+accelerate
+datasets>=2.18.0

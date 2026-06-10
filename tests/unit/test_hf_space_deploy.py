@@ -8,6 +8,7 @@ from pathlib import Path
 
 from deployment.hf_space import (
     create_space_commands,
+    hackathon_space_commands,
     has_space_remote,
     missing_required_files,
     readme_has_space_metadata,
@@ -19,10 +20,14 @@ class HuggingFaceSpaceDeployTest(unittest.TestCase):
     def test_creates_manual_space_commands(self) -> None:
         commands = create_space_commands("demo-user", "demo-space")
 
-        self.assertEqual(commands[0], "huggingface-cli login")
-        self.assertIn("repo create demo-space --type space --space-sdk gradio", commands[1])
+        self.assertEqual(commands[0], "hf auth login")
+        self.assertIn(
+            "repo create demo-user/demo-space --type space --space-sdk gradio",
+            commands[1],
+        )
         self.assertIn("https://huggingface.co/spaces/demo-user/demo-space", commands[2])
         self.assertEqual(commands[3], "git push space main")
+        self.assertIn("app.py", commands[4])
 
     def test_requires_hf_user(self) -> None:
         with self.assertRaises(ValueError):
@@ -31,10 +36,19 @@ class HuggingFaceSpaceDeployTest(unittest.TestCase):
     def test_detects_space_remote(self) -> None:
         remotes = (
             "origin\thttps://github.com/Ckal/codex.git (fetch)\n"
-            "space\thttps://huggingface.co/spaces/u/s (push)"
+            "space-workbench\thttps://huggingface.co/spaces/u/s (push)"
         )
 
-        self.assertTrue(has_space_remote(remotes))
+        self.assertTrue(has_space_remote(remotes, "space-workbench"))
+
+    def test_hackathon_space_commands_define_two_remotes(self) -> None:
+        commands = hackathon_space_commands()
+
+        self.assertIn("workbench", commands)
+        self.assertIn("plant", commands)
+        self.assertIn("space-workbench", commands["workbench"][2])
+        self.assertIn("space-plant", commands["plant"][2])
+        self.assertIn("plant_space_app.py", commands["plant"][4])
 
     def test_validates_space_build_shape(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
@@ -42,6 +56,7 @@ class HuggingFaceSpaceDeployTest(unittest.TestCase):
             (root / "config").mkdir()
             for path in [
                 "app.py",
+                "plant_space_app.py",
                 "requirements.txt",
                 "config/models.yaml",
                 "config/training.yaml",
@@ -60,7 +75,7 @@ class HuggingFaceSpaceDeployTest(unittest.TestCase):
             self.assertTrue(status.has_space_remote)
 
     def test_plan_script_runs_from_script_path(self) -> None:
-        result = subprocess.run(
+        result = subprocess.run(  # noqa: S603
             [sys.executable, "scripts/plan_hf_space.py", "--user", "demo-user"],
             check=True,
             capture_output=True,
@@ -68,7 +83,7 @@ class HuggingFaceSpaceDeployTest(unittest.TestCase):
         )
 
         self.assertIn("Commands to run manually", result.stdout)
-        self.assertIn("huggingface-cli login", result.stdout)
+        self.assertIn("hf auth login", result.stdout)
 
 
 if __name__ == "__main__":

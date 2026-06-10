@@ -2,8 +2,15 @@ from __future__ import annotations
 
 from collections.abc import Callable
 from dataclasses import dataclass, field
-from enum import StrEnum
+from enum import Enum
 from typing import Any
+
+
+class StrEnum(str, Enum):
+    """Python 3.10-compatible subset of enum.StrEnum."""
+
+    def __str__(self) -> str:
+        return str(self.value)
 
 
 class EventType(StrEnum):

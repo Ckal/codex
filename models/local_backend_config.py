@@ -14,6 +14,7 @@ class LocalBackendConfig:
     """User-local backend settings stored outside git-tracked config."""
 
     llama_cpp_server_url: str = "http://127.0.0.1:8080"
+    llama_server_path: str = ""
     openai_compatible_base_url: str = "http://127.0.0.1:1234"
     openai_compatible_model_name: str = ""
     gguf_path: str = ""
@@ -23,6 +24,7 @@ class LocalBackendConfig:
 
     def file_status_rows(self) -> list[list[str]]:
         return [
+            ["llama-server", self.llama_server_path, _local_file_status(self.llama_server_path)],
             ["GGUF model", self.gguf_path, _local_file_status(self.gguf_path)],
             ["mmproj", self.mmproj_path, _local_file_status(self.mmproj_path)],
         ]
@@ -42,6 +44,7 @@ def load_local_backend_config(
         llama_cpp_server_url=str(
             llama_cpp.get("server_url", LocalBackendConfig.llama_cpp_server_url)
         ),
+        llama_server_path=str(llama_cpp.get("llama_server_path", "")),
         openai_compatible_base_url=str(
             openai_compatible.get(
                 "base_url",
@@ -65,6 +68,7 @@ def save_local_backend_config(
     data: dict[str, dict[str, Any]] = {
         "llama_cpp": {
             "server_url": config.llama_cpp_server_url,
+            "llama_server_path": config.llama_server_path,
             "gguf_path": config.gguf_path,
             "mmproj_path": config.mmproj_path,
             "n_ctx": config.n_ctx,
@@ -83,7 +87,8 @@ def build_llama_server_command(config: LocalBackendConfig) -> list[str]:
     if not config.gguf_path:
         return []
 
-    command = ["llama-server", "-m", config.gguf_path]
+    executable = config.llama_server_path or "llama-server"
+    command = [executable, "-m", config.gguf_path]
     if config.mmproj_path:
         command.extend(["--mmproj", config.mmproj_path])
     return command

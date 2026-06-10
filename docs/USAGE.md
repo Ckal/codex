@@ -73,14 +73,15 @@ http://127.0.0.1:7860
 
 ## 7. Current App Behavior
 
-The current app uses placeholder model responses. That is intentional. It lets you verify the UI,
-docs, and workflow before downloading large model files.
+Local development can still use deterministic helper services for tests, but deployed Space mode
+uses `WORKBENCH_DEPLOYMENT=space`, hides placeholder backends, and requires real backend
+configuration for model calls. The app still does not download model weights on startup.
 
 Available tabs. User-triggered tab actions show Gradio progress while callbacks run, and the app
 uses compact responsive styling for narrow screens:
 
-- Chat - placeholder, llama.cpp, llama-cpp-python, Ollama, OpenAI-compatible/LM Studio, or Transformers text inference with tab status/errors.
-- Vision - placeholder, llama.cpp, llama-cpp-python, Ollama, or Transformers MiniCPM image + prompt inference with tab status/errors.
+- Chat - llama.cpp, llama-cpp-python, Ollama, OpenAI-compatible/LM Studio, SGLang, or Transformers text inference with tab status/errors.
+- Vision - llama.cpp, llama-cpp-python, Ollama, or Transformers MiniCPM image + prompt inference with tab status/errors.
 - Dataset - local CSV/JSONL/NDJSON preview, optional Hugging Face dataset preview, stats, and tab status/errors.
 - Train - LoRA dry-run training plan plus local base-vs-tuned exact-match evaluation.
 - Export - GGUF download/conversion/quantization planning, exported-file listing, and existing-file downloads.
@@ -192,11 +193,15 @@ Required Space files:
 - `config/models.yaml`
 - `config/training.yaml`
 
-Hardware choice for the first Space should be CPU/basic while the app remains placeholder and
-planning-first. Upgrade the Space hardware only after a real backend is selected and verified.
-The app does not download model weights on startup; model downloads happen only through explicit
-backend actions such as `ollama pull`, `huggingface-cli download`, or selecting a real Transformers
-backend and running a prompt.
+Target Spaces:
+
+- Workbench: `https://huggingface.co/spaces/build-small-hackathon/workbench`
+- Plant Identification Tool: `https://huggingface.co/spaces/build-small-hackathon/plant_identification_tool`
+
+Use `hf auth login` with a freshly generated token. The app does not download model weights on
+startup; model downloads happen only through explicit backend actions such as `ollama pull`,
+`hf download`, or selecting a real Transformers backend and running a prompt. Upgrade Space
+hardware if real OpenBMB text or vision inference cannot run on the default CPU tier.
 
 Trackio/HF sync path: local traces are written to JSONL first, then optional Trackio can be enabled
 in `config/training.yaml` after package availability and credentials are ready.
